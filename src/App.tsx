@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LayeredButton } from "./components/LayeredButton/LayeredButton";
+import { LayeredButton } from "../registry/components/layered-button/LayeredButton";
 import { LayeredDisplayCard } from "./components/LayeredDisplayCard/LayeredDisplayCard";
 import { LayeredInput } from "./components/LayeredInput/LayeredInput";
 import { LayeredPanel } from "./components/LayeredPanel/LayeredPanel";

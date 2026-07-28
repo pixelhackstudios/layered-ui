@@ -44,6 +44,21 @@ Visual references outrank prose descriptions when they conflict.
 - Do not make every surface visually heavy. Layered construction should
   create hierarchy, not visual noise.
 
+## Motion Architecture
+
+- **CSS handles simple state transitions**: hover brightness, button press depth, focus rings, glare fading, opacity shifts, and disabled states.
+- **GSAP handles physical choreography**: mechanical button rebound, staged modal assembly, switch snapping, and staggered entrances.
+- **GSAP is isolated**: GSAP lives behind the optional `layered-motion` registry item. `layered-foundation` and simple controls MUST NOT depend on GSAP.
+- **Physical Motion Vocabulary**:
+  - *Compress*: Controls move inward when pressed.
+  - *Rebound*: Controlled mechanical release with light overshoot.
+  - *Engage*: Switches and toggles snap into position.
+  - *Assemble*: Modal casing, surface, header, and content arrive in sequence.
+  - *Disengage*: Fast, controlled reverse exit.
+  - *Signal*: Restrained pulse for status updates.
+  - *Reveal*: Displays illuminate or uncover content.
+- **Reduced Motion**: All motion MUST respect `prefers-reduced-motion`, bypassing travel, bounce, and delays while preserving state updates.
+
 ## Validation
 
 Before reporting a frontend change complete:

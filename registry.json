@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "layered-ui",
+  "homepage": "https://github.com/pixelhackstudios/layered-ui",
+  "items": [
+    {
+      "name": "layered-foundation",
+      "type": "registry:style",
+      "title": "Layered UI Foundations",
+      "description": "Base design tokens, physical casing depths, radii, motion rules, and dual theme maps.",
+      "files": [
+        {
+          "path": "registry/foundations/layered-foundation/tokens.css",
+          "target": "@styles/layered-ui/tokens.css",
+          "type": "registry:style"
+        }
+      ]
+    },
+    {
+      "name": "layered-button",
+      "type": "registry:ui",
+      "title": "Layered Button",
+      "description": "Tactile button control with casing, trench, and dimensional face.",
+      "registryDependencies": [
+        "layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-button/LayeredButton.tsx",
+          "target": "@ui/layered/LayeredButton.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-button/LayeredButton.css",
+          "target": "@ui/layered/LayeredButton.css",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}
