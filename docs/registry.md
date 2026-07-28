@@ -79,6 +79,21 @@ Before publishing registry changes, installation must be verified against a clea
 2. Confirm that both the component files (`@ui/layered/`) and `layered-foundation` (`@styles/layered-ui/tokens.css`) are installed without errors.
 3. Verify that the installed component compiles and renders cleanly.
 
+### SHA-Pinned Verification Before Publishing to `main`
+
+New or changed registry items are first pushed to a `verify/<item-name>` branch and re-verified against that exact commit on GitHub before being fast-forwarded to `main` (see release checklist below). Two install address forms exist for pinning to a commit; only one is confirmed to resolve on the current `shadcn` CLI version:
+
+```bash
+# Preferred — confirmed working (owner/repo/item#<FULL_SHA>):
+npx shadcn@latest add "pixelhackstudios/layered-ui/layered-tooltip#43fa325d6dacc92754544ee5e8a1a6481d32cbc1"
+
+# Fallback — direct URL to the committed build artifact at that commit,
+# for use if the shorthand above ever regresses again:
+npx shadcn@latest add "https://raw.githubusercontent.com/pixelhackstudios/layered-ui/43fa325d6dacc92754544ee5e8a1a6481d32cbc1/public/r/layered-tooltip.json"
+```
+
+The `owner/repo@<SHA>/item` ordering (SHA attached to the repo segment rather than the item segment) 404s against `ui.shadcn.com`'s resolution endpoint on this CLI version — use `owner/repo/item#<SHA>` instead. Both forms were confirmed during `layered-tooltip`'s (Phase 8) release verification.
+
 ## Rules Governing Usage vs. Registry Dependencies
 
 - **Demonstration Imports**: Usage of components or foundations inside `src/App.tsx` or laboratory files is for local visual testing only. Laboratory imports do **not** create registry dependencies.
