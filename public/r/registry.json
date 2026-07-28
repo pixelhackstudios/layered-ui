@@ -120,6 +120,27 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-textarea",
+      "type": "registry:ui",
+      "title": "Layered Textarea",
+      "description": "Tactile multiline text input control with structural casing and recessed writing surface.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-textarea/LayeredTextarea.tsx",
+          "target": "@ui/layered/LayeredTextarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-textarea/LayeredTextarea.css",
+          "target": "@ui/layered/LayeredTextarea.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

@@ -11,7 +11,7 @@ Layered UI uses the standard `shadcn` registry schema:
 
 ## Current Published Registry Items
 
-The canonical manifest (`registry.json`) defines six published items:
+The canonical manifest (`registry.json`) defines seven published items:
 
 | Item Name | Item Type | Canonical Source Paths | Generated Output Artifact | Registry Dependencies |
 |---|---|---|---|---|
@@ -21,6 +21,7 @@ The canonical manifest (`registry.json`) defines six published items:
 | `layered-input` | `registry:ui` | `registry/components/layered-input/LayeredInput.tsx`<br>`registry/components/layered-input/LayeredInput.css` | `public/r/layered-input.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 | `layered-select` | `registry:ui` | `registry/components/layered-select/LayeredSelect.tsx`<br>`registry/components/layered-select/LayeredSelect.css` | `public/r/layered-select.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 | `layered-display-card` | `registry:ui` | `registry/components/layered-display-card/LayeredDisplayCard.tsx`<br>`registry/components/layered-display-card/LayeredDisplayCard.css` | `public/r/layered-display-card.json` | `pixelhackstudios/layered-ui/layered-foundation` |
+| `layered-textarea` | `registry:ui` | `registry/components/layered-textarea/LayeredTextarea.tsx`<br>`registry/components/layered-textarea/LayeredTextarea.css` | `public/r/layered-textarea.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 
 ## Registry Address & Dependency Syntax
 

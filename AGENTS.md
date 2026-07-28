@@ -45,6 +45,13 @@ Visual references outrank prose descriptions when they conflict.
 - Do not make every surface visually heavy. Layered construction should
   create hierarchy, not visual noise.
 
+## Contained Focus Styling
+
+- Do not draw focus, invalid, or selected-state rings outside a component's structural casing.
+- Form-control state accents must be contained within the casing through inner trench borders, recessed-surface borders, label color, or restrained internal shadows.
+- Do not remove keyboard focus visibility.
+- System outlines remain permitted inside `@media (forced-colors: active)` when required for accessibility.
+
 ## Motion Architecture
 
 - **CSS handles simple state transitions**: hover brightness, button press depth, focus rings, glare fading, opacity shifts, and disabled states.
@@ -69,3 +76,13 @@ Before reporting a frontend change complete:
 - Exercise interaction, keyboard, focus, disabled, and responsive states.
 - Compare against approved visual references when they exist.
 - State exactly what was and was not tested.
+
+## Browser Verification
+
+- Do not invoke browser automation or a browser subagent unless the user explicitly requests it.
+- Vite build, TypeScript, lint, and registry validation do not require CDP or browser automation.
+- When visual inspection is required but no browser was explicitly requested, report:
+  `Manual visual verification required.`
+- Do not start `vite preview`, open localhost, or retry CDP connections automatically.
+- A browser-tool or CDP failure is not a build failure.
+- Never repeatedly retry browser automation after one connection failure.

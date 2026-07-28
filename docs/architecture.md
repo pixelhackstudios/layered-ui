@@ -84,7 +84,7 @@ The repository operates under **Policy A** for registry distribution:
 
 | Architectural Area | Current Verified Architecture | Planned Architecture |
 |---|---|---|
-| **Component Inventory** | 6 published items (`foundation`, `button`, `panel`, `input`, `select`, `display-card`) | Planned directions: `LayeredTextarea`, `LayeredCheckbox`, `LayeredSwitch`, `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, `LayeredCombobox` |
+| **Component Inventory** | 7 published items (`foundation`, `button`, `panel`, `input`, `select`, `display-card`, `textarea`) | Planned directions: `LayeredCheckbox`, `LayeredSwitch`, `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, `LayeredCombobox` |
 | **Styling System** | Plain CSS with semantic custom property token groups | Maintained plain CSS architecture (no utility frameworks) |
 | **Motion System** | Plain CSS transitions for hover/press/focus | Optional `layered-motion` registry item with GSAP choreography |
 | **Behavioral Primitives** | Native HTML elements (`<button>`, `<input>`, `<select>`) | Radix approved for complex overlays (`LayeredDialog`); `LayeredCombobox` primitive undecided |

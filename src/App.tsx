@@ -4,6 +4,7 @@ import { LayeredDisplayCard } from "../registry/components/layered-display-card/
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
+import { LayeredTextarea } from "../registry/components/layered-textarea/LayeredTextarea";
 
 type ThemeMode = "classic" | "field";
 
@@ -369,6 +370,91 @@ function App() {
                 <option value="ollama">Ollama (Local LLM Instance)</option>
                 <option value="openai">OpenAI-compatible (Remote API Proxy)</option>
               </LayeredSelect>
+            </LayeredPanel>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Textarea
+          </h2>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px" }}>
+              <LayeredTextarea
+                label="System Prompt"
+                tone="neutral"
+                textareaSize="medium"
+                rows={3}
+                placeholder="Enter system instructions for agent context..."
+                description="Default neutral multiline input with vertical resize."
+              />
+
+              <LayeredTextarea
+                label="Execution Logs"
+                tone="copper"
+                textareaSize="small"
+                rows={3}
+                defaultValue="[02:14:09] Initializing local environment...&#10;[02:14:10] CUDA device 0 active (24 GB VRAM allocated).&#10;[02:14:11] Socket listening on port 5173."
+                description="Small copper variant for system telemetry and log streams."
+              />
+
+              <LayeredTextarea
+                label="Initial Prompt Payload"
+                tone="green"
+                textareaSize="large"
+                rows={4}
+                required
+                defaultValue="Construct a tactile, industrial React component library with plain CSS custom properties and physical interaction states."
+                description="Required large green field with description."
+              />
+
+              <LayeredTextarea
+                label="Security Policy Rules"
+                tone="gold"
+                rows={3}
+                defaultValue="allow-origin: localhost:5173; deny-eval: true;"
+                resize="none"
+                description="Gold tone variant with resize disabled."
+              />
+
+              <LayeredTextarea
+                label="Deployment Manifest"
+                tone="copper"
+                rows={3}
+                defaultValue="{ 'version': '1.0.0' }"
+                error="Invalid JSON structure: missing required root properties."
+              />
+
+              <LayeredTextarea
+                label="Hardware Diagnostic Log"
+                readOnly
+                rows={3}
+                defaultValue="ROM Checksum: 0x8F942A&#10;Thermal Sensor: 34.2°C&#10;Voltage Rail 12V: Nominal (12.04V)"
+              />
+
+              <LayeredTextarea
+                label="Archive Log Dump"
+                disabled
+                rows={3}
+                defaultValue="[ARCHIVED] Offline buffer cleared by administrator."
+              />
+            </div>
+
+            <LayeredPanel
+              tone="copper"
+              padding="medium"
+              eyebrow="Configuration"
+              title="System Directive"
+            >
+              <LayeredTextarea
+                label="Global Agent Directive"
+                tone="copper"
+                fullWidth
+                rows={4}
+                defaultValue="You are Antigravity, a tactile UI system assistant. Maintain strict design token discipline and native accessibility attributes."
+                description="Full-width textarea nested inside LayeredPanel."
+              />
             </LayeredPanel>
           </div>
         </section>

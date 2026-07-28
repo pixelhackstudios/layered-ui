@@ -68,8 +68,7 @@
 
     transition:
         box-shadow var(--duration-fast) var(--ease-control),
-        border-color var(--duration-fast) var(--ease-control),
-        outline var(--duration-fast) var(--ease-control);
+        border-color var(--duration-fast) var(--ease-control);
 }
 
 /* Inner Recessed Surface */
@@ -234,11 +233,6 @@
 }
 
 /* Focus */
-.layered-input-wrapper:not([data-disabled="true"]):focus-within .layered-input__casing {
-    outline: 3px solid var(--input-tone-focus);
-    outline-offset: 2px;
-}
-
 .layered-input-wrapper:not([data-disabled="true"]):focus-within .layered-input__surface {
     border-color: var(--input-tone-focus);
     box-shadow:
@@ -291,10 +285,6 @@
     border-color: var(--control-error);
 }
 
-.layered-input-wrapper[data-invalid="true"]:focus-within .layered-input__casing {
-    outline-color: var(--control-error);
-}
-
 .layered-input-wrapper[data-invalid="true"]:focus-within .layered-input__surface {
     border-color: var(--control-error);
     box-shadow:
@@ -307,6 +297,18 @@
 @media (max-width: 640px) {
     .layered-input-wrapper {
         max-width: 100%;
+    }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-input-wrapper:focus-within .layered-input__surface {
+        outline: 2px solid Highlight;
+    }
+
+    .layered-input__control {
+        forced-color-adjust: auto;
     }
 }
 

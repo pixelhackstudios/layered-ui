@@ -1,0 +1,331 @@
+.layered-textarea-wrapper {
+    /* Default neutral tone */
+    --textarea-tone-accent: #8c8f94;
+    --textarea-tone-focus: var(--control-focus);
+
+    /* Default medium size */
+    --textarea-font-size: 0.95rem;
+    --textarea-label-font-size: 0.875rem;
+    --textarea-padding-y: 10px;
+    --textarea-padding-x: 14px;
+    --textarea-min-height: 96px;
+    --textarea-resize: vertical;
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 480px;
+
+    color: var(--color-text);
+}
+
+.layered-textarea-wrapper--full-width {
+    max-width: none;
+}
+
+/* Label Row & Label */
+
+.layered-textarea__label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.layered-textarea__label {
+    color: var(--color-text);
+
+    font-size: var(--textarea-label-font-size);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.015em;
+
+    transition: color var(--duration-fast) var(--ease-control);
+}
+
+.layered-textarea__required {
+    color: var(--textarea-tone-accent);
+}
+
+/* Outer Structural Casing */
+
+.layered-textarea__casing {
+    box-sizing: border-box;
+
+    padding: 3px;
+    border: 2px solid var(--control-shell-border);
+    border-radius: var(--control-radius-outer);
+
+    background:
+        linear-gradient(180deg,
+            var(--input-casing-top) 0%,
+            var(--input-casing-bottom) 100%);
+
+    box-shadow:
+        0 2px 5px rgb(0 0 0 / 30%),
+        inset 0 1px rgb(255 255 255 / 6%);
+
+    transition:
+        box-shadow var(--duration-fast) var(--ease-control),
+        border-color var(--duration-fast) var(--ease-control);
+
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    width: max-content;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+/* Inner Recessed Surface */
+
+.layered-textarea__surface {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    border: 2px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--input-surface-bg-top) 0%,
+            var(--input-surface-bg-bottom) 100%);
+
+    color: var(--color-text);
+
+    box-shadow:
+        inset 0 2px 4px rgb(0 0 0 / 50%),
+        inset 0 -1px 1px rgb(255 255 255 / 3%);
+
+    transition:
+        border-color var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control),
+        background var(--duration-fast) var(--ease-control);
+
+    overflow: visible;
+    width: 100%;
+}
+
+/* Native Textarea Control */
+
+.layered-textarea__control {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-block-size: var(--textarea-min-height);
+
+    padding: var(--textarea-padding-y) var(--textarea-padding-x);
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-family: inherit;
+    font-size: var(--textarea-font-size);
+    line-height: 1.5;
+    text-align: left;
+    vertical-align: top;
+
+    resize: var(--textarea-resize);
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.layered-textarea__control::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.65;
+}
+
+/* Supporting Text & Error Text */
+
+.layered-textarea__description {
+    margin-top: 2px;
+    color: var(--color-text-muted);
+
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.layered-textarea__error {
+    margin-top: 2px;
+    color: var(--control-error-text, var(--control-error));
+
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Tone Variants */
+
+.layered-textarea-wrapper[data-tone="copper"] {
+    --textarea-tone-accent: var(--tone-copper-light);
+    --textarea-tone-focus: var(--tone-copper-light);
+}
+
+.layered-textarea-wrapper[data-tone="green"] {
+    --textarea-tone-accent: var(--tone-green-light);
+    --textarea-tone-focus: var(--tone-green-light);
+}
+
+.layered-textarea-wrapper[data-tone="gold"] {
+    --textarea-tone-accent: var(--tone-gold-light);
+    --textarea-tone-focus: var(--tone-gold-light);
+}
+
+.layered-textarea-wrapper[data-tone="neutral"] {
+    --textarea-tone-accent: var(--tone-neutral-light);
+    --textarea-tone-focus: var(--control-focus);
+}
+
+/* Size Variants */
+
+.layered-textarea-wrapper[data-size="small"] {
+    --textarea-font-size: 0.85rem;
+    --textarea-label-font-size: 0.8rem;
+    --textarea-padding-y: 8px;
+    --textarea-padding-x: 10px;
+    --textarea-min-height: 72px;
+}
+
+.layered-textarea-wrapper[data-size="medium"] {
+    --textarea-font-size: 0.95rem;
+    --textarea-label-font-size: 0.875rem;
+    --textarea-padding-y: 10px;
+    --textarea-padding-x: 14px;
+    --textarea-min-height: 96px;
+}
+
+.layered-textarea-wrapper[data-size="large"] {
+    --textarea-font-size: 1.05rem;
+    --textarea-label-font-size: 0.95rem;
+    --textarea-padding-y: 12px;
+    --textarea-padding-x: 18px;
+    --textarea-min-height: 120px;
+}
+
+/* Resize Variants */
+
+.layered-textarea-wrapper[data-resize="none"] {
+    --textarea-resize: none;
+}
+
+.layered-textarea-wrapper[data-resize="vertical"] {
+    --textarea-resize: vertical;
+}
+
+.layered-textarea-wrapper[data-resize="horizontal"] {
+    --textarea-resize: horizontal;
+}
+
+.layered-textarea-wrapper[data-resize="both"] {
+    --textarea-resize: both;
+}
+
+/* Interaction & States */
+
+/* Hover */
+.layered-textarea-wrapper:not([data-disabled="true"]):not([data-readonly="true"]):hover .layered-textarea__casing {
+    box-shadow:
+        0 3px 8px rgb(0 0 0 / 40%),
+        inset 0 1px rgb(255 255 255 / 9%);
+}
+
+.layered-textarea-wrapper:not([data-disabled="true"]):not([data-readonly="true"]):hover .layered-textarea__surface {
+    border-color: #2a221c;
+}
+
+/* Focus */
+.layered-textarea-wrapper:not([data-disabled="true"]):focus-within .layered-textarea__surface {
+    border-color: var(--textarea-tone-focus);
+    box-shadow:
+        0 0 0 1px var(--textarea-tone-focus),
+        inset 0 2px 4px rgb(0 0 0 / 60%);
+}
+
+/* Disabled State */
+.layered-textarea-wrapper[data-disabled="true"] {
+    opacity: 0.5;
+    filter: grayscale(0.45);
+    cursor: not-allowed;
+}
+
+.layered-textarea-wrapper[data-disabled="true"] .layered-textarea__control,
+.layered-textarea-wrapper[data-disabled="true"] .layered-textarea__label {
+    cursor: not-allowed;
+}
+
+.layered-textarea-wrapper[data-disabled="true"] .layered-textarea__surface {
+    background: #141516;
+}
+
+/* Read-Only State */
+.layered-textarea-wrapper[data-readonly="true"] {
+    cursor: default;
+}
+
+.layered-textarea-wrapper[data-readonly="true"] .layered-textarea__control {
+    cursor: default;
+}
+
+.layered-textarea-wrapper[data-readonly="true"] .layered-textarea__surface {
+    background: #232426;
+    border-color: #151617;
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 30%);
+}
+
+.layered-textarea-wrapper[data-readonly="true"] .layered-textarea__casing {
+    background: linear-gradient(180deg, #3d3733, #2d2724);
+    box-shadow: none;
+}
+
+/* Error State (takes priority over selected tone) */
+.layered-textarea-wrapper[data-invalid="true"] .layered-textarea__label {
+    color: var(--control-error);
+}
+
+.layered-textarea-wrapper[data-invalid="true"] .layered-textarea__surface {
+    border-color: var(--control-error);
+}
+
+.layered-textarea-wrapper[data-invalid="true"]:focus-within .layered-textarea__surface {
+    border-color: var(--control-error);
+    box-shadow:
+        0 0 0 1px var(--control-error),
+        inset 0 2px 4px rgb(0 0 0 / 60%);
+}
+
+/* Responsive Narrow Screen Support */
+
+@media (max-width: 640px) {
+    .layered-textarea-wrapper {
+        max-width: 100%;
+    }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-textarea-wrapper:focus-within .layered-textarea__surface {
+        outline: 2px solid Highlight;
+    }
+
+    .layered-textarea__control {
+        forced-color-adjust: auto;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-textarea-wrapper,
+    .layered-textarea__casing,
+    .layered-textarea__surface,
+    .layered-textarea__label {
+        transition: none;
+    }
+}
