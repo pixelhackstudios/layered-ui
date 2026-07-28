@@ -183,6 +183,30 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-dialog",
+      "type": "registry:ui",
+      "title": "Layered Dialog",
+      "description": "Tactile access-hatch dialog with structural outer casing, recessed inner content surface, and a compact corner-mounted mechanical close control, built on Radix Dialog for accessible overlay behavior.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dialog@1.1.23"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-dialog/LayeredDialog.tsx",
+          "target": "@ui/layered/LayeredDialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-dialog/LayeredDialog.css",
+          "target": "@ui/layered/LayeredDialog.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

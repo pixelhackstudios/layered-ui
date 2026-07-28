@@ -1,0 +1,477 @@
+/* ==========================================================================
+   Layered Dialog — access-hatch / equipment-enclosure construction.
+   ========================================================================== */
+
+/* Overlay: dark radial-vignette scrim, owns viewport scrolling. */
+
+.layered-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--layered-dialog-overlay-z, 1000);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    padding:
+        max(24px, env(safe-area-inset-top))
+        max(24px, env(safe-area-inset-right))
+        max(24px, env(safe-area-inset-bottom))
+        max(24px, env(safe-area-inset-left));
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgb(0 0 0 / 55%) 0%,
+            rgb(0 0 0 / 82%) 100%
+        );
+}
+
+.layered-dialog-overlay[data-state="open"] {
+    animation: layered-dialog-overlay-in var(--duration-normal, 160ms) var(--ease-control, ease) both;
+}
+
+.layered-dialog-overlay[data-state="closed"] {
+    animation: layered-dialog-overlay-out var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+/* Content casing: structural outer frame. */
+
+.layered-dialog-content {
+    --layered-dialog-width-small: min(90vw, 380px);
+    --layered-dialog-width-medium: min(92vw, 540px);
+    --layered-dialog-width-large: min(94vw, 760px);
+
+    position: relative;
+    z-index: var(--layered-dialog-content-z, 1001);
+
+    box-sizing: border-box;
+    width: var(--layered-dialog-width-medium);
+    max-height: min(85vh, 780px);
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: var(--control-shell-depth);
+    border: 2px solid var(--control-shell-border);
+    border-radius: var(--control-radius-outer);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top),
+            var(--control-shell-bottom));
+
+    box-shadow: var(--shadow-control);
+
+    outline: none;
+}
+
+.layered-dialog-content[data-size="small"] {
+    width: var(--layered-dialog-width-small);
+}
+
+.layered-dialog-content[data-size="medium"] {
+    width: var(--layered-dialog-width-medium);
+}
+
+.layered-dialog-content[data-size="large"] {
+    width: var(--layered-dialog-width-large);
+}
+
+.layered-dialog-content[data-state="open"] {
+    animation: layered-dialog-content-in var(--duration-normal, 160ms) var(--ease-control, ease) both;
+}
+
+.layered-dialog-content[data-state="closed"] {
+    animation: layered-dialog-content-out var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+/* Recessed inner content surface.
+
+   Structural model: casing > surface > header + scrollable body + footer.
+   The surface itself is a bounded, non-scrolling grid — it never becomes
+   the scroll container. Only `.layered-dialog-content__body` scrolls. This
+   is what keeps the header/footer stationary without relying on `position:
+   sticky` inside a scrolling ancestor (which previously caused the body to
+   render underneath the header/description, and caused the vertical
+   scrollbar to run the full height of the surface instead of just the body,
+   competing visually with the close control). */
+
+.layered-dialog-content__surface {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
+    min-block-size: 0;
+    max-block-size: 100%;
+    box-sizing: border-box;
+
+    border: 2px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    color: var(--color-text);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 7%),
+        inset 0 -2px 4px rgb(0 0 0 / 25%);
+
+    /* The surface is a bounded frame, not a scroll container. Contents are
+       clipped to the casing so the restrained top accent line below can be
+       absolutely positioned without affecting layout or introducing
+       overflow. */
+    overflow: hidden;
+}
+
+/* Restrained top accent line, matching casing construction language.
+   Absolutely positioned (removed from grid flow entirely) rather than
+   `position: sticky`, since the surface no longer scrolls — sticky here
+   previously forced the surface's `overflow-y` two-value computation to
+   `auto auto`, which is what produced a horizontal scrollbar on every
+   dialog regardless of content width. */
+.layered-dialog-content__surface::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 2px;
+
+    background:
+        linear-gradient(90deg,
+            transparent 0%,
+            var(--tone-neutral-light) 25%,
+            var(--tone-neutral-light) 75%,
+            transparent 100%);
+
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Header: normal grid row, not sticky, opaque, structurally above the body. */
+
+.layered-dialog-header {
+    position: static;
+    grid-row: 1;
+    grid-column: 1;
+
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    padding: 20px 24px 16px;
+
+    /* Opaque — the header is a real grid row the body can never render
+       beneath, so it no longer needs to fade into transparency at its
+       lower edge the way the old sticky-over-content version did. */
+    background: var(--panel-surface-bg-top);
+
+    border-bottom: 1px solid var(--control-trench);
+}
+
+.layered-dialog-title {
+    margin: 0 0 6px;
+    padding-right: 36px;
+    max-inline-size: 100%;
+
+    color: var(--color-text);
+
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+}
+
+.layered-dialog-description {
+    margin: 0;
+    padding-right: 36px;
+    max-inline-size: 100%;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.9rem;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+/* Body: the only normal vertical scroll region. */
+
+.layered-dialog-content__body {
+    grid-row: 2;
+    grid-column: 1;
+
+    box-sizing: border-box;
+    min-block-size: 0;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    padding: 20px 24px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+
+    /* Reserves scrollbar space so its appearance/disappearance never shifts
+       body content width, and so the scrollbar never encroaches on the
+       header/footer above and below it. */
+    scrollbar-gutter: stable;
+}
+
+.layered-dialog-content__body > * {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+}
+
+.layered-dialog-content__body > :first-child {
+    margin-top: 0;
+}
+
+.layered-dialog-content__body > :last-child {
+    margin-bottom: 0;
+}
+
+/* Footer: normal grid row, not sticky, opaque, actions may wrap. */
+
+.layered-dialog-footer {
+    position: static;
+    grid-row: 3;
+    grid-column: 1;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    padding: 16px 24px 20px;
+
+    /* Opaque for the same reason as the header — a real grid row, never
+       painted over scrolled body content. */
+    background: var(--panel-surface-bg-bottom);
+
+    border-top: 1px solid var(--control-trench);
+}
+
+.layered-dialog-footer > * {
+    max-inline-size: 100%;
+}
+
+/* `.layered-dialog-close` (the exported `LayeredDialogClose` primitive) is
+   intentionally styleless — it is a generic Radix Close behavior wrapper,
+   usable via `asChild` around any consumer action (e.g. a `LayeredButton`
+   in a footer). It must never carry positioning, dimensions, or appearance,
+   or it would visually hijack whatever it wraps. See
+   `.layered-dialog-content__close` below for the actual mechanical
+   corner-mounted X control, which `LayeredDialogContent` renders itself. */
+
+/* Default close control: compact, corner-mounted, mechanical.
+   Rendered internally by LayeredDialogContent (not by LayeredDialogClose)
+   so styling it can never leak onto a consumer's footer action button. */
+
+.layered-dialog-content__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    width: 26px;
+    height: 26px;
+    padding: 0;
+
+    color: var(--color-text-muted);
+
+    border: 1px solid var(--control-shell-border);
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top) 0%,
+            var(--control-shell-bottom) 100%);
+
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 1px rgb(255 255 255 / 8%);
+
+    cursor: pointer;
+
+    transition:
+        box-shadow var(--duration-fast, 100ms) var(--ease-control, ease),
+        transform var(--duration-fast, 100ms) var(--ease-control, ease),
+        color var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-dialog-content__close-glyph {
+    position: relative;
+    width: 10px;
+    height: 10px;
+}
+
+.layered-dialog-content__close-glyph::before,
+.layered-dialog-content__close-glyph::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    border-radius: 1px;
+    background: currentColor;
+}
+
+.layered-dialog-content__close-glyph::before {
+    transform: rotate(45deg);
+}
+
+.layered-dialog-content__close-glyph::after {
+    transform: rotate(-45deg);
+}
+
+.layered-dialog-content__close:hover {
+    color: var(--color-text);
+    box-shadow:
+        0 2px 4px rgb(0 0 0 / 40%),
+        inset 0 1px rgb(255 255 255 / 10%);
+}
+
+.layered-dialog-content__close:active {
+    transform: translateY(1px) scale(0.96);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 40%);
+}
+
+.layered-dialog-content__close:focus-visible {
+    color: var(--color-text);
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 0 0 2px var(--control-focus);
+    outline: none;
+}
+
+/* Content keyboard focus stays contained within the casing. */
+
+.layered-dialog-content:focus-visible {
+    box-shadow:
+        var(--shadow-control),
+        inset 0 0 0 2px var(--control-focus);
+}
+
+/* Mobile: near-full-width, never an uncontrolled fullscreen sheet. */
+
+@media (max-width: 640px) {
+    .layered-dialog-overlay {
+        padding: 16px;
+    }
+
+    .layered-dialog-content,
+    .layered-dialog-content[data-size="small"],
+    .layered-dialog-content[data-size="medium"],
+    .layered-dialog-content[data-size="large"] {
+        width: 100%;
+        max-height: min(88vh, 780px);
+    }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-dialog-overlay {
+        background: rgb(0 0 0 / 70%);
+    }
+
+    .layered-dialog-content {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .layered-dialog-content__surface {
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-dialog-content__close {
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-dialog-content:focus-visible,
+    .layered-dialog-content__close:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-dialog-overlay,
+    .layered-dialog-content {
+        animation: none !important;
+    }
+
+    .layered-dialog-content__close {
+        transition: none;
+    }
+
+    .layered-dialog-content__close:active {
+        transform: none;
+    }
+}
+
+/* Keyframes */
+
+@keyframes layered-dialog-overlay-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes layered-dialog-overlay-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes layered-dialog-content-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes layered-dialog-content-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(6px) scale(0.98);
+    }
+}

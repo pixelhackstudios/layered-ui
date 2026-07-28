@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import { LayeredButton } from "../registry/components/layered-button/LayeredButton";
 import { LayeredCheckbox } from "../registry/components/layered-checkbox/LayeredCheckbox";
+import {
+  LayeredDialog,
+  LayeredDialogClose,
+  LayeredDialogContent,
+  LayeredDialogDescription,
+  LayeredDialogFooter,
+  LayeredDialogHeader,
+  LayeredDialogTitle,
+  LayeredDialogTrigger,
+} from "../registry/components/layered-dialog/LayeredDialog";
 import { LayeredDisplayCard } from "../registry/components/layered-display-card/LayeredDisplayCard";
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
@@ -12,6 +22,7 @@ type ThemeMode = "classic" | "field";
 
 function App() {
   const [theme, setTheme] = useState<ThemeMode>("classic");
+  const [controlledDialogOpen, setControlledDialogOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -617,6 +628,217 @@ function App() {
               fullWidth
               description="Full-width switch with a long label demonstrating text wrapping."
             />
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Dialog
+          </h2>
+
+          <div className="component-row">
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="copper">Open Informational Dialog</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="medium">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Runtime Status</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    Current diagnostic summary for the active inference session.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <p>
+                  All connected workers report nominal thermal and memory
+                  conditions. No corrective action is required at this time.
+                </p>
+                <LayeredDialogFooter>
+                  <LayeredDialogClose asChild>
+                    <LayeredButton tone="copper" size="small">
+                      Acknowledge
+                    </LayeredButton>
+                  </LayeredDialogClose>
+                </LayeredDialogFooter>
+              </LayeredDialogContent>
+            </LayeredDialog>
+
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="green">Open Form Dialog</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="medium">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>New Deployment Profile</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    Define a named configuration for a repeatable deployment.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <form
+                  style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+                  onSubmit={(event) => event.preventDefault()}
+                >
+                  <LayeredInput
+                    label="Profile Name"
+                    tone="green"
+                    placeholder="e.g. Production Rollout"
+                    fullWidth
+                  />
+                  <LayeredTextarea
+                    label="Notes"
+                    tone="green"
+                    rows={4}
+                    placeholder="Optional context for this deployment profile..."
+                    fullWidth
+                  />
+                </form>
+                <LayeredDialogFooter>
+                  <LayeredDialogClose asChild>
+                    <LayeredButton tone="neutral" size="small">
+                      Cancel
+                    </LayeredButton>
+                  </LayeredDialogClose>
+                  <LayeredDialogClose asChild>
+                    <LayeredButton tone="green" size="small">
+                      Save Profile
+                    </LayeredButton>
+                  </LayeredDialogClose>
+                </LayeredDialogFooter>
+              </LayeredDialogContent>
+            </LayeredDialog>
+
+            <LayeredButton
+              tone="gold"
+              onClick={() => setControlledDialogOpen(true)}
+            >
+              Open Controlled Dialog
+            </LayeredButton>
+            <LayeredDialog
+              open={controlledDialogOpen}
+              onOpenChange={setControlledDialogOpen}
+            >
+              <LayeredDialogContent size="small">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>External State</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    Open state is owned by the parent laboratory component,
+                    not by LayeredDialog itself.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <p>
+                  This dialog opened because <code>controlledDialogOpen</code>{" "}
+                  became <code>true</code>. Closing it (Escape, outside click,
+                  or the button below) calls <code>onOpenChange(false)</code>.
+                </p>
+                <LayeredDialogFooter>
+                  <LayeredButton
+                    tone="gold"
+                    size="small"
+                    onClick={() => setControlledDialogOpen(false)}
+                  >
+                    Close Programmatically
+                  </LayeredButton>
+                </LayeredDialogFooter>
+              </LayeredDialogContent>
+            </LayeredDialog>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Small</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="small">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Small Dialog</LayeredDialogTitle>
+                </LayeredDialogHeader>
+                <p>Bounded to a compact width for short confirmations and notices.</p>
+              </LayeredDialogContent>
+            </LayeredDialog>
+
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Medium</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="medium">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Medium Dialog</LayeredDialogTitle>
+                </LayeredDialogHeader>
+                <p>The default size, suited to most informational and form content.</p>
+              </LayeredDialogContent>
+            </LayeredDialog>
+
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Large</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="large">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Large Dialog</LayeredDialogTitle>
+                </LayeredDialogHeader>
+                <p>A wider casing for denser layouts, tables, or multi-column content.</p>
+              </LayeredDialogContent>
+            </LayeredDialog>
+
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Long Scrollable Content</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="medium">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Release Notes</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    The header and footer remain fixed while this body scrolls.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                  {Array.from({ length: 14 }, (_, index) => (
+                    <p key={index} style={{ margin: 0 }}>
+                      Entry {index + 1}: Structural casing and recessed surface
+                      geometry verified across both themes. Trench borders and
+                      directional lighting remain consistent under scroll.
+                    </p>
+                  ))}
+                </div>
+                <LayeredDialogFooter>
+                  <LayeredDialogClose asChild>
+                    <LayeredButton tone="neutral" size="small">
+                      Close
+                    </LayeredButton>
+                  </LayeredDialogClose>
+                </LayeredDialogFooter>
+              </LayeredDialogContent>
+            </LayeredDialog>
+
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="copper" size="small">Custom Footer Actions</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="medium">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Export Session Bundle</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    Choose how the current session bundle should be exported.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <p>
+                  The footer below demonstrates arbitrary, non-destructive
+                  custom actions rather than a fixed confirm/cancel pair.
+                </p>
+                <LayeredDialogFooter>
+                  <LayeredButton tone="neutral" size="small">
+                    Copy Link
+                  </LayeredButton>
+                  <LayeredButton tone="gold" size="small">
+                    Duplicate
+                  </LayeredButton>
+                  <LayeredDialogClose asChild>
+                    <LayeredButton tone="copper" size="small">
+                      Export
+                    </LayeredButton>
+                  </LayeredDialogClose>
+                </LayeredDialogFooter>
+              </LayeredDialogContent>
+            </LayeredDialog>
           </div>
         </section>
       </div>

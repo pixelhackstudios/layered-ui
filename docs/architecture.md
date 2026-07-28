@@ -29,8 +29,9 @@ When a user installs any UI component via the `shadcn` CLI, `layered-foundation`
 Layered UI prioritizes native HTML elements before introducing third-party primitive dependencies:
 
 - **Native HTML First**: Simple and intermediate controls (`LayeredButton`, `LayeredInput`, `LayeredSelect`, `LayeredDisplayCard`, `LayeredPanel`, `LayeredTextarea`, `LayeredCheckbox`, `LayeredSwitch`) use semantic HTML elements (`<button>`, `<input>`, `<select>`, `<section>`, `<textarea>`, `<input type="checkbox">`) to ensure native browser keyboard handling, form submission integration, and accessibility behavior.
-- **Radix Primitives for Complex Behavioral Controls**: Radix primitives are approved *exclusively* for complex behavioral controls where native HTML lacks standard accessible lifecycle management (such as overlay focus traps, portal mounting, escape key handling, and ARIA state management for `LayeredDialog`).
+- **Radix Primitives for Complex Behavioral Controls**: Radix primitives are approved *exclusively* for complex behavioral controls where native HTML lacks standard accessible lifecycle management (such as overlay focus traps, portal mounting, escape key handling, and ARIA state management). `LayeredDialog` is the first implemented example, built on `@radix-ui/react-dialog` (pinned at `1.1.23`).
 - **Undecided Behavioral Primitives**: `LayeredCombobox` is a planned direction whose behavioral dependency remains undecided (evaluating native `<datalist>`, custom ARIA keyboard navigation, or third-party primitives). It is not grouped under the approved Radix strategy.
+- **Compound APIs**: `LayeredDialog` is also the first component to expose a compound export API (`LayeredDialog`, `LayeredDialogTrigger`, `LayeredDialogContent`, `LayeredDialogTitle`, `LayeredDialogDescription`, `LayeredDialogClose`, `LayeredDialogHeader`, `LayeredDialogFooter`). This establishes that compound APIs are permitted when a component's behavior genuinely requires composition — it is not a predetermined template for future components such as `LayeredToast`, `LayeredTooltip`, or `LayeredCombobox`.
 
 ## Styling Architecture & Design Tokens
 
@@ -55,7 +56,7 @@ Layered UI supports dual themes mapped via custom property overrides on the root
 
 ## Component Naming & API Conventions
 
-- **Component Name Prefix**: All React components are named with the `Layered` prefix (`LayeredButton`, `LayeredPanel`, `LayeredInput`, `LayeredSelect`, `LayeredDisplayCard`, `LayeredDialog`).
+- **Component Name Prefix**: All React components are named with the `Layered` prefix (`LayeredButton`, `LayeredPanel`, `LayeredInput`, `LayeredSelect`, `LayeredDisplayCard`, `LayeredDialog`, and `LayeredDialog`'s compound sub-parts).
 - **Intentional Variants**: Components expose explicit, constrained variant props (e.g., `variant="default" | "raised" | "flat"`) rather than arbitrary inline styling escape hatches.
 - **Controlled Interaction States**: Visual depth changes (hover highlights, press compression) are driven by CSS state pseudo-classes (`:hover`, `:active`, `:focus-visible`, `:disabled`) or explicit data attributes.
 
@@ -84,8 +85,12 @@ The repository operates under **Policy A** for registry distribution:
 
 | Architectural Area | Current Verified Architecture | Planned Architecture |
 |---|---|---|
-| **Component Inventory** | 9 published items (`foundation`, `button`, `panel`, `input`, `select`, `display-card`, `textarea`, `checkbox`, `switch`) | Planned directions: `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, `LayeredCombobox` |
+| **Component Inventory** | 10 published items (`foundation`, `button`, `panel`, `input`, `select`, `display-card`, `textarea`, `checkbox`, `switch`, `dialog`) | Planned directions: `LayeredToast`, `LayeredTooltip`, `LayeredCombobox` |
 | **Styling System** | Plain CSS with semantic custom property token groups | Maintained plain CSS architecture (no utility frameworks) |
-| **Motion System** | Plain CSS transitions for hover/press/focus | Optional `layered-motion` registry item with GSAP choreography |
-| **Behavioral Primitives** | Native HTML elements (`<button>`, `<input>`, `<select>`) | Radix approved for complex overlays (`LayeredDialog`); `LayeredCombobox` primitive undecided |
+| **Motion System** | Plain CSS transitions for hover/press/focus; `LayeredDialog` adds CSS-only entrance/exit keyed on Radix `data-state` | Optional `layered-motion` registry item with GSAP choreography |
+| **Behavioral Primitives** | Native HTML elements (`<button>`, `<input>`, `<select>`); Radix (`@radix-ui/react-dialog@1.1.23`) for `LayeredDialog` | `LayeredCombobox` primitive undecided |
 | **Distribution** | `shadcn` registry JSON artifacts in `public/r/` | Maintained Policy A committed static artifact publishing |
+
+### `LayeredDialog` Z-Index Strategy
+
+`LayeredDialog` uses component-local fallback custom properties, not shared foundation tokens: `--layered-dialog-overlay-z` (default `1000`) and `--layered-dialog-content-z` (default `1001`), applied via `var()` fallbacks in `LayeredDialog.css`. `layered-foundation/tokens.css` is intentionally unchanged; a shared overlay-stack token system is deferred until a second overlay-based component exists.
