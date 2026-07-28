@@ -1,0 +1,9 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" fill="#1b2420"/>
+  <circle cx="320" cy="180" r="120" stroke="#305e53" stroke-width="4" stroke-dasharray="8 8" opacity="0.6"/>
+  <circle cx="320" cy="180" r="80" stroke="#4c7d71" stroke-width="2"/>
+  <circle cx="320" cy="180" r="16" fill="#8da85a"/>
+  <path d="M160 180H480M320 20V340" stroke="#305e53" stroke-width="1" opacity="0.3"/>
+  <text x="320" y="270" font-family="monospace" font-size="16" fill="#8da85a" text-anchor="middle" font-weight="bold">ORNITH-9B :: NEURAL CORE</text>
+  <text x="320" y="295" font-family="monospace" font-size="12" fill="#aba6aa" text-anchor="middle">5.6 GB VRAM // FP16 QUANTIZED</text>
+</svg>

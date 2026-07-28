@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Layered UI Design Tokens & Theme Systems
+   ========================================================================== */
+
+:root,
+[data-theme="classic"] {
+    /* Theme identity */
+    --theme-name: "classic";
+
+    /* Page surfaces */
+    --color-canvas: #353638;
+    --color-canvas-deep: #292a2c;
+    --color-text: #f3ebd6;
+    --color-text-title: #f3ebd6;
+    --color-text-emphasis: #ffffff;
+    --color-text-muted: #b9b3a6;
+
+    /* Shared component casing */
+    --control-shell-top: #5b504a;
+    --control-shell-bottom: #463d39;
+    --control-shell-border: #121212;
+    --control-trench: #1a130f;
+
+    /* Component recessed surfaces & casings */
+    --input-casing-top: #483f3a;
+    --input-casing-bottom: #362e2a;
+    --input-surface-bg-top: #18191b;
+    --input-surface-bg-bottom: #1e1f21;
+    --panel-surface-bg-top: #2b2c2e;
+    --panel-surface-bg-bottom: #222325;
+
+    /* Focus & Status */
+    --control-focus: #e4b85f;
+    --control-error: #e55353;
+    --control-error-text: #ffffff;
+
+    /* System Tones: Copper, Green, Gold, Neutral */
+    --tone-copper-light: #c47c45;
+    --tone-copper-mid: #7d4d31;
+    --tone-copper-dark: #5c3c28;
+    --tone-copper-text: #f3ebd6;
+
+    --tone-green-light: #8da85a;
+    --tone-green-mid: #566f3b;
+    --tone-green-dark: #35462b;
+    --tone-green-text: #f3ebd6;
+
+    --tone-gold-light: #d1a04a;
+    --tone-gold-mid: #92682f;
+    --tone-gold-dark: #5b421f;
+    --tone-gold-text: #f3ebd6;
+
+    --tone-neutral-light: #77787a;
+    --tone-neutral-mid: #525355;
+    --tone-neutral-dark: #38393b;
+    --tone-neutral-text: #f3ebd6;
+
+    --tone-soft-accent: #c47c45;
+}
+
+[data-theme="field"] {
+    /* Theme identity: Field Equipment / Mid-Century Hardware */
+    --theme-name: "field";
+
+    /* Palette mapping reference (comments only):
+       - Canvas: Dorkwood #3d3f42
+       - Primary text: Sindis Poop #cccdc2
+       - Warm/High-emphasis text & Title: Dope #dbd1b3
+       - Muted text: Caring Tan #aba6aa
+       - Structural Casing: Clardic Fug #707154 / Catbabel #615d44
+       - Green tone: Grade Bat #305e53
+       - Copper tone: Sand Dan #c9ac8f / Sink #b08a6e
+       - Gold tone: Stargoon #e9bf8d / Burble Simp #e2b584
+       - Neutral tone: Flower #b2b8c4 / Ronching Blue #79727d
+       - Error: Grass Bat #b0636c (accent) / Bank Butt #ddc4c7 (text)
+       - Soft accent: Stanky Bean #c5a2ab
+       - Intentionally unused in runtime CSS: Bunflow (#beae9b), Stummy Beige (#d8c8b9), Light Of Blast (#af9693), Testing (#9c656a), Stoner Blue (#98a59f), Turdly (#bea474)
+    */
+
+    /* Page surfaces */
+    --color-canvas: #3d3f42; /* Dorkwood */
+    --color-canvas-deep: #2c2e30; /* Dark derived Dorkwood */
+    --color-text: #cccdc2; /* Sindis Poop */
+    --color-text-title: #dbd1b3; /* Dope (warm heading warmth) */
+    --color-text-emphasis: #dbd1b3; /* Dope */
+    --color-text-muted: #aba6aa; /* Caring Tan */
+
+    /* Shared component casing */
+    --control-shell-top: #707154; /* Clardic Fug */
+    --control-shell-bottom: #615d44; /* Catbabel */
+    --control-shell-border: #1e2017;
+    --control-trench: #181912;
+
+    /* Component recessed surfaces & casings */
+    --input-casing-top: #55573e; /* Muted Clardic Fug / Catbabel */
+    --input-casing-bottom: #43442f;
+    --input-surface-bg-top: #212224; /* Recessed dark Dorkwood derivative */
+    --input-surface-bg-bottom: #28292c;
+    --panel-surface-bg-top: #2d2e31;
+    --panel-surface-bg-bottom: #242527;
+
+    /* Focus & Status */
+    --control-focus: #e9bf8d; /* Stargoon focus */
+    --control-error: #b0636c; /* Grass Bat */
+    --control-error-text: #ddc4c7; /* Bank Butt */
+
+    /* System Tones & Per-Tone Button Text */
+    --tone-copper-light: #c9ac8f; /* Sand Dan */
+    --tone-copper-mid: #967254; /* Darkened Sink for depth */
+    --tone-copper-dark: #543c2b; /* Rich deep copper */
+    --tone-copper-text: #1e2022; /* Dark Dorkwood text for high contrast on pale face */
+
+    --tone-green-light: #4c7d71;
+    --tone-green-mid: #305e53; /* Grade Bat */
+    --tone-green-dark: #1a3831; /* Deep forest green */
+    --tone-green-text: #dbd1b3; /* Dope (warm light text on green) */
+
+    --tone-gold-light: #e9bf8d; /* Stargoon */
+    --tone-gold-mid: #a88050; /* Darkened gold mid for depth */
+    --tone-gold-dark: #5c4223; /* Deep rich gold */
+    --tone-gold-text: #1e2022; /* Dark Dorkwood text for high contrast on pale face */
+
+    --tone-neutral-light: #9fa5b4; /* Subdued slate light */
+    --tone-neutral-mid: #626670; /* Slate neutral mid for depth */
+    --tone-neutral-dark: #383b42; /* Deep slate dark */
+    --tone-neutral-text: #1e2022; /* Dark Dorkwood text for high contrast on pale face */
+
+    --tone-soft-accent: #c5a2ab; /* Stanky Bean */
+}
+
+:root {
+    /* Shape & Physics Tokens (preserved identically across themes) */
+    --control-radius-outer: 12px;
+    --control-radius-inner: 8px;
+    --control-shell-depth: 4px;
+
+    /* Motion Tokens */
+    --duration-fast: 100ms;
+    --duration-normal: 160ms;
+    --ease-control: ease;
+
+    /* Shadows */
+    --shadow-control:
+        0 6px 12px rgb(0 0 0 / 40%),
+        inset 0 1px rgb(255 255 255 / 8%);
+
+    --shadow-control-hover:
+        0 8px 16px rgb(0 0 0 / 45%),
+        inset 0 1px rgb(255 255 255 / 9%);
+
+    --shadow-control-pressed:
+        0 2px 4px rgb(0 0 0 / 55%);
+}

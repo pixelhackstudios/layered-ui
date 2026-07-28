@@ -1,0 +1,269 @@
+.layered-display-card {
+    /* Default neutral tone */
+    --card-tone-accent: var(--tone-neutral-light);
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    padding: var(--control-shell-depth);
+    border: 2px solid var(--control-shell-border);
+    border-radius: var(--control-radius-outer);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top),
+            var(--control-shell-bottom));
+
+    box-shadow: var(--shadow-control);
+    width: 100%;
+
+    transition: box-shadow var(--duration-normal) var(--ease-control);
+}
+
+/* Recessed Display Viewport */
+
+.layered-display-card__screen {
+    position: relative;
+    box-sizing: border-box;
+
+    border: 2px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background: #111214;
+    overflow: hidden;
+}
+
+.layered-display-card[data-aspect="landscape"] .layered-display-card__screen {
+    aspect-ratio: 16 / 9;
+}
+
+.layered-display-card[data-aspect="square"] .layered-display-card__screen {
+    aspect-ratio: 1 / 1;
+}
+
+.layered-display-card[data-aspect="portrait"] .layered-display-card__screen {
+    aspect-ratio: 3 / 4;
+}
+
+/* Image */
+
+.layered-display-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Circular Screen Vignette Layer */
+
+.layered-display-card__vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 0%,
+            transparent 42%,
+            rgb(0 0 0 / 10%) 58%,
+            rgb(0 0 0 / 22%) 74%,
+            rgb(0 0 0 / 36%) 88%,
+            rgb(0 0 0 / 48%) 100%
+        );
+}
+
+/* Overhead Glass Reflection Glare */
+
+.layered-display-card__glare {
+    position: absolute;
+    z-index: 2;
+
+    top: -28%;
+    left: 50%;
+    width: 96%;
+    height: 72%;
+
+    transform: translateX(-50%);
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgb(255 248 228 / 30%) 0%,
+            rgb(255 248 228 / 18%) 24%,
+            rgb(255 255 255 / 8%) 48%,
+            transparent 72%
+        );
+
+    filter: blur(7px);
+    opacity: 0.9;
+
+    transition:
+        opacity 180ms var(--ease-control),
+        transform 180ms var(--ease-control);
+}
+
+/* Glare softens & shifts during hover & focus-within */
+
+.layered-display-card:hover .layered-display-card__glare,
+.layered-display-card:focus-within .layered-display-card__glare {
+    opacity: 0.24;
+    transform: translateX(-50%) translateY(-3px);
+}
+
+/* Information Surface */
+
+.layered-display-card__surface {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 12px;
+
+    margin-top: var(--control-shell-depth);
+    padding: 16px 18px;
+
+    border: 2px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    color: var(--color-text);
+}
+
+/* Header & Typography */
+
+.layered-display-card__header {
+    display: flex;
+    flex-direction: column;
+}
+
+.layered-display-card__eyebrow {
+    margin-bottom: 4px;
+
+    color: var(--card-tone-accent);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.layered-display-card__title {
+    margin: 0;
+
+    color: var(--color-text-emphasis, var(--color-text));
+
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.layered-display-card__description {
+    margin-top: 4px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Meta Bar & Status */
+
+.layered-display-card__meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-top: auto;
+    font-size: 0.8rem;
+}
+
+.layered-display-card__metadata {
+    color: var(--color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-weight: 600;
+}
+
+.layered-display-card__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 3px 8px;
+    border: 1px solid color-mix(in srgb, var(--card-tone-accent) 35%, transparent);
+    border-radius: 4px;
+
+    background: color-mix(in srgb, var(--card-tone-accent) 15%, transparent);
+    color: var(--card-tone-accent);
+
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Footer */
+
+.layered-display-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+
+    padding-top: 12px;
+    border-top: 1px solid var(--control-trench);
+}
+
+.layered-display-card__surface > .layered-display-card__footer:first-child,
+.layered-display-card__header + .layered-display-card__footer {
+    margin-top: auto;
+}
+
+/* Tone Variants */
+
+.layered-display-card[data-tone="copper"] {
+    --card-tone-accent: var(--tone-copper-light);
+}
+
+.layered-display-card[data-tone="green"] {
+    --card-tone-accent: var(--tone-green-light);
+}
+
+.layered-display-card[data-tone="gold"] {
+    --card-tone-accent: var(--tone-gold-light);
+}
+
+.layered-display-card[data-tone="neutral"] {
+    --card-tone-accent: var(--tone-neutral-light);
+}
+
+/* Touch Environments (without hover) */
+
+@media (hover: none) {
+    .layered-display-card__glare {
+        opacity: 0.35;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-display-card,
+    .layered-display-card__glare {
+        transition: none;
+    }
+
+    .layered-display-card__glare {
+        transform: translateX(-50%);
+    }
+}

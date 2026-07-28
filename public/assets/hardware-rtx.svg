@@ -1,0 +1,9 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" fill="#26211a"/>
+  <rect x="80" y="60" width="480" height="240" rx="12" fill="#1b1712" stroke="#b08a6e" stroke-width="2"/>
+  <circle cx="220" cy="180" r="70" stroke="#e2b584" stroke-width="4"/>
+  <circle cx="420" cy="180" r="70" stroke="#e2b584" stroke-width="4"/>
+  <path d="M220 120L220 240M160 180L280 180" stroke="#e9bf8d" stroke-width="2" opacity="0.6"/>
+  <path d="M420 120L420 240M360 180L480 180" stroke="#e9bf8d" stroke-width="2" opacity="0.6"/>
+  <text x="320" y="325" font-family="monospace" font-size="14" fill="#e2b584" text-anchor="middle" font-weight="bold">RTX LOCAL RUNTIME // CUDA ACCELERATED</text>
+</svg>

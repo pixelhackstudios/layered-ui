@@ -1,0 +1,193 @@
+.layered-panel {
+    /* Default neutral tone custom properties */
+    --panel-tone-accent: #8c8f94;
+    --panel-tone-glow: rgb(140 143 148 / 8%);
+
+    /* Default medium padding */
+    --panel-padding-x: 24px;
+    --panel-padding-y: 20px;
+
+    box-sizing: border-box;
+
+    padding: var(--control-shell-depth);
+    border: 2px solid var(--control-shell-border);
+    border-radius: var(--control-radius-outer);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top),
+            var(--control-shell-bottom));
+
+    box-shadow: var(--shadow-control);
+
+    transition:
+        box-shadow var(--duration-normal) var(--ease-control);
+}
+
+.layered-panel__surface {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    border: 2px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    color: var(--color-text);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 7%),
+        inset 0 -2px 4px rgb(0 0 0 / 25%);
+
+    overflow: hidden;
+}
+
+/* Restrained top accent line */
+.layered-panel__surface::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 2px;
+
+    background:
+        linear-gradient(90deg,
+            transparent 0%,
+            var(--panel-tone-accent) 25%,
+            var(--panel-tone-accent) 75%,
+            transparent 100%);
+
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+/* Header */
+
+.layered-panel__header {
+    padding: var(--panel-padding-y) var(--panel-padding-x);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-tone-glow) 0%,
+            transparent 100%);
+
+    border-bottom: 1px solid var(--control-trench);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 3%);
+}
+
+.layered-panel__eyebrow {
+    margin: 0 0 6px;
+
+    color: var(--panel-tone-accent);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.layered-panel__title {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+}
+
+/* Content */
+
+.layered-panel__content {
+    flex: 1 1 auto;
+    padding: var(--panel-padding-y) var(--panel-padding-x);
+
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+.layered-panel__content > :first-child {
+    margin-top: 0;
+}
+
+.layered-panel__content > :last-child {
+    margin-bottom: 0;
+}
+
+/* Footer */
+
+.layered-panel__footer {
+    padding: var(--panel-padding-y) var(--panel-padding-x);
+
+    background: rgb(0 0 0 / 15%);
+    border-top: 1px solid var(--control-trench);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
+}
+
+/* Tone Variants */
+
+.layered-panel[data-tone="copper"] {
+    --panel-tone-accent: var(--tone-copper-light);
+    --panel-tone-glow: color-mix(in srgb, var(--tone-copper-light) 12%, transparent);
+}
+
+.layered-panel[data-tone="green"] {
+    --panel-tone-accent: var(--tone-green-light);
+    --panel-tone-glow: color-mix(in srgb, var(--tone-green-light) 12%, transparent);
+}
+
+.layered-panel[data-tone="gold"] {
+    --panel-tone-accent: var(--tone-gold-light);
+    --panel-tone-glow: color-mix(in srgb, var(--tone-gold-light) 12%, transparent);
+}
+
+.layered-panel[data-tone="neutral"] {
+    --panel-tone-accent: var(--tone-neutral-light);
+    --panel-tone-glow: color-mix(in srgb, var(--tone-neutral-light) 10%, transparent);
+}
+
+/* Padding Variants */
+
+.layered-panel[data-padding="small"] {
+    --panel-padding-x: 16px;
+    --panel-padding-y: 14px;
+}
+
+.layered-panel[data-padding="medium"] {
+    --panel-padding-x: 24px;
+    --panel-padding-y: 20px;
+}
+
+.layered-panel[data-padding="large"] {
+    --panel-padding-x: 36px;
+    --panel-padding-y: 28px;
+}
+
+/* Responsive Tightening */
+
+@media (max-width: 640px) {
+    .layered-panel[data-padding="medium"] {
+        --panel-padding-x: 16px;
+        --panel-padding-y: 16px;
+    }
+
+    .layered-panel[data-padding="large"] {
+        --panel-padding-x: 20px;
+        --panel-padding-y: 20px;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-panel {
+        transition: none;
+    }
+}

@@ -1,0 +1,104 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: dark;
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: var(--color-canvas);
+    color: var(--color-text);
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+
+    background:
+        radial-gradient(circle at top,
+            rgb(255 255 255 / 3%),
+            transparent 40rem),
+        var(--color-canvas);
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.component-lab {
+    width: min(100% - 32px, 960px);
+    margin-inline: auto;
+    padding-block: 64px;
+}
+
+.component-lab__header {
+    margin-bottom: 48px;
+}
+
+.component-lab__eyebrow {
+    margin: 0 0 8px;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.component-lab__title {
+    margin: 0;
+    color: var(--color-text-title, var(--color-text));
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+}
+
+.component-lab__description {
+    max-width: 620px;
+    margin: 20px 0 0;
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+
+.component-section {
+    padding: 32px;
+    border: 1px solid rgb(255 255 255 / 8%);
+    border-radius: 18px;
+    background: var(--color-canvas-deep);
+    box-shadow: inset 0 1px rgb(255 255 255 / 3%);
+}
+
+.component-section__title {
+    margin: 0 0 24px;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.component-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}

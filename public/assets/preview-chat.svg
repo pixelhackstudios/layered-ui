@@ -1,0 +1,10 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" fill="#232228"/>
+  <rect x="40" y="40" width="560" height="280" rx="8" fill="#18171c" stroke="#47424a" stroke-width="2"/>
+  <rect x="60" y="65" width="220" height="36" rx="6" fill="#38343f"/>
+  <rect x="360" y="115" width="220" height="48" rx="6" fill="#79727d" opacity="0.3"/>
+  <rect x="60" y="178" width="280" height="54" rx="6" fill="#38343f"/>
+  <text x="75" y="88" font-family="sans-serif" font-size="13" fill="#b2b8c4">Prompting local agent...</text>
+  <text x="375" y="144" font-family="sans-serif" font-size="13" fill="#cccdc2">Generating response stream</text>
+  <text x="75" y="210" font-family="sans-serif" font-size="13" fill="#b2b8c4">Stream complete. 128 tok/s</text>
+</svg>

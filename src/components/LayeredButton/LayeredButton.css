@@ -1,0 +1,176 @@
+.layered-button {
+    /* Default copper face */
+    --button-face-light: #c47c45;
+    --button-face-mid: #7d4d31;
+    --button-face-dark: #5c3c28;
+
+    all: unset;
+    display: inline-grid;
+    box-sizing: border-box;
+
+    padding: var(--control-shell-depth);
+    border: 2px solid var(--control-shell-border);
+    border-radius: var(--control-radius-outer);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top),
+            var(--control-shell-bottom));
+
+    box-shadow: var(--shadow-control);
+    cursor: pointer;
+
+    transition:
+        transform var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control),
+        filter var(--duration-normal) var(--ease-control);
+}
+
+.layered-button__face {
+    display: grid;
+    box-sizing: border-box;
+    place-items: center;
+
+    border: 2px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        radial-gradient(ellipse at bottom,
+            var(--button-face-light) 0%,
+            var(--button-face-mid) 55%,
+            var(--button-face-dark) 100%);
+
+    color: var(--button-face-text, var(--color-text));
+
+    box-shadow:
+        inset 0 2px 2px rgb(255 255 255 / 12%),
+        inset 0 -3px 4px rgb(0 0 0 / 18%);
+
+    transition:
+        filter var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control),
+        transform var(--duration-fast) var(--ease-control);
+}
+
+.layered-button__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
+
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.045em;
+    text-align: center;
+}
+
+/* Sizes */
+
+.layered-button[data-size="small"] .layered-button__face {
+    min-height: 38px;
+    padding: 8px 18px;
+}
+
+.layered-button[data-size="small"] .layered-button__content {
+    font-size: 0.8rem;
+}
+
+.layered-button[data-size="medium"] .layered-button__face {
+    min-height: 48px;
+    padding: 12px 28px;
+}
+
+.layered-button[data-size="medium"] .layered-button__content {
+    font-size: 1rem;
+}
+
+.layered-button[data-size="large"] .layered-button__face {
+    min-height: 60px;
+    padding: 15px 40px;
+}
+
+.layered-button[data-size="large"] .layered-button__content {
+    font-size: 1.2rem;
+}
+
+/* Tone variants */
+
+.layered-button[data-tone="copper"] {
+    --button-face-light: var(--tone-copper-light);
+    --button-face-mid: var(--tone-copper-mid);
+    --button-face-dark: var(--tone-copper-dark);
+    --button-face-text: var(--tone-copper-text);
+}
+
+.layered-button[data-tone="green"] {
+    --button-face-light: var(--tone-green-light);
+    --button-face-mid: var(--tone-green-mid);
+    --button-face-dark: var(--tone-green-dark);
+    --button-face-text: var(--tone-green-text);
+}
+
+.layered-button[data-tone="gold"] {
+    --button-face-light: var(--tone-gold-light);
+    --button-face-mid: var(--tone-gold-mid);
+    --button-face-dark: var(--tone-gold-dark);
+    --button-face-text: var(--tone-gold-text);
+}
+
+.layered-button[data-tone="neutral"] {
+    --button-face-light: var(--tone-neutral-light);
+    --button-face-mid: var(--tone-neutral-mid);
+    --button-face-dark: var(--tone-neutral-dark);
+    --button-face-text: var(--tone-neutral-text);
+}
+
+/* Interaction */
+
+.layered-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-control-hover);
+}
+
+.layered-button:hover:not(:disabled) .layered-button__face {
+    filter: brightness(1.06);
+}
+
+.layered-button:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: var(--shadow-control-pressed);
+}
+
+.layered-button:active:not(:disabled) .layered-button__face {
+    transform: translateY(1px);
+    filter: brightness(0.86);
+
+    box-shadow:
+        inset 0 4px 6px rgb(0 0 0 / 30%),
+        inset 0 1px rgb(255 255 255 / 6%);
+}
+
+.layered-button:focus-visible {
+    outline: 3px solid var(--control-focus);
+    outline-offset: 4px;
+}
+
+.layered-button:disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.45);
+    opacity: 0.45;
+}
+
+.layered-button--full-width {
+    width: 100%;
+}
+
+.layered-button--full-width .layered-button__face {
+    width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .layered-button,
+    .layered-button__face {
+        transition: none;
+    }
+}
