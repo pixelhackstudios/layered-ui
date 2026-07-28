@@ -1,4 +1,10 @@
 import { useState, useEffect } from "react";
+import {
+  LayeredAccordion,
+  LayeredAccordionContent,
+  LayeredAccordionItem,
+  LayeredAccordionTrigger,
+} from "../registry/components/layered-accordion/LayeredAccordion";
 import { LayeredButton } from "../registry/components/layered-button/LayeredButton";
 import { LayeredCheckbox } from "../registry/components/layered-checkbox/LayeredCheckbox";
 import {
@@ -37,6 +43,7 @@ function App() {
   const [controlledDialogOpen, setControlledDialogOpen] = useState(false);
   const [controlledTooltipOpen, setControlledTooltipOpen] = useState(false);
   const [controlledTabsValue, setControlledTabsValue] = useState("overview");
+  const [controlledAccordionValue, setControlledAccordionValue] = useState("one");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -1264,6 +1271,207 @@ function App() {
                 </LayeredTabsContent>
               </LayeredTabs>
             </LayeredPanel>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Accordion
+          </h2>
+
+          <div className="component-row" style={{ alignItems: "flex-start" }}>
+            <div style={{ width: "360px", maxWidth: "100%" }}>
+              <LayeredAccordion type="single" defaultValue="one">
+                <LayeredAccordionItem value="one">
+                  <LayeredAccordionTrigger>System Overview</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    All subsystems reporting nominal status.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+                <LayeredAccordionItem value="two">
+                  <LayeredAccordionTrigger>Diagnostics</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    Last diagnostic sweep completed 4 minutes ago, no faults found.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+                <LayeredAccordionItem value="three">
+                  <LayeredAccordionTrigger>Logs</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    Log stream idle — no events in the last polling interval.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+
+            <div style={{ width: "360px", maxWidth: "100%" }}>
+              <LayeredAccordion type="single" collapsible defaultValue="one" tone="copper">
+                <LayeredAccordionItem value="one">
+                  <LayeredAccordionTrigger>Collapsible Single Mode</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    This item can be closed entirely, leaving no item open.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+                <LayeredAccordionItem value="two">
+                  <LayeredAccordionTrigger>Power</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    Power subsystem: 92% capacity, nominal draw.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <div style={{ width: "360px", maxWidth: "100%" }}>
+              <LayeredAccordion type="multiple" defaultValue={["one", "two"]} tone="green">
+                <LayeredAccordionItem value="one">
+                  <LayeredAccordionTrigger>Sensors</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    Sensor array nominal, two items open simultaneously in multiple mode.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+                <LayeredAccordionItem value="two">
+                  <LayeredAccordionTrigger>Actuators</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    Actuator bank nominal.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+                <LayeredAccordionItem value="three" disabled>
+                  <LayeredAccordionTrigger>Restricted Bay (disabled)</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    This item is disabled and unreachable via keyboard or mouse.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+
+            <div style={{ width: "360px", maxWidth: "100%" }}>
+              <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
+                <LayeredButton size="small" tone="gold" onClick={() => setControlledAccordionValue("one")}>
+                  Open One
+                </LayeredButton>
+                <LayeredButton size="small" tone="gold" onClick={() => setControlledAccordionValue("two")}>
+                  Open Two
+                </LayeredButton>
+              </div>
+              <LayeredAccordion
+                type="single"
+                value={controlledAccordionValue}
+                onValueChange={setControlledAccordionValue}
+                tone="gold"
+              >
+                <LayeredAccordionItem value="one">
+                  <LayeredAccordionTrigger>One</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    Value is owned by the parent laboratory component, not the Accordion itself.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+                <LayeredAccordionItem value="two">
+                  <LayeredAccordionTrigger>Two</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    The buttons above drive this panel's open item externally.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <div style={{ width: "220px", maxWidth: "100%" }}>
+              <LayeredAccordion type="single" collapsible defaultValue="one" accordionSize="small" tone="copper">
+                <LayeredAccordionItem value="one">
+                  <LayeredAccordionTrigger>Small</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>Compact size.</LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+
+            <div style={{ width: "220px", maxWidth: "100%" }}>
+              <LayeredAccordion type="single" collapsible defaultValue="one" accordionSize="large" tone="green">
+                <LayeredAccordionItem value="one">
+                  <LayeredAccordionTrigger>Large</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>Touch-friendly size.</LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+
+            <div style={{ width: "360px", maxWidth: "100%" }}>
+              <LayeredAccordion type="single" collapsible defaultValue="one">
+                <LayeredAccordionItem value="one">
+                  <LayeredAccordionTrigger>
+                    A deliberately long trigger label that wraps across multiple lines without pushing the indicator out of the housing
+                  </LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    Long labels stay fully readable — the trigger row grows in height instead of truncating text.
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <div style={{ width: "360px", maxWidth: "100%" }}>
+              <LayeredAccordion type="single" collapsible defaultValue="settings" tone="copper">
+                <LayeredAccordionItem value="settings">
+                  <LayeredAccordionTrigger>Settings</LayeredAccordionTrigger>
+                  <LayeredAccordionContent>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: 0 }}>
+                      <LayeredInput label="Deployment name" inputSize="small" />
+                      <LayeredCheckbox label="Enable auto-restart" />
+                    </div>
+                  </LayeredAccordionContent>
+                </LayeredAccordionItem>
+              </LayeredAccordion>
+            </div>
+
+            <div style={{ width: "360px", maxWidth: "100%" }}>
+              <LayeredPanel title="Diagnostics Panel">
+                <LayeredAccordion type="single" collapsible defaultValue="a" accordionSize="small" tone="gold">
+                  <LayeredAccordionItem value="a">
+                    <LayeredAccordionTrigger>Nested inside a panel</LayeredAccordionTrigger>
+                    <LayeredAccordionContent>
+                      Small accordion size keeps visual weight restrained inside an existing panel casing.
+                    </LayeredAccordionContent>
+                  </LayeredAccordionItem>
+                </LayeredAccordion>
+              </LayeredPanel>
+            </div>
+          </div>
+
+          <div style={{ marginTop: "20px", width: "420px", maxWidth: "100%" }}>
+            <LayeredAccordion type="single" collapsible defaultValue="tabs" tone="green">
+              <LayeredAccordionItem value="tabs">
+                <LayeredAccordionTrigger>Tabs Inside Accordion Content</LayeredAccordionTrigger>
+                <LayeredAccordionContent>
+                  <LayeredTabs defaultValue="a" tabsSize="small">
+                    <LayeredTabsList aria-label="Tabs nested inside accordion content">
+                      <LayeredTabsTrigger value="a">A</LayeredTabsTrigger>
+                      <LayeredTabsTrigger value="b">B</LayeredTabsTrigger>
+                    </LayeredTabsList>
+                    <LayeredTabsContent value="a">Panel A composed inside accordion content.</LayeredTabsContent>
+                    <LayeredTabsContent value="b">Panel B composed inside accordion content.</LayeredTabsContent>
+                  </LayeredTabs>
+                </LayeredAccordionContent>
+              </LayeredAccordionItem>
+            </LayeredAccordion>
+          </div>
+
+          <div style={{ marginTop: "20px", width: "360px", maxWidth: "100%" }}>
+            <LayeredAccordion type="single" collapsible defaultValue="outer">
+              <LayeredAccordionItem value="outer">
+                <LayeredAccordionTrigger>Nested Accordion</LayeredAccordionTrigger>
+                <LayeredAccordionContent>
+                  <LayeredAccordion type="single" collapsible defaultValue="inner" accordionSize="small" tone="copper">
+                    <LayeredAccordionItem value="inner">
+                      <LayeredAccordionTrigger headingLevel={4}>Inner Section</LayeredAccordionTrigger>
+                      <LayeredAccordionContent>
+                        Nested accordion at small size reads as visually lighter than the outer one.
+                      </LayeredAccordionContent>
+                    </LayeredAccordionItem>
+                  </LayeredAccordion>
+                </LayeredAccordionContent>
+              </LayeredAccordionItem>
+            </LayeredAccordion>
           </div>
         </section>
       </div>

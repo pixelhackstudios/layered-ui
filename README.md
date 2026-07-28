@@ -26,7 +26,7 @@ Theme selection is controlled via the `data-theme="classic" | "field"` attribute
 
 ## Published Registry Items
 
-The repository currently publishes twelve canonical registry items:
+The repository currently publishes thirteen canonical registry items:
 
 1. **`layered-foundation`** (`registry:style`): Base design tokens, structural depths, radii, motion definitions, and dual-theme variable maps.
 2. **`layered-button`** (`registry:ui`): Tactile button control with structural casing, trench channel, and dimensional face.
@@ -40,13 +40,14 @@ The repository currently publishes twelve canonical registry items:
 10. **`layered-dialog`** (`registry:ui`): Tactile access-hatch dialog with structural outer casing, recessed inner content surface, and a compact corner-mounted mechanical close control, built on Radix Dialog for accessible overlay behavior. The first published component built on a Radix behavioral primitive rather than native HTML alone, and the first to expose a compound API (`LayeredDialog`, `LayeredDialogTrigger`, `LayeredDialogContent`, `LayeredDialogTitle`, `LayeredDialogDescription`, `LayeredDialogClose`, `LayeredDialogHeader`, `LayeredDialogFooter`).
 11. **`layered-tooltip`** (`registry:ui`): Compact instrument-annotation tooltip with a recessed information surface, small directional pointer, and restrained tone accents, built on Radix Tooltip for accessible hover/focus overlay behavior. The second Radix-backed component; exposes a four-part compound API (`LayeredTooltipProvider`, `LayeredTooltip`, `LayeredTooltipTrigger`, `LayeredTooltipContent`) with the directional arrow rendered internally rather than as a separate export.
 12. **`layered-tabs`** (`registry:ui`): Tactile mechanical selector rail with a recessed trench housing, individually seated tab faces, and a content surface visually docked to the active tab, built on Radix Tabs for accessible keyboard navigation, roving focus, and tab-panel ARIA relationships. The third Radix-backed component and the first non-overlay one (no portal, no z-index token); exposes a four-part compound API (`LayeredTabs`, `LayeredTabsList`, `LayeredTabsTrigger`, `LayeredTabsContent`) with `tone` and `tabsSize` owned by the Root so they cascade to both the rail and the content surface.
+13. **`layered-accordion`** (`registry:ui`): Tactile vertical equipment access bank with one shared structural rack housing, individually seated hatch triggers, and content recessed beneath its own trigger, built on Radix Accordion for accessible single/multiple disclosure behavior, heading semantics, and keyboard navigation. The fourth Radix-backed component, the second non-overlay one, and deliberately vertical-only in v1; exposes a four-part compound API (`LayeredAccordion`, `LayeredAccordionItem`, `LayeredAccordionTrigger`, `LayeredAccordionContent`) with `tone` and `accordionSize` owned by the Root, and a heading level chosen per-Trigger via `headingLevel` rather than a separately exported Header part.
 
 ## Component Availability & Status
 
 Item status is categorized as follows:
 
-- **Implemented**: The twelve published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`).
-- **Planned Component Directions**: Future component explorations currently include `LayeredToast`, `LayeredAccordion`, and `LayeredCombobox` (note: `LayeredCombobox` behavioral primitive choice remains an open, undecided decision). `LayeredDialog` and `LayeredTooltip` establish that a compound API is permitted when component behavior genuinely requires composition; `LayeredTabs` confirms the same for non-overlay components. None of these are a predetermined template these future components must follow.
+- **Implemented**: The thirteen published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`, `layered-accordion`).
+- **Planned Component Directions**: Future component explorations currently include `LayeredToast` and `LayeredCombobox` (note: `LayeredCombobox` behavioral primitive choice remains an open, undecided decision). `LayeredDialog` and `LayeredTooltip` establish that a compound API is permitted when component behavior genuinely requires composition; `LayeredTabs` and `LayeredAccordion` confirm the same for non-overlay components. None of these are a predetermined template these future components must follow.
 - **Intentionally Optional**: `layered-motion` (an approved, but not yet implemented, optional GSAP physical choreography layer).
 
 ## Installation
@@ -96,7 +97,7 @@ npx shadcn registry validate
 ## Project Status
 
 Layered UI is in **early development**:
-- Twelve registry items are currently published and verified.
+- Thirteen registry items are currently published and verified.
 - The broader component inventory is planned but not yet implemented.
 - Visual and interaction testing patterns are still evolving.
 

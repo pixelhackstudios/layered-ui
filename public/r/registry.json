@@ -255,6 +255,30 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-accordion",
+      "type": "registry:ui",
+      "title": "Layered Accordion",
+      "description": "Tactile vertical equipment access bank with one shared structural rack housing, individually seated hatch triggers, and content recessed beneath its own trigger, built on Radix Accordion for accessible disclosure behavior and keyboard navigation.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-accordion@1.2.20"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-accordion/LayeredAccordion.tsx",
+          "target": "@ui/layered/LayeredAccordion.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-accordion/LayeredAccordion.css",
+          "target": "@ui/layered/LayeredAccordion.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

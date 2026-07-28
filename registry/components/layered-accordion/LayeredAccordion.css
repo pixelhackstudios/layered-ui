@@ -1,0 +1,312 @@
+/* ==========================================================================
+   Layered Accordion — vertical equipment access bank. One shared structural
+   rack housing, individually seated hatch triggers, content recessed
+   directly beneath its own trigger.
+   ========================================================================== */
+
+.layered-accordion {
+    --accordion-tone-accent: var(--tone-neutral-light);
+    --accordion-focus: var(--control-focus);
+
+    /* Default medium size */
+    --accordion-trigger-height: 44px;
+    --accordion-trigger-padding-inline: 16px;
+    --accordion-trigger-font-size: 0.9rem;
+    --accordion-indicator-size: 9px;
+    --accordion-content-padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-outer);
+
+    background: var(--input-surface-bg-bottom);
+    box-shadow: inset 0 2px 3px rgb(0 0 0 / 40%);
+
+    /* Clips every internal square-cornered element to the rack's own
+       rounded outer casing — this is what keeps first/middle/last Items
+       reading as one continuous silhouette without hand-tracking radius
+       per item. */
+    overflow: hidden;
+
+    color: var(--color-text);
+}
+
+/* Tone Variants (own the indicator color only — the rack housing itself
+   stays neutral so tone reads as a restrained accent, not a full repaint). */
+
+.layered-accordion[data-tone="copper"] {
+    --accordion-tone-accent: var(--tone-copper-light);
+    --accordion-focus: var(--tone-copper-light);
+}
+
+.layered-accordion[data-tone="green"] {
+    --accordion-tone-accent: var(--tone-green-light);
+    --accordion-focus: var(--tone-green-light);
+}
+
+.layered-accordion[data-tone="gold"] {
+    --accordion-tone-accent: var(--tone-gold-light);
+    --accordion-focus: var(--tone-gold-light);
+}
+
+.layered-accordion[data-tone="neutral"] {
+    --accordion-tone-accent: var(--tone-neutral-light);
+    --accordion-focus: var(--control-focus);
+}
+
+/* Size Variants */
+
+.layered-accordion[data-size="small"] {
+    --accordion-trigger-height: 36px;
+    --accordion-trigger-padding-inline: 12px;
+    --accordion-trigger-font-size: 0.8rem;
+    --accordion-indicator-size: 8px;
+    --accordion-content-padding: 12px;
+}
+
+.layered-accordion[data-size="medium"] {
+    --accordion-trigger-height: 44px;
+    --accordion-trigger-padding-inline: 16px;
+    --accordion-trigger-font-size: 0.9rem;
+    --accordion-indicator-size: 9px;
+    --accordion-content-padding: 16px;
+}
+
+.layered-accordion[data-size="large"] {
+    --accordion-trigger-height: 52px;
+    --accordion-trigger-padding-inline: 20px;
+    --accordion-trigger-font-size: 1rem;
+    --accordion-indicator-size: 10px;
+    --accordion-content-padding: 20px;
+}
+
+/* Item: an internal division inside the shared rack, not an independently
+   cased element. A single trench-line divider separates consecutive items;
+   the last item has none, so the rack never ends in a dangling border. */
+
+.layered-accordion-item {
+    box-sizing: border-box;
+    border-block-end: 1px solid var(--control-trench);
+}
+
+.layered-accordion-item:last-child {
+    border-block-end: none;
+}
+
+/* Heading: reset the browser's default heading margin/size/weight — the
+   Trigger button itself owns all visible typography, the heading element
+   exists purely for document-outline semantics. */
+
+.layered-accordion-heading {
+    margin: 0;
+    font: inherit;
+    font-weight: inherit;
+}
+
+/* Trigger: a quiet mechanical hatch row at rest. */
+
+.layered-accordion-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-block-size: var(--accordion-trigger-height);
+    padding-inline: var(--accordion-trigger-padding-inline);
+
+    border: none;
+    background: transparent;
+
+    color: var(--color-text);
+    font-size: var(--accordion-trigger-font-size);
+    font-weight: 600;
+    text-align: start;
+
+    appearance: none;
+    cursor: pointer;
+
+    transition:
+        background var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control);
+}
+
+.layered-accordion-trigger__label {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+}
+
+.layered-accordion-trigger:not([data-disabled]):not([data-state="open"]):hover {
+    background: rgb(255 255 255 / 4%);
+}
+
+/* Open state: a restrained inset engagement, not a full-tone repaint. */
+
+.layered-accordion-trigger[data-state="open"] {
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 25%);
+}
+
+/* Contained Keyboard Focus */
+
+.layered-accordion-trigger:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--accordion-focus);
+}
+
+/* Disabled State */
+
+.layered-accordion-trigger[data-disabled] {
+    color: var(--color-text-muted);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Indicator: dependency-free CSS chevron — a square with two bordered
+   edges, rotated. Fixed-size, non-shrinking, never a font glyph or icon
+   dependency. Points toward the content when closed, flips to point away
+   when open. */
+
+.layered-accordion-trigger__indicator {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    inline-size: var(--accordion-indicator-size);
+    block-size: var(--accordion-indicator-size);
+
+    border-inline-end: 2px solid var(--accordion-tone-accent);
+    border-block-end: 2px solid var(--accordion-tone-accent);
+
+    transform: rotate(45deg);
+    transition: transform var(--duration-fast) var(--ease-control);
+}
+
+.layered-accordion-trigger[data-state="open"] .layered-accordion-trigger__indicator {
+    transform: rotate(225deg);
+}
+
+/* Content: the animated outer element owns only clipping and sizing —
+   padding, background, and typography live on the inner wrapper so they
+   never collapse to zero alongside `block-size` during the closed state. */
+
+.layered-accordion-content {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    overflow: hidden;
+}
+
+.layered-accordion-content[data-state="open"] {
+    block-size: auto;
+    animation: layered-accordion-open var(--duration-normal) var(--ease-control);
+}
+
+.layered-accordion-content[data-state="closed"] {
+    block-size: 0;
+    animation: layered-accordion-close var(--duration-fast) var(--ease-control);
+}
+
+@keyframes layered-accordion-open {
+    from { block-size: 0; }
+    to { block-size: var(--radix-accordion-content-height); }
+}
+
+@keyframes layered-accordion-close {
+    from { block-size: var(--radix-accordion-content-height); }
+    to { block-size: 0; }
+}
+
+.layered-accordion-content__inner {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    padding: var(--accordion-content-padding);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    color: var(--color-text);
+    overflow-wrap: anywhere;
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-accordion {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .layered-accordion-item {
+        border-color: CanvasText;
+    }
+
+    .layered-accordion-trigger {
+        forced-color-adjust: none;
+        color: CanvasText;
+    }
+
+    .layered-accordion-trigger[data-state="open"] {
+        background: Highlight;
+        color: HighlightText;
+    }
+
+    .layered-accordion-trigger__indicator {
+        border-color: CanvasText;
+    }
+
+    .layered-accordion-trigger[data-state="open"] .layered-accordion-trigger__indicator {
+        border-color: HighlightText;
+    }
+
+    .layered-accordion-trigger:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+    }
+
+    .layered-accordion-trigger[data-state="open"]:focus-visible {
+        outline-color: HighlightText;
+    }
+
+    .layered-accordion-trigger[data-disabled] {
+        color: GrayText;
+    }
+
+    .layered-accordion-content__inner {
+        background: Canvas;
+        color: CanvasText;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-accordion-trigger__indicator {
+        transition: none;
+    }
+
+    .layered-accordion-content[data-state="open"] {
+        block-size: auto;
+        animation: none;
+    }
+
+    .layered-accordion-content[data-state="closed"] {
+        block-size: 0;
+        animation: none;
+    }
+}
