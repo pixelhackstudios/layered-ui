@@ -11,7 +11,7 @@ Layered UI uses the standard `shadcn` registry schema:
 
 ## Current Published Registry Items
 
-The canonical manifest (`registry.json`) defines ten published items:
+The canonical manifest (`registry.json`) defines eleven published items:
 
 | Item Name | Item Type | Canonical Source Paths | Generated Output Artifact | Registry Dependencies |
 |---|---|---|---|---|
@@ -25,8 +25,9 @@ The canonical manifest (`registry.json`) defines ten published items:
 | `layered-checkbox` | `registry:ui` | `registry/components/layered-checkbox/LayeredCheckbox.tsx`<br>`registry/components/layered-checkbox/LayeredCheckbox.css` | `public/r/layered-checkbox.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 | `layered-switch` | `registry:ui` | `registry/components/layered-switch/LayeredSwitch.tsx`<br>`registry/components/layered-switch/LayeredSwitch.css` | `public/r/layered-switch.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 | `layered-dialog` | `registry:ui` | `registry/components/layered-dialog/LayeredDialog.tsx`<br>`registry/components/layered-dialog/LayeredDialog.css` | `public/r/layered-dialog.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-dialog@1.1.23` (npm) |
+| `layered-tooltip` | `registry:ui` | `registry/components/layered-tooltip/LayeredTooltip.tsx`<br>`registry/components/layered-tooltip/LayeredTooltip.css` | `public/r/layered-tooltip.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-tooltip@1.2.16` (npm) |
 
-`layered-dialog` is the first published item to declare an npm `dependencies` entry (`@radix-ui/react-dialog`, pinned exactly at `1.1.23`, no caret) alongside its `registryDependencies` entry.
+`layered-dialog` was the first published item to declare an npm `dependencies` entry alongside its `registryDependencies` entry. `layered-tooltip` is the second, following the same convention: `@radix-ui/react-tooltip` pinned exactly at `1.2.16`, no caret, verified via `npm view @radix-ui/react-tooltip@1.2.16 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) before pinning.
 
 ## Registry Address & Dependency Syntax
 

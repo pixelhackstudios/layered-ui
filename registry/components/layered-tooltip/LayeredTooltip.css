@@ -1,0 +1,205 @@
+/* ==========================================================================
+   Layered Tooltip — compact equipment-annotation / instrument-label
+   construction. Compact outer shell, recessed inset information surface,
+   small directional pointer, short readable text.
+   ========================================================================== */
+
+.layered-tooltip-content {
+    --layered-tooltip-tone-accent: var(--tone-neutral-light);
+
+    position: relative;
+    z-index: var(--layered-tooltip-z, 1100);
+
+    box-sizing: border-box;
+    max-width: 240px;
+
+    padding: 6px 10px;
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%),
+        0 2px 4px rgb(0 0 0 / 25%);
+
+    color: var(--color-text);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* Restrained tone accent: a thin line on the same physical edge the arrow
+   points from, not a fixed leading edge. Rendered as an inset pseudo-element
+   (not a border) so it can be repositioned per `data-side` and stay clear of
+   the shell's rounded corners without clipping the Radix arrow, which is
+   itself allowed to poke slightly outside the content box. */
+
+.layered-tooltip-content::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background: var(--layered-tooltip-tone-accent);
+    pointer-events: none;
+    border-radius: 1px;
+}
+
+/* data-side="top": tooltip sits above the trigger, arrow exits the bottom
+   edge — accent belongs on the bottom edge. */
+.layered-tooltip-content[data-side="top"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-end: 0;
+    block-size: 2px;
+}
+
+/* data-side="bottom": tooltip sits below the trigger, arrow exits the top
+   edge — accent belongs on the top edge. */
+.layered-tooltip-content[data-side="bottom"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-start: 0;
+    block-size: 2px;
+}
+
+/* data-side="left": tooltip sits left of the trigger, arrow exits the right
+   edge — accent belongs on the right edge. */
+.layered-tooltip-content[data-side="left"]::before {
+    inset-block: var(--control-radius-inner, 8px);
+    inset-inline-end: 0;
+    inline-size: 2px;
+}
+
+/* data-side="right": tooltip sits right of the trigger, arrow exits the left
+   edge — accent belongs on the left edge. */
+.layered-tooltip-content[data-side="right"]::before {
+    inset-block: var(--control-radius-inner, 8px);
+    inset-inline-start: 0;
+    inline-size: 2px;
+}
+
+.layered-tooltip-content[data-size="medium"] {
+    max-width: 280px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+/* Tone variants: affect only the arrow fill and the leading accent line. */
+
+.layered-tooltip-content[data-tone="copper"] {
+    --layered-tooltip-tone-accent: var(--tone-copper-light);
+}
+
+.layered-tooltip-content[data-tone="green"] {
+    --layered-tooltip-tone-accent: var(--tone-green-light);
+}
+
+.layered-tooltip-content[data-tone="gold"] {
+    --layered-tooltip-tone-accent: var(--tone-gold-light);
+}
+
+.layered-tooltip-content[data-tone="neutral"] {
+    --layered-tooltip-tone-accent: var(--tone-neutral-light);
+}
+
+/* Arrow: small solid directional pointer, tone-derived fill, same casing
+   plane as the shell (no independent drop shadow). */
+
+.layered-tooltip-content__arrow {
+    fill: var(--layered-tooltip-tone-accent);
+}
+
+/* Motion: short opacity transition plus a few pixels of directional travel
+   keyed to Radix's `data-side`. No scale, no bounce. */
+
+.layered-tooltip-content[data-state="delayed-open"],
+.layered-tooltip-content[data-state="instant-open"] {
+    animation: layered-tooltip-in var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+.layered-tooltip-content[data-state="closed"] {
+    animation: layered-tooltip-out var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+@keyframes layered-tooltip-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes layered-tooltip-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.layered-tooltip-content[data-state="delayed-open"][data-side="top"],
+.layered-tooltip-content[data-state="instant-open"][data-side="top"] {
+    animation-name: layered-tooltip-in-from-bottom;
+}
+
+.layered-tooltip-content[data-state="delayed-open"][data-side="bottom"],
+.layered-tooltip-content[data-state="instant-open"][data-side="bottom"] {
+    animation-name: layered-tooltip-in-from-top;
+}
+
+.layered-tooltip-content[data-state="delayed-open"][data-side="left"],
+.layered-tooltip-content[data-state="instant-open"][data-side="left"] {
+    animation-name: layered-tooltip-in-from-right;
+}
+
+.layered-tooltip-content[data-state="delayed-open"][data-side="right"],
+.layered-tooltip-content[data-state="instant-open"][data-side="right"] {
+    animation-name: layered-tooltip-in-from-left;
+}
+
+@keyframes layered-tooltip-in-from-bottom {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes layered-tooltip-in-from-top {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes layered-tooltip-in-from-right {
+    from { opacity: 0; transform: translateX(4px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes layered-tooltip-in-from-left {
+    from { opacity: 0; transform: translateX(-4px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-tooltip-content {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    /* The tone accent is a restrained decorative detail, not the directional
+       indicator itself — the system border already carries that distinction
+       under forced colors, so the accent pseudo-element is suppressed rather
+       than forced to a system color. */
+    .layered-tooltip-content::before {
+        background: none;
+    }
+
+    .layered-tooltip-content__arrow {
+        fill: CanvasText;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-tooltip-content {
+        animation: none !important;
+    }
+}

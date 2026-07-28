@@ -17,18 +17,26 @@ import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel"
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
 import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
 import { LayeredTextarea } from "../registry/components/layered-textarea/LayeredTextarea";
+import {
+  LayeredTooltip,
+  LayeredTooltipContent,
+  LayeredTooltipProvider,
+  LayeredTooltipTrigger,
+} from "../registry/components/layered-tooltip/LayeredTooltip";
 
 type ThemeMode = "classic" | "field";
 
 function App() {
   const [theme, setTheme] = useState<ThemeMode>("classic");
   const [controlledDialogOpen, setControlledDialogOpen] = useState(false);
+  const [controlledTooltipOpen, setControlledTooltipOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
+    <LayeredTooltipProvider>
     <main className="component-lab" data-theme={theme}>
       <header className="component-lab__header">
         <p className="component-lab__eyebrow">Component Laboratory</p>
@@ -841,8 +849,198 @@ function App() {
             </LayeredDialog>
           </div>
         </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Tooltip
+          </h2>
+
+          <div className="component-row">
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Basic Tooltip</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent>
+                Neutral instrument annotation
+              </LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Side: Top</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent side="top">Renders above the trigger</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Side: Right</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent side="right">Renders right of the trigger</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Side: Bottom</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent side="bottom">Renders below the trigger</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Side: Left</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent side="left">Renders left of the trigger</LayeredTooltipContent>
+            </LayeredTooltip>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="copper" size="small">Copper</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent tone="copper">Copper tone accent</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="green" size="small">Green</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent tone="green">Green tone accent</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="gold" size="small">Gold</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent tone="gold">Gold tone accent</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Small Size</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent size="small">Compact instrument label</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Medium Size</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent size="medium">
+                Medium size, suited to a fuller explanatory sentence
+              </LayeredTooltipContent>
+            </LayeredTooltip>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Multiline</LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent size="medium">
+                This tooltip contains a longer explanatory sentence that wraps
+                across multiple lines within the configured maximum width.
+              </LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredButton
+              tone="gold"
+              size="small"
+              onClick={() => setControlledTooltipOpen((open) => !open)}
+            >
+              Toggle Controlled Tooltip
+            </LayeredButton>
+            <LayeredTooltip
+              open={controlledTooltipOpen}
+              onOpenChange={setControlledTooltipOpen}
+            >
+              <LayeredTooltipTrigger asChild>
+                <span tabIndex={0} style={{ display: "inline-flex" }}>
+                  <LayeredButton tone="gold" size="small" tabIndex={-1}>
+                    Controlled Target
+                  </LayeredButton>
+                </span>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent tone="gold">
+                Open state is owned by the parent laboratory component.
+              </LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small" aria-label="Refresh diagnostics">
+                  ⟳
+                </LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent>Refresh diagnostics</LayeredTooltipContent>
+            </LayeredTooltip>
+
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <span
+                  tabIndex={0}
+                  aria-label="Submit unavailable"
+                  aria-disabled="true"
+                  style={{ display: "inline-flex" }}
+                >
+                  <LayeredButton tone="neutral" size="small" disabled aria-disabled="true" tabIndex={-1}>
+                    Submit
+                  </LayeredButton>
+                </span>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent>Fill out required fields first</LayeredTooltipContent>
+            </LayeredTooltip>
+          </div>
+
+          <div
+            style={{
+              marginTop: "20px",
+              maxWidth: "220px",
+              overflow: "hidden",
+              padding: "12px",
+              border: "1px dashed var(--control-trench)",
+            }}
+          >
+            <LayeredTooltip>
+              <LayeredTooltipTrigger asChild>
+                <LayeredButton tone="neutral" size="small" fullWidth>
+                  Edge Trigger
+                </LayeredButton>
+              </LayeredTooltipTrigger>
+              <LayeredTooltipContent>
+                Collision detection flips this tooltip away from the constrained edge.
+              </LayeredTooltipContent>
+            </LayeredTooltip>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="copper" size="small">Open Dialog With Tooltip</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="small">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Tooltip Inside Dialog</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    Verifies stacking: the tooltip must render above the dialog casing.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <LayeredTooltip>
+                  <LayeredTooltipTrigger asChild>
+                    <LayeredButton tone="copper" size="small">Hover Me</LayeredButton>
+                  </LayeredTooltipTrigger>
+                  <LayeredTooltipContent tone="copper">
+                    Portals above the open dialog casing
+                  </LayeredTooltipContent>
+                </LayeredTooltip>
+              </LayeredDialogContent>
+            </LayeredDialog>
+          </div>
+        </section>
       </div>
     </main>
+    </LayeredTooltipProvider>
   );
 }
 

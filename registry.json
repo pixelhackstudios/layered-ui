@@ -207,6 +207,30 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-tooltip",
+      "type": "registry:ui",
+      "title": "Layered Tooltip",
+      "description": "Tactile compact instrument-annotation tooltip with a recessed information surface, small directional pointer, and restrained tone accents, built on Radix Tooltip for accessible hover/focus overlay behavior.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tooltip@1.2.16"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-tooltip/LayeredTooltip.tsx",
+          "target": "@ui/layered/LayeredTooltip.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-tooltip/LayeredTooltip.css",
+          "target": "@ui/layered/LayeredTooltip.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
