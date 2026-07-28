@@ -11,7 +11,7 @@ Layered UI uses the standard `shadcn` registry schema:
 
 ## Current Published Registry Items
 
-The canonical manifest (`registry.json`) defines eight published items:
+The canonical manifest (`registry.json`) defines nine published items:
 
 | Item Name | Item Type | Canonical Source Paths | Generated Output Artifact | Registry Dependencies |
 |---|---|---|---|---|
@@ -23,6 +23,7 @@ The canonical manifest (`registry.json`) defines eight published items:
 | `layered-display-card` | `registry:ui` | `registry/components/layered-display-card/LayeredDisplayCard.tsx`<br>`registry/components/layered-display-card/LayeredDisplayCard.css` | `public/r/layered-display-card.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 | `layered-textarea` | `registry:ui` | `registry/components/layered-textarea/LayeredTextarea.tsx`<br>`registry/components/layered-textarea/LayeredTextarea.css` | `public/r/layered-textarea.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 | `layered-checkbox` | `registry:ui` | `registry/components/layered-checkbox/LayeredCheckbox.tsx`<br>`registry/components/layered-checkbox/LayeredCheckbox.css` | `public/r/layered-checkbox.json` | `pixelhackstudios/layered-ui/layered-foundation` |
+| `layered-switch` | `registry:ui` | `registry/components/layered-switch/LayeredSwitch.tsx`<br>`registry/components/layered-switch/LayeredSwitch.css` | `public/r/layered-switch.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 
 ## Registry Address & Dependency Syntax
 

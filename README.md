@@ -26,7 +26,7 @@ Theme selection is controlled via the `data-theme="classic" | "field"` attribute
 
 ## Published Registry Items
 
-The repository currently publishes eight canonical registry items:
+The repository currently publishes nine canonical registry items:
 
 1. **`layered-foundation`** (`registry:style`): Base design tokens, structural depths, radii, motion definitions, and dual-theme variable maps.
 2. **`layered-button`** (`registry:ui`): Tactile button control with structural casing, trench channel, and dimensional face.
@@ -36,13 +36,14 @@ The repository currently publishes eight canonical registry items:
 6. **`layered-display-card`** (`registry:ui`): Display card with recessed screen surface, lighting vignette, glare effect, and metadata surface.
 7. **`layered-textarea`** (`registry:ui`): Multiline text input control with structural casing and recessed writing surface.
 8. **`layered-checkbox`** (`registry:ui`): Tactile native checkbox control with compact casing, recessed selector, and contained state indication.
+9. **`layered-switch`** (`registry:ui`): Tactile native switch control with compact casing, recessed trench, and a mechanical paddle lever that travels between fixed engage/disengage detents.
 
 ## Component Availability & Status
 
 Item status is categorized as follows:
 
-- **Implemented**: The eight published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`).
-- **Planned Component Directions**: Future component explorations currently include `LayeredSwitch`, `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, and `LayeredCombobox` (note: `LayeredCombobox` behavioral primitive choice remains an open, undecided decision).
+- **Implemented**: The nine published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`).
+- **Planned Component Directions**: Future component explorations currently include `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, and `LayeredCombobox` (note: `LayeredCombobox` behavioral primitive choice remains an open, undecided decision).
 - **Intentionally Optional**: `layered-motion` (an approved, but not yet implemented, optional GSAP physical choreography layer).
 
 ## Installation

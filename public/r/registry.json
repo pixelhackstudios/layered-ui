@@ -162,6 +162,27 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-switch",
+      "type": "registry:ui",
+      "title": "Layered Switch",
+      "description": "Tactile native switch control with compact casing, recessed trench, and a mechanical paddle lever that travels between fixed engage/disengage detents.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-switch/LayeredSwitch.tsx",
+          "target": "@ui/layered/LayeredSwitch.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-switch/LayeredSwitch.css",
+          "target": "@ui/layered/LayeredSwitch.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

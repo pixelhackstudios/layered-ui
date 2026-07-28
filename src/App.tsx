@@ -5,6 +5,7 @@ import { LayeredDisplayCard } from "../registry/components/layered-display-card/
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
+import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
 import { LayeredTextarea } from "../registry/components/layered-textarea/LayeredTextarea";
 
 type ThemeMode = "classic" | "field";
@@ -539,6 +540,82 @@ function App() {
               tone="copper"
               fullWidth
               description="Full-width checkbox with a long label demonstrating text wrapping."
+            />
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Switch
+          </h2>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+              <LayeredSwitch
+                label="Enable telemetry uplink"
+                tone="neutral"
+                switchSize="medium"
+                description="Stream diagnostic events to the monitoring bus."
+              />
+
+              <LayeredSwitch
+                label="Auto-restart on failure"
+                tone="copper"
+                defaultChecked
+                description="Restart the worker automatically after a crash."
+              />
+
+              <LayeredSwitch
+                label="Allow background synchronization"
+                tone="green"
+                defaultChecked
+              />
+
+              <LayeredSwitch
+                label="Require manual approval"
+                tone="gold"
+                required
+                description="Required before this pipeline can run unattended."
+              />
+
+              <LayeredSwitch
+                label="Confirm irreversible action"
+                tone="copper"
+                error="You must confirm this action before continuing."
+              />
+
+              <LayeredSwitch
+                label="Legacy protocol support"
+                disabled
+              />
+
+              <LayeredSwitch
+                label="Auto-restart on failure"
+                tone="green"
+                disabled
+                defaultChecked
+              />
+
+              <LayeredSwitch
+                label="Small diagnostics switch"
+                tone="copper"
+                switchSize="small"
+                defaultChecked
+              />
+
+              <LayeredSwitch
+                label="Large diagnostics switch"
+                tone="gold"
+                switchSize="large"
+                defaultChecked
+              />
+            </div>
+
+            <LayeredSwitch
+              label="Allow background synchronization across all connected agents, including remote inference workers running on unmetered network connections"
+              tone="copper"
+              fullWidth
+              description="Full-width switch with a long label demonstrating text wrapping."
             />
           </div>
         </section>

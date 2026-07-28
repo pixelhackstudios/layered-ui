@@ -1,0 +1,432 @@
+.layered-switch-wrapper {
+    /* Default neutral tone */
+    --switch-tone-accent: var(--tone-neutral-light);
+    --switch-tone-face-light: var(--tone-neutral-light);
+    --switch-tone-face-mid: var(--tone-neutral-mid);
+    --switch-tone-face-dark: var(--tone-neutral-dark);
+    --switch-tone-focus: var(--control-focus);
+
+    /* Structural shell thickness (constant across sizes) */
+    --switch-casing-border: 1px;
+    --switch-casing-padding: 2px;
+    --switch-trench-border: 1px;
+    --switch-lever-inset: 2px;
+
+    /* Default medium size */
+    --switch-casing-width: 52px;
+    --switch-casing-height: 28px;
+    --switch-lever-size: 18px;
+    --switch-travel: 22px;
+    --switch-label-font-size: 0.9rem;
+    --switch-description-font-size: 0.8rem;
+    --switch-row-gap: 10px;
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 420px;
+
+    color: var(--color-text);
+}
+
+.layered-switch-wrapper--full-width {
+    max-width: none;
+}
+
+/* Row */
+
+.layered-switch__row {
+    display: flex;
+    align-items: center;
+}
+
+/* Visually Hidden Native Input (remains focusable and accessible) */
+
+.layered-switch__native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Clickable Control: Casing + Label */
+
+.layered-switch__control {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--switch-row-gap);
+
+    cursor: pointer;
+    min-width: 0;
+}
+
+/* Outer Structural Casing */
+
+.layered-switch__casing {
+    flex-shrink: 0;
+    box-sizing: border-box;
+
+    width: var(--switch-casing-width);
+    height: var(--switch-casing-height);
+
+    padding: var(--switch-casing-padding);
+    border: var(--switch-casing-border) solid var(--control-shell-border);
+    border-radius: calc(var(--control-radius-inner) - 2px);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top) 0%,
+            var(--control-shell-bottom) 100%);
+
+    box-shadow:
+        0 2px 4px rgb(0 0 0 / 30%),
+        inset 0 1px rgb(255 255 255 / 6%);
+
+    transition:
+        box-shadow var(--duration-fast) var(--ease-control),
+        border-color var(--duration-fast) var(--ease-control);
+}
+
+/* Recessed Trench (travel channel) */
+
+.layered-switch__trench {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    border: var(--switch-trench-border) solid var(--control-trench);
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    background: var(--input-surface-bg-bottom);
+
+    box-shadow: inset 0 2px 3px rgb(0 0 0 / 55%);
+
+    transition:
+        border-color var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control);
+}
+
+/* Detent marks: fixed engage/disengage positions, always visible */
+
+.layered-switch__detent {
+    position: absolute;
+    top: 50%;
+    width: 3px;
+    height: 3px;
+    margin-top: -1.5px;
+    border-radius: 50%;
+    background: rgb(0 0 0 / 40%);
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 50%);
+}
+
+.layered-switch__detent--off {
+    left: var(--switch-lever-inset);
+    margin-left: calc(var(--switch-lever-size) / 2 - 1.5px);
+}
+
+.layered-switch__detent--on {
+    right: var(--switch-lever-inset);
+    margin-right: calc(var(--switch-lever-size) / 2 - 1.5px);
+}
+
+/* Lever / Paddle: a blocky rectangular actuator, not a round knob */
+
+.layered-switch__lever {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    width: var(--switch-lever-size);
+    height: var(--switch-lever-size);
+    margin-left: var(--switch-lever-inset);
+
+    border-radius: 3px;
+
+    background:
+        linear-gradient(180deg, #2c2d2f 0%, #17181a 100%),
+        repeating-linear-gradient(90deg,
+            rgb(255 255 255 / 5%) 0px,
+            rgb(255 255 255 / 5%) 1px,
+            transparent 1px,
+            transparent 4px);
+    background-blend-mode: normal, overlay;
+
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 50%),
+        inset 0 1px 1px rgb(255 255 255 / 10%),
+        inset 0 -2px 2px rgb(0 0 0 / 30%);
+
+    transform: translateX(0);
+    transition:
+        transform var(--duration-normal) var(--ease-control),
+        background var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control);
+}
+
+/* Label */
+
+.layered-switch__label {
+    display: inline-block;
+
+    color: var(--color-text);
+
+    font-size: var(--switch-label-font-size);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+
+    transition: color var(--duration-fast) var(--ease-control);
+}
+
+.layered-switch__required {
+    color: var(--switch-tone-accent);
+}
+
+/* Supporting Text & Error Text */
+
+.layered-switch__description {
+    margin-inline-start: calc(var(--switch-casing-width) + var(--switch-row-gap));
+    color: var(--color-text-muted);
+
+    font-size: var(--switch-description-font-size);
+    line-height: 1.4;
+}
+
+.layered-switch__error {
+    margin-inline-start: calc(var(--switch-casing-width) + var(--switch-row-gap));
+    color: var(--control-error-text, var(--control-error));
+
+    font-size: var(--switch-description-font-size);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Tone Variants */
+
+.layered-switch-wrapper[data-tone="copper"] {
+    --switch-tone-accent: var(--tone-copper-light);
+    --switch-tone-face-light: var(--tone-copper-light);
+    --switch-tone-face-mid: var(--tone-copper-mid);
+    --switch-tone-face-dark: var(--tone-copper-dark);
+    --switch-tone-focus: var(--tone-copper-light);
+}
+
+.layered-switch-wrapper[data-tone="green"] {
+    --switch-tone-accent: var(--tone-green-light);
+    --switch-tone-face-light: var(--tone-green-light);
+    --switch-tone-face-mid: var(--tone-green-mid);
+    --switch-tone-face-dark: var(--tone-green-dark);
+    --switch-tone-focus: var(--tone-green-light);
+}
+
+.layered-switch-wrapper[data-tone="gold"] {
+    --switch-tone-accent: var(--tone-gold-light);
+    --switch-tone-face-light: var(--tone-gold-light);
+    --switch-tone-face-mid: var(--tone-gold-mid);
+    --switch-tone-face-dark: var(--tone-gold-dark);
+    --switch-tone-focus: var(--tone-gold-light);
+}
+
+.layered-switch-wrapper[data-tone="neutral"] {
+    --switch-tone-accent: var(--tone-neutral-light);
+    --switch-tone-face-light: var(--tone-neutral-light);
+    --switch-tone-face-mid: var(--tone-neutral-mid);
+    --switch-tone-face-dark: var(--tone-neutral-dark);
+    --switch-tone-focus: var(--control-focus);
+}
+
+/* Size Variants */
+
+.layered-switch-wrapper[data-size="small"] {
+    --switch-casing-width: 40px;
+    --switch-casing-height: 22px;
+    --switch-lever-size: 14px;
+    --switch-travel: 16px;
+    --switch-label-font-size: 0.8rem;
+    --switch-description-font-size: 0.75rem;
+    --switch-row-gap: 9px;
+}
+
+.layered-switch-wrapper[data-size="medium"] {
+    --switch-casing-width: 52px;
+    --switch-casing-height: 28px;
+    --switch-lever-size: 18px;
+    --switch-travel: 22px;
+    --switch-label-font-size: 0.9rem;
+    --switch-description-font-size: 0.8rem;
+    --switch-row-gap: 10px;
+}
+
+.layered-switch-wrapper[data-size="large"] {
+    --switch-casing-width: 66px;
+    --switch-casing-height: 34px;
+    --switch-lever-size: 24px;
+    --switch-travel: 26px;
+    --switch-label-font-size: 1rem;
+    --switch-description-font-size: 0.85rem;
+    --switch-row-gap: 12px;
+}
+
+/* Interaction & States */
+
+/* Hover */
+.layered-switch-wrapper:not([data-disabled="true"]) .layered-switch__control:hover .layered-switch__casing {
+    box-shadow:
+        0 3px 6px rgb(0 0 0 / 38%),
+        inset 0 1px rgb(255 255 255 / 9%);
+}
+
+.layered-switch-wrapper:not([data-disabled="true"]) .layered-switch__control:hover .layered-switch__trench {
+    border-color: #2a221c;
+}
+
+/* Active press: lever compresses slightly, echoing a physical engage click */
+.layered-switch-wrapper:not([data-disabled="true"]) .layered-switch__control:active .layered-switch__lever {
+    transform: translateX(0) scaleY(0.85);
+}
+
+.layered-switch-wrapper:not([data-disabled="true"])
+    .layered-switch__native:checked
+    + .layered-switch__control:active
+    .layered-switch__lever {
+    transform: translateX(var(--switch-travel)) scaleY(0.85);
+}
+
+/* Contained Keyboard Focus */
+.layered-switch__native:focus-visible + .layered-switch__control .layered-switch__trench {
+    border-color: var(--switch-tone-focus);
+    box-shadow:
+        inset 0 2px 3px rgb(0 0 0 / 55%),
+        inset 0 0 0 1px var(--switch-tone-focus);
+}
+
+.layered-switch__native:focus-visible + .layered-switch__control .layered-switch__label {
+    color: var(--switch-tone-focus);
+}
+
+/* Checked (engaged) */
+.layered-switch__native:checked + .layered-switch__control .layered-switch__lever {
+    transform: translateX(var(--switch-travel));
+
+    background:
+        radial-gradient(ellipse at bottom,
+            var(--switch-tone-face-light) 0%,
+            var(--switch-tone-face-mid) 55%,
+            var(--switch-tone-face-dark) 100%),
+        repeating-linear-gradient(90deg,
+            rgb(255 255 255 / 8%) 0px,
+            rgb(255 255 255 / 8%) 1px,
+            transparent 1px,
+            transparent 4px);
+    background-blend-mode: normal, overlay;
+
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 50%),
+        inset 0 1px 1px rgb(255 255 255 / 14%),
+        inset 0 -2px 3px rgb(0 0 0 / 20%);
+}
+
+.layered-switch__native:checked + .layered-switch__control .layered-switch__detent--on {
+    background: var(--switch-tone-accent);
+    box-shadow: none;
+}
+
+/* Disabled State */
+.layered-switch-wrapper[data-disabled="true"] {
+    opacity: 0.5;
+    filter: grayscale(0.45);
+}
+
+.layered-switch-wrapper[data-disabled="true"] .layered-switch__control {
+    cursor: not-allowed;
+}
+
+.layered-switch-wrapper[data-disabled="true"] .layered-switch__lever {
+    background: #141516;
+}
+
+/* Invalid State (takes priority over selected tone) */
+.layered-switch-wrapper[data-invalid="true"] .layered-switch__label {
+    color: var(--control-error);
+}
+
+.layered-switch-wrapper[data-invalid="true"] .layered-switch__trench {
+    border-color: var(--control-error);
+}
+
+.layered-switch-wrapper[data-invalid="true"] .layered-switch__native:focus-visible + .layered-switch__control .layered-switch__trench {
+    border-color: var(--control-error);
+    box-shadow:
+        inset 0 2px 3px rgb(0 0 0 / 55%),
+        inset 0 0 0 1px var(--control-error);
+}
+
+/* Responsive Narrow Screen Support */
+
+@media (max-width: 640px) {
+    .layered-switch-wrapper {
+        max-width: 100%;
+    }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-switch__trench {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .layered-switch__lever {
+        forced-color-adjust: none;
+        background: ButtonText;
+    }
+
+    .layered-switch__native:checked + .layered-switch__control .layered-switch__lever {
+        background: Highlight;
+    }
+
+    .layered-switch__native:focus-visible + .layered-switch__control .layered-switch__trench {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    .layered-switch-wrapper[data-disabled="true"] .layered-switch__trench,
+    .layered-switch-wrapper[data-disabled="true"] .layered-switch__lever {
+        border-color: GrayText;
+        color: GrayText;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-switch__casing,
+    .layered-switch__trench,
+    .layered-switch__lever,
+    .layered-switch__label {
+        transition: none;
+    }
+
+    .layered-switch-wrapper:not([data-disabled="true"]) .layered-switch__control:active .layered-switch__lever {
+        transform: translateX(0);
+    }
+
+    .layered-switch-wrapper:not([data-disabled="true"])
+        .layered-switch__native:checked
+        + .layered-switch__control:active
+        .layered-switch__lever {
+        transform: translateX(var(--switch-travel));
+    }
+}
