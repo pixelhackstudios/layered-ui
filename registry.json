@@ -141,6 +141,27 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-checkbox",
+      "type": "registry:ui",
+      "title": "Layered Checkbox",
+      "description": "Tactile native checkbox control with compact casing, recessed selector, and contained state indication.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-checkbox/LayeredCheckbox.tsx",
+          "target": "@ui/layered/LayeredCheckbox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-checkbox/LayeredCheckbox.css",
+          "target": "@ui/layered/LayeredCheckbox.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

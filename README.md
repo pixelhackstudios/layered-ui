@@ -26,7 +26,7 @@ Theme selection is controlled via the `data-theme="classic" | "field"` attribute
 
 ## Published Registry Items
 
-The repository currently publishes seven canonical registry items:
+The repository currently publishes eight canonical registry items:
 
 1. **`layered-foundation`** (`registry:style`): Base design tokens, structural depths, radii, motion definitions, and dual-theme variable maps.
 2. **`layered-button`** (`registry:ui`): Tactile button control with structural casing, trench channel, and dimensional face.
@@ -35,13 +35,14 @@ The repository currently publishes seven canonical registry items:
 5. **`layered-select`** (`registry:ui`): Form select control with structural casing, recessed surface, and custom indicator.
 6. **`layered-display-card`** (`registry:ui`): Display card with recessed screen surface, lighting vignette, glare effect, and metadata surface.
 7. **`layered-textarea`** (`registry:ui`): Multiline text input control with structural casing and recessed writing surface.
+8. **`layered-checkbox`** (`registry:ui`): Tactile native checkbox control with compact casing, recessed selector, and contained state indication.
 
 ## Component Availability & Status
 
 Item status is categorized as follows:
 
-- **Implemented**: The seven published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`).
-- **Planned Component Directions**: Future component explorations currently include `LayeredCheckbox`, `LayeredSwitch`, `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, and `LayeredCombobox` (note: `LayeredCombobox` behavioral primitive choice remains an open, undecided decision).
+- **Implemented**: The eight published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`).
+- **Planned Component Directions**: Future component explorations currently include `LayeredSwitch`, `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, and `LayeredCombobox` (note: `LayeredCombobox` behavioral primitive choice remains an open, undecided decision).
 - **Intentionally Optional**: `layered-motion` (an approved, but not yet implemented, optional GSAP physical choreography layer).
 
 ## Installation
@@ -91,7 +92,7 @@ npx shadcn registry validate
 ## Project Status
 
 Layered UI is in **early development**:
-- Seven registry items are currently published and verified.
+- Eight registry items are currently published and verified.
 - The broader component inventory is planned but not yet implemented.
 - Visual and interaction testing patterns are still evolving.
 

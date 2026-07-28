@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { LayeredButton } from "../registry/components/layered-button/LayeredButton";
+import { LayeredCheckbox } from "../registry/components/layered-checkbox/LayeredCheckbox";
 import { LayeredDisplayCard } from "../registry/components/layered-display-card/LayeredDisplayCard";
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
@@ -456,6 +457,89 @@ function App() {
                 description="Full-width textarea nested inside LayeredPanel."
               />
             </LayeredPanel>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Checkbox
+          </h2>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+              <LayeredCheckbox
+                label="Include diagnostics"
+                tone="neutral"
+                checkboxSize="medium"
+                description="Attach diagnostic telemetry to the next exported bundle."
+              />
+
+              <LayeredCheckbox
+                label="Preserve event history"
+                tone="copper"
+                defaultChecked
+                description="Keep prior session events instead of clearing them on restart."
+              />
+
+              <LayeredCheckbox
+                label="Allow background synchronization"
+                tone="green"
+                defaultChecked
+              />
+
+              <LayeredCheckbox
+                label="Mark record for review"
+                tone="gold"
+                required
+                description="Required before this record can be submitted."
+              />
+
+              <LayeredCheckbox
+                label="Confirm irreversible action"
+                tone="copper"
+                error="You must confirm this action before continuing."
+              />
+
+              <LayeredCheckbox
+                label="Include archived entries"
+                disabled
+              />
+
+              <LayeredCheckbox
+                label="Preserve event history"
+                tone="green"
+                disabled
+                defaultChecked
+              />
+
+              <LayeredCheckbox
+                label="Include archived entries"
+                tone="neutral"
+                indeterminate
+                description="Some archived entries are currently excluded."
+              />
+
+              <LayeredCheckbox
+                label="Small diagnostics toggle"
+                tone="copper"
+                checkboxSize="small"
+                defaultChecked
+              />
+
+              <LayeredCheckbox
+                label="Large diagnostics toggle"
+                tone="gold"
+                checkboxSize="large"
+                defaultChecked
+              />
+            </div>
+
+            <LayeredCheckbox
+              label="Allow background synchronization across all connected agents, including remote inference workers running on unmetered network connections"
+              tone="copper"
+              fullWidth
+              description="Full-width checkbox with a long label demonstrating text wrapping."
+            />
           </div>
         </section>
       </div>

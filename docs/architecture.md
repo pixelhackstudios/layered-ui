@@ -28,7 +28,7 @@ When a user installs any UI component via the `shadcn` CLI, `layered-foundation`
 
 Layered UI prioritizes native HTML elements before introducing third-party primitive dependencies:
 
-- **Native HTML First**: Simple and intermediate controls (`LayeredButton`, `LayeredInput`, `LayeredSelect`, `LayeredDisplayCard`, `LayeredPanel`, `LayeredTextarea`, `LayeredCheckbox`) use semantic HTML elements (`<button>`, `<input>`, `<select>`, `<section>`, `<textarea>`) to ensure native browser keyboard handling, form submission integration, and accessibility behavior.
+- **Native HTML First**: Simple and intermediate controls (`LayeredButton`, `LayeredInput`, `LayeredSelect`, `LayeredDisplayCard`, `LayeredPanel`, `LayeredTextarea`, `LayeredCheckbox`) use semantic HTML elements (`<button>`, `<input>`, `<select>`, `<section>`, `<textarea>`, `<input type="checkbox">`) to ensure native browser keyboard handling, form submission integration, and accessibility behavior.
 - **Radix Primitives for Complex Behavioral Controls**: Radix primitives are approved *exclusively* for complex behavioral controls where native HTML lacks standard accessible lifecycle management (such as overlay focus traps, portal mounting, escape key handling, and ARIA state management for `LayeredDialog`).
 - **Undecided Behavioral Primitives**: `LayeredCombobox` is a planned direction whose behavioral dependency remains undecided (evaluating native `<datalist>`, custom ARIA keyboard navigation, or third-party primitives). It is not grouped under the approved Radix strategy.
 
@@ -84,7 +84,7 @@ The repository operates under **Policy A** for registry distribution:
 
 | Architectural Area | Current Verified Architecture | Planned Architecture |
 |---|---|---|
-| **Component Inventory** | 7 published items (`foundation`, `button`, `panel`, `input`, `select`, `display-card`, `textarea`) | Planned directions: `LayeredCheckbox`, `LayeredSwitch`, `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, `LayeredCombobox` |
+| **Component Inventory** | 8 published items (`foundation`, `button`, `panel`, `input`, `select`, `display-card`, `textarea`, `checkbox`) | Planned directions: `LayeredSwitch`, `LayeredDialog`, `LayeredToast`, `LayeredTooltip`, `LayeredCombobox` |
 | **Styling System** | Plain CSS with semantic custom property token groups | Maintained plain CSS architecture (no utility frameworks) |
 | **Motion System** | Plain CSS transitions for hover/press/focus | Optional `layered-motion` registry item with GSAP choreography |
 | **Behavioral Primitives** | Native HTML elements (`<button>`, `<input>`, `<select>`) | Radix approved for complex overlays (`LayeredDialog`); `LayeredCombobox` primitive undecided |
