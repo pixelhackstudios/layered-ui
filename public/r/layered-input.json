@@ -4,7 +4,7 @@
   "title": "Layered Input",
   "description": "Tactile form input control with structural casing and recessed surface.",
   "registryDependencies": [
-    "http://localhost:8080/layered-foundation.json"
+    "layered-foundation"
   ],
   "files": [
     {

@@ -4,7 +4,7 @@
   "title": "Layered Display Card",
   "description": "Tactile display card with recessed screen, lighting vignette, glare effect, and metadata surface.",
   "registryDependencies": [
-    "http://localhost:8080/layered-foundation.json"
+    "layered-foundation"
   ],
   "files": [
     {

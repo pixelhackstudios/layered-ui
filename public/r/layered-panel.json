@@ -4,7 +4,7 @@
   "title": "Layered Panel",
   "description": "Tactile structural container with casing, trench, header, content, and footer surfaces.",
   "registryDependencies": [
-    "http://localhost:8080/layered-foundation.json"
+    "layered-foundation"
   ],
   "files": [
     {

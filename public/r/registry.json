@@ -22,7 +22,7 @@
       "title": "Layered Button",
       "description": "Tactile button control with casing, trench, and dimensional face.",
       "registryDependencies": [
-        "http://localhost:8080/layered-foundation.json"
+        "layered-foundation"
       ],
       "files": [
         {
@@ -43,7 +43,7 @@
       "title": "Layered Panel",
       "description": "Tactile structural container with casing, trench, header, content, and footer surfaces.",
       "registryDependencies": [
-        "http://localhost:8080/layered-foundation.json"
+        "layered-foundation"
       ],
       "files": [
         {
@@ -64,7 +64,7 @@
       "title": "Layered Input",
       "description": "Tactile form input control with structural casing and recessed surface.",
       "registryDependencies": [
-        "http://localhost:8080/layered-foundation.json"
+        "layered-foundation"
       ],
       "files": [
         {
@@ -85,7 +85,7 @@
       "title": "Layered Select",
       "description": "Tactile form select control with structural casing, recessed surface, and custom arrow indicator.",
       "registryDependencies": [
-        "http://localhost:8080/layered-foundation.json"
+        "layered-foundation"
       ],
       "files": [
         {
@@ -106,7 +106,7 @@
       "title": "Layered Display Card",
       "description": "Tactile display card with recessed screen, lighting vignette, glare effect, and metadata surface.",
       "registryDependencies": [
-        "http://localhost:8080/layered-foundation.json"
+        "layered-foundation"
       ],
       "files": [
         {
