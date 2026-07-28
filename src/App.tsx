@@ -16,6 +16,12 @@ import { LayeredInput } from "../registry/components/layered-input/LayeredInput"
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
 import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
+import {
+  LayeredTabs,
+  LayeredTabsContent,
+  LayeredTabsList,
+  LayeredTabsTrigger,
+} from "../registry/components/layered-tabs/LayeredTabs";
 import { LayeredTextarea } from "../registry/components/layered-textarea/LayeredTextarea";
 import {
   LayeredTooltip,
@@ -30,6 +36,7 @@ function App() {
   const [theme, setTheme] = useState<ThemeMode>("classic");
   const [controlledDialogOpen, setControlledDialogOpen] = useState(false);
   const [controlledTooltipOpen, setControlledTooltipOpen] = useState(false);
+  const [controlledTabsValue, setControlledTabsValue] = useState("overview");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -1036,6 +1043,227 @@ function App() {
                 </LayeredTooltip>
               </LayeredDialogContent>
             </LayeredDialog>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Tabs
+          </h2>
+
+          <div className="component-row" style={{ alignItems: "flex-start" }}>
+            <LayeredTabs defaultValue="overview" style={{ maxWidth: "420px" }}>
+              <LayeredTabsList aria-label="Basic tabs">
+                <LayeredTabsTrigger value="overview">Overview</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="diagnostics">Diagnostics</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="logs">Logs</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="overview">
+                System status nominal. All subsystems reporting green.
+              </LayeredTabsContent>
+              <LayeredTabsContent value="diagnostics">
+                Diagnostics sweep last ran 4 minutes ago, no faults detected.
+              </LayeredTabsContent>
+              <LayeredTabsContent value="logs">
+                Log stream idle — no events in the last polling interval.
+              </LayeredTabsContent>
+            </LayeredTabs>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxWidth: "420px" }}>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <LayeredButton size="small" tone="gold" onClick={() => setControlledTabsValue("overview")}>
+                  Overview
+                </LayeredButton>
+                <LayeredButton size="small" tone="gold" onClick={() => setControlledTabsValue("diagnostics")}>
+                  Diagnostics
+                </LayeredButton>
+              </div>
+              <LayeredTabs value={controlledTabsValue} onValueChange={setControlledTabsValue} tone="gold">
+                <LayeredTabsList aria-label="Controlled tabs">
+                  <LayeredTabsTrigger value="overview">Overview</LayeredTabsTrigger>
+                  <LayeredTabsTrigger value="diagnostics">Diagnostics</LayeredTabsTrigger>
+                </LayeredTabsList>
+                <LayeredTabsContent value="overview">
+                  Value is owned by the parent laboratory component, not LayeredTabs itself.
+                </LayeredTabsContent>
+                <LayeredTabsContent value="diagnostics">
+                  The buttons above drive this panel's selection externally.
+                </LayeredTabsContent>
+              </LayeredTabs>
+            </div>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <LayeredTabs defaultValue="a" activationMode="manual" tone="copper" style={{ maxWidth: "360px" }}>
+              <LayeredTabsList aria-label="Manual activation tabs">
+                <LayeredTabsTrigger value="a">Alpha</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="b">Bravo</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="c" disabled>Charlie (disabled)</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="a">
+                Manual activation: arrow keys move focus without switching panels; Enter or Space activates.
+              </LayeredTabsContent>
+              <LayeredTabsContent value="b">
+                Bravo panel content.
+              </LayeredTabsContent>
+              <LayeredTabsContent value="c">
+                Charlie is disabled and unreachable via keyboard or mouse.
+              </LayeredTabsContent>
+            </LayeredTabs>
+
+            <LayeredTabs defaultValue="x" tone="green" tabsSize="small" style={{ maxWidth: "280px" }}>
+              <LayeredTabsList aria-label="Small green tabs">
+                <LayeredTabsTrigger value="x">Sensors</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="y">Actuators</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="x">Small size, green tone.</LayeredTabsContent>
+              <LayeredTabsContent value="y">Actuator bank nominal.</LayeredTabsContent>
+            </LayeredTabs>
+
+            <LayeredTabs defaultValue="x" tabsSize="large" style={{ maxWidth: "320px" }}>
+              <LayeredTabsList aria-label="Large tabs">
+                <LayeredTabsTrigger value="x">Primary</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="y">Secondary</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="x">Large size for touch-friendly targets.</LayeredTabsContent>
+              <LayeredTabsContent value="y">Secondary panel.</LayeredTabsContent>
+            </LayeredTabs>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            {/* Lab wrapper fixes the demo width — LayeredTabs itself fills
+                whatever width its parent gives it. */}
+            <div style={{ width: "420px", maxWidth: "100%" }}>
+              <LayeredTabs defaultValue="power" orientation="vertical" tone="copper">
+                <LayeredTabsList aria-label="Vertical tabs">
+                  <LayeredTabsTrigger value="power">Power</LayeredTabsTrigger>
+                  <LayeredTabsTrigger value="network">Network</LayeredTabsTrigger>
+                  <LayeredTabsTrigger value="storage">Storage</LayeredTabsTrigger>
+                </LayeredTabsList>
+                <LayeredTabsContent value="power">
+                  Power subsystem: 92% capacity, nominal draw.
+                </LayeredTabsContent>
+                <LayeredTabsContent value="network">
+                  Network subsystem: uplink stable, 4ms latency.
+                </LayeredTabsContent>
+                <LayeredTabsContent value="storage">
+                  Storage subsystem: 3 volumes mounted, no errors.
+                </LayeredTabsContent>
+              </LayeredTabs>
+            </div>
+          </div>
+
+          <div style={{ marginTop: "20px", maxWidth: "460px" }}>
+            <LayeredTabs defaultValue="a" tone="gold">
+              <LayeredTabsList aria-label="Many tabs, horizontal scroll overflow">
+                <LayeredTabsTrigger value="a">Alpha Station</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="b">Bravo Station</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="c">Charlie Station</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="d">Delta Station</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="e">Echo Station</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="f">A Very Long Foxtrot Station Label</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="a">Alpha station telemetry.</LayeredTabsContent>
+              <LayeredTabsContent value="b">Bravo station telemetry.</LayeredTabsContent>
+              <LayeredTabsContent value="c">Charlie station telemetry.</LayeredTabsContent>
+              <LayeredTabsContent value="d">Delta station telemetry.</LayeredTabsContent>
+              <LayeredTabsContent value="e">Echo station telemetry.</LayeredTabsContent>
+              <LayeredTabsContent value="f">
+                Long labels stay fully readable — the rail scrolls horizontally instead of truncating text.
+              </LayeredTabsContent>
+            </LayeredTabs>
+          </div>
+
+          <div style={{ marginTop: "20px", maxWidth: "420px" }}>
+            <LayeredTabs defaultValue="a" tone="green">
+              <LayeredTabsList aria-label="Wrap mode tabs" overflow="wrap">
+                <LayeredTabsTrigger value="a">Alpha</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="b">Bravo</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="c">Charlie</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="d">Delta</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="e">Echo Recon</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="a">
+                Wrap mode: the rail grows to a second row instead of scrolling.
+              </LayeredTabsContent>
+              <LayeredTabsContent value="b">Bravo panel.</LayeredTabsContent>
+              <LayeredTabsContent value="c">Charlie panel.</LayeredTabsContent>
+              <LayeredTabsContent value="d">Delta panel.</LayeredTabsContent>
+              <LayeredTabsContent value="e">Echo panel.</LayeredTabsContent>
+            </LayeredTabs>
+          </div>
+
+          {/* Width stability check: the wrapper below is a fixed 360px box.
+              Panels hold deliberately different intrinsic content widths
+              (a short phrase, a long sentence, and a form control), and
+              switching between them must not change the Tabs width — only
+              the wrapper controls that, not the active panel's content. */}
+          <div style={{ marginTop: "20px", width: "360px", maxWidth: "100%" }}>
+            <LayeredTabs defaultValue="short" tone="neutral">
+              <LayeredTabsList aria-label="Width stability check tabs">
+                <LayeredTabsTrigger value="short">Short</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="long">Long</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="form">Form</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="short">Idle.</LayeredTabsContent>
+              <LayeredTabsContent value="long">
+                This panel intentionally holds a much longer run of unbroken
+                explanatory text to try to force the tab set wider than the
+                short panel — the outer width must stay fixed regardless.
+              </LayeredTabsContent>
+              <LayeredTabsContent value="form">
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: 0 }}>
+                  <LayeredInput label="Deployment identifier" inputSize="small" />
+                  <LayeredCheckbox label="Restart on failure" />
+                </div>
+              </LayeredTabsContent>
+            </LayeredTabs>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <LayeredTabs defaultValue="settings" tone="copper" style={{ maxWidth: "360px" }}>
+              <LayeredTabsList aria-label="Form tabs">
+                <LayeredTabsTrigger value="settings">Settings</LayeredTabsTrigger>
+                <LayeredTabsTrigger value="access">Access</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="settings">
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: 0 }}>
+                  <LayeredInput label="Deployment name" inputSize="small" />
+                  <LayeredCheckbox label="Enable auto-restart" />
+                </div>
+              </LayeredTabsContent>
+              <LayeredTabsContent value="access">
+                <LayeredCheckbox label="Require operator confirmation" />
+              </LayeredTabsContent>
+            </LayeredTabs>
+
+            <LayeredTabs defaultValue="raw" tabsSize="small" style={{ maxWidth: "360px" }}>
+              <LayeredTabsList aria-label="Plain surface tabs">
+                <LayeredTabsTrigger value="raw">Raw Panel</LayeredTabsTrigger>
+              </LayeredTabsList>
+              <LayeredTabsContent value="raw" surface="plain">
+                <LayeredPanel title="Composed Panel">
+                  Plain surface Content composes its own LayeredPanel instead of the built-in integrated surface.
+                </LayeredPanel>
+              </LayeredTabsContent>
+            </LayeredTabs>
+          </div>
+
+          <div style={{ marginTop: "20px", maxWidth: "420px" }}>
+            <LayeredPanel title="Deployment Profile">
+              <LayeredTabs defaultValue="basic" tabsSize="small" tone="gold">
+                <LayeredTabsList aria-label="Nested tabs inside a panel">
+                  <LayeredTabsTrigger value="basic">Basic</LayeredTabsTrigger>
+                  <LayeredTabsTrigger value="advanced">Advanced</LayeredTabsTrigger>
+                </LayeredTabsList>
+                <LayeredTabsContent value="basic">
+                  Small nested tabs keep visual weight restrained inside an existing panel casing.
+                </LayeredTabsContent>
+                <LayeredTabsContent value="advanced">
+                  Advanced configuration fields would render here.
+                </LayeredTabsContent>
+              </LayeredTabs>
+            </LayeredPanel>
           </div>
         </section>
       </div>

@@ -1,0 +1,428 @@
+/* ==========================================================================
+   Layered Tabs — mechanical selector rail. Structural trench housing,
+   individual seated tab faces, an active face mechanically engaged and
+   visually docked against the content surface below (or beside) it.
+   ========================================================================== */
+
+.layered-tabs {
+    --tabs-tone-accent: var(--tone-neutral-light);
+    --tabs-face-light: var(--tone-neutral-light);
+    --tabs-face-mid: var(--tone-neutral-mid);
+    --tabs-face-dark: var(--tone-neutral-dark);
+    --tabs-focus: var(--control-focus);
+
+    /* Default medium size */
+    --tabs-trigger-height: 36px;
+    --tabs-trigger-padding-inline: 16px;
+    --tabs-trigger-font-size: 0.9rem;
+    --tabs-rail-gap: 4px;
+    --tabs-rail-padding: 4px;
+    --tabs-content-padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    color: var(--color-text);
+}
+
+/* Vertical orientation uses a two-column grid rather than a row flex
+   container: a flex row sizes each child to its own max-content width by
+   default, which is the same intrinsic-sizing trap this fix removes from
+   Root. A `max-content minmax(0, 1fr)` grid gives the List its natural
+   control width while forcing Content to consume (and be clipped to) the
+   remaining track, independent of which panel is currently mounted. */
+.layered-tabs[data-orientation="vertical"] {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: start;
+    gap: 16px;
+}
+
+/* Tone Variants (own the active trigger face + docking accent only —
+   the rail housing itself stays neutral so tone reads as a restrained
+   accent, not a full repaint). */
+
+.layered-tabs[data-tone="copper"] {
+    --tabs-tone-accent: var(--tone-copper-light);
+    --tabs-face-light: var(--tone-copper-light);
+    --tabs-face-mid: var(--tone-copper-mid);
+    --tabs-face-dark: var(--tone-copper-dark);
+    --tabs-focus: var(--tone-copper-light);
+}
+
+.layered-tabs[data-tone="green"] {
+    --tabs-tone-accent: var(--tone-green-light);
+    --tabs-face-light: var(--tone-green-light);
+    --tabs-face-mid: var(--tone-green-mid);
+    --tabs-face-dark: var(--tone-green-dark);
+    --tabs-focus: var(--tone-green-light);
+}
+
+.layered-tabs[data-tone="gold"] {
+    --tabs-tone-accent: var(--tone-gold-light);
+    --tabs-face-light: var(--tone-gold-light);
+    --tabs-face-mid: var(--tone-gold-mid);
+    --tabs-face-dark: var(--tone-gold-dark);
+    --tabs-focus: var(--tone-gold-light);
+}
+
+.layered-tabs[data-tone="neutral"] {
+    --tabs-tone-accent: var(--tone-neutral-light);
+    --tabs-face-light: var(--tone-neutral-light);
+    --tabs-face-mid: var(--tone-neutral-mid);
+    --tabs-face-dark: var(--tone-neutral-dark);
+    --tabs-focus: var(--control-focus);
+}
+
+/* Size Variants */
+
+.layered-tabs[data-size="small"] {
+    --tabs-trigger-height: 30px;
+    --tabs-trigger-padding-inline: 12px;
+    --tabs-trigger-font-size: 0.8rem;
+    --tabs-rail-gap: 3px;
+    --tabs-content-padding: 12px;
+}
+
+.layered-tabs[data-size="medium"] {
+    --tabs-trigger-height: 36px;
+    --tabs-trigger-padding-inline: 16px;
+    --tabs-trigger-font-size: 0.9rem;
+    --tabs-rail-gap: 4px;
+    --tabs-content-padding: 16px;
+}
+
+.layered-tabs[data-size="large"] {
+    --tabs-trigger-height: 44px;
+    --tabs-trigger-padding-inline: 20px;
+    --tabs-trigger-font-size: 1rem;
+    --tabs-rail-gap: 5px;
+    --tabs-content-padding: 20px;
+}
+
+/* List: the structural trench housing the seated tab faces. Recessed,
+   same visual family as the switch trench — this is what keeps the rail
+   reading as one housing rather than a row of independent buttons. */
+
+.layered-tabs-list {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--tabs-rail-gap);
+
+    box-sizing: border-box;
+    min-inline-size: 0;
+    padding: var(--tabs-rail-padding);
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background: var(--input-surface-bg-bottom);
+    box-shadow: inset 0 2px 3px rgb(0 0 0 / 55%);
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+}
+
+/* Horizontal: the List fills Root's width (a fixed, parent-determined
+   size); only its own scroll viewport, never Root, may vary with the
+   number/width of triggers. */
+.layered-tabs-list[data-orientation="horizontal"] {
+    inline-size: 100%;
+    max-inline-size: 100%;
+}
+
+.layered-tabs-list[data-overflow="wrap"] {
+    flex-wrap: wrap;
+    overflow-x: visible;
+}
+
+/* Vertical v1: grows to content height, no scroll story of its own —
+   `overflow` remains primarily a horizontal-list concern. As a grid item
+   in the `max-content` column, the List keeps its natural control width
+   rather than stretching to fill the row. */
+.layered-tabs-list[data-orientation="vertical"] {
+    flex-direction: column;
+    align-items: stretch;
+    overflow: visible;
+}
+
+/* Trigger: an individual seated face. Inactive faces stay flat/recessed so
+   the rail reads as one housing, not a switch bank of independent
+   controls; the active face lifts and mechanically engages. */
+
+.layered-tabs-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 6px;
+
+    box-sizing: border-box;
+    min-height: var(--tabs-trigger-height);
+    padding-inline: var(--tabs-trigger-padding-inline);
+    scroll-margin-inline: 8px;
+
+    border: 1px solid transparent;
+    border-radius: calc(var(--control-radius-inner) - 4px);
+    background: transparent;
+
+    color: var(--color-text-muted);
+    font-size: var(--tabs-trigger-font-size);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+
+    appearance: none;
+    cursor: pointer;
+
+    transition:
+        background var(--duration-fast) var(--ease-control),
+        border-color var(--duration-fast) var(--ease-control),
+        color var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control);
+}
+
+.layered-tabs-trigger[data-state="inactive"]:hover {
+    color: var(--color-text);
+    background: rgb(255 255 255 / 4%);
+}
+
+.layered-tabs-trigger[data-state="active"] {
+    color: var(--tabs-face-light);
+    border-color: var(--control-shell-border);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top) 0%,
+            var(--control-shell-bottom) 100%);
+
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 1px rgb(255 255 255 / 8%);
+}
+
+/* Docking accent: lives entirely within the trigger's own box (no shared
+   border, no negative overlap beyond the rail's padding), so it stays
+   correct while the List scrolls horizontally. Reduces the corner radius
+   on the content-facing edge and draws a short tone-accent line there —
+   horizontal: bottom edge; vertical: inline-end (trailing) edge. */
+
+.layered-tabs-trigger[data-orientation="horizontal"][data-state="active"] {
+    border-end-start-radius: 2px;
+    border-end-end-radius: 2px;
+}
+
+.layered-tabs-trigger[data-orientation="horizontal"][data-state="active"]::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset-inline: 6px;
+    inset-block-end: -1px;
+    block-size: 2px;
+    border-radius: 1px;
+    background: var(--tabs-tone-accent);
+    pointer-events: none;
+}
+
+.layered-tabs-trigger[data-orientation="vertical"][data-state="active"] {
+    border-start-end-radius: 2px;
+    border-end-end-radius: 2px;
+}
+
+.layered-tabs-trigger[data-orientation="vertical"][data-state="active"]::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset-block: 6px;
+    inset-inline-end: -1px;
+    inline-size: 2px;
+    border-radius: 1px;
+    background: var(--tabs-tone-accent);
+    pointer-events: none;
+}
+
+/* Contained Keyboard Focus */
+
+.layered-tabs-trigger:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--tabs-focus);
+}
+
+.layered-tabs-trigger[data-state="active"]:focus-visible {
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 1px rgb(255 255 255 / 8%),
+        inset 0 0 0 2px var(--tabs-focus);
+}
+
+/* Disabled State */
+
+.layered-tabs-trigger[data-disabled] {
+    color: var(--color-text-muted);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.layered-tabs-trigger[data-disabled]:hover {
+    background: transparent;
+    color: var(--color-text-muted);
+}
+
+/* Content: lightweight surface, docked against the active Trigger through
+   a matching tone-accent border on its near edge — same logic as the
+   Trigger's docking accent, just on the opposite side of the seam. */
+
+.layered-tabs-content {
+    flex: 1 1 auto;
+
+    box-sizing: border-box;
+    min-inline-size: 0;
+
+    color: var(--color-text);
+    overflow-wrap: anywhere;
+}
+
+/* Horizontal: fills Root's width regardless of which panel is mounted —
+   this, together with Root's own fixed inline-size, is what stops
+   switching tabs from resizing the component. Vertical relies on the
+   grid's `minmax(0, 1fr)` track instead (default grid-item stretch already
+   fills it; `min-inline-size: 0` above is what lets that track shrink
+   below the panel's content size instead of growing to fit it). */
+.layered-tabs-content[data-orientation="horizontal"] {
+    inline-size: 100%;
+    max-inline-size: 100%;
+}
+
+.layered-tabs-content:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--tabs-focus);
+    border-radius: var(--control-radius-inner);
+}
+
+.layered-tabs-content[data-surface="integrated"] {
+    padding: var(--tabs-content-padding);
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%);
+}
+
+.layered-tabs-content[data-surface="integrated"][data-orientation="horizontal"] {
+    border-start-start-radius: 2px;
+    border-start-end-radius: 2px;
+    border-block-start-color: var(--tabs-tone-accent);
+}
+
+.layered-tabs-content[data-surface="integrated"][data-orientation="vertical"] {
+    border-start-start-radius: 2px;
+    border-end-start-radius: 2px;
+    border-inline-start-color: var(--tabs-tone-accent);
+}
+
+.layered-tabs-content[data-surface="plain"] {
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+/* Responsive Narrow Screen Support */
+
+@media (max-width: 640px) {
+    /* Below this width, the two-column grid gives way to a stacked
+       single-column layout — the List becomes a horizontally scrollable
+       row above the Content panel, same shape as horizontal orientation. */
+    .layered-tabs[data-orientation="vertical"] {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .layered-tabs-list[data-orientation="vertical"] {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .layered-tabs-content[data-orientation="vertical"] {
+        inline-size: 100%;
+        max-inline-size: 100%;
+    }
+
+    .layered-tabs-trigger[data-orientation="vertical"][data-state="active"] {
+        border-start-end-radius: 2px;
+        border-end-end-radius: 2px;
+        border-end-start-radius: 2px;
+    }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-tabs-list {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .layered-tabs-trigger {
+        forced-color-adjust: none;
+        color: CanvasText;
+    }
+
+    .layered-tabs-trigger[data-state="active"] {
+        background: Highlight;
+        color: HighlightText;
+        border-color: CanvasText;
+    }
+
+    .layered-tabs-trigger[data-orientation="horizontal"][data-state="active"]::after,
+    .layered-tabs-trigger[data-orientation="vertical"][data-state="active"]::after {
+        background: HighlightText;
+    }
+
+    .layered-tabs-trigger:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    .layered-tabs-trigger[data-disabled] {
+        border-color: GrayText;
+        color: GrayText;
+    }
+
+    .layered-tabs-content[data-surface="integrated"] {
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-tabs-content:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-tabs-trigger {
+        transition: none;
+    }
+}

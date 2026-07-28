@@ -231,6 +231,30 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-tabs",
+      "type": "registry:ui",
+      "title": "Layered Tabs",
+      "description": "Tactile mechanical selector rail with a recessed trench housing, individually seated tab faces, and a content surface visually docked to the active tab, built on Radix Tabs for accessible keyboard navigation and roving focus.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tabs@1.1.21"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-tabs/LayeredTabs.tsx",
+          "target": "@ui/layered/LayeredTabs.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-tabs/LayeredTabs.css",
+          "target": "@ui/layered/LayeredTabs.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
