@@ -4,7 +4,7 @@
   "title": "Layered Select",
   "description": "Tactile form select control with structural casing, recessed surface, and custom arrow indicator.",
   "registryDependencies": [
-    "layered-foundation"
+    "pixelhackstudios/layered-ui/layered-foundation"
   ],
   "files": [
     {

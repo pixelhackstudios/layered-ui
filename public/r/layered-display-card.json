@@ -4,7 +4,7 @@
   "title": "Layered Display Card",
   "description": "Tactile display card with recessed screen, lighting vignette, glare effect, and metadata surface.",
   "registryDependencies": [
-    "layered-foundation"
+    "pixelhackstudios/layered-ui/layered-foundation"
   ],
   "files": [
     {
