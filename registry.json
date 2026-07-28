@@ -22,7 +22,7 @@
       "title": "Layered Button",
       "description": "Tactile button control with casing, trench, and dimensional face.",
       "registryDependencies": [
-        "layered-foundation"
+        "http://localhost:8080/layered-foundation.json"
       ],
       "files": [
         {
@@ -33,6 +33,90 @@
         {
           "path": "registry/components/layered-button/LayeredButton.css",
           "target": "@ui/layered/LayeredButton.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "layered-panel",
+      "type": "registry:ui",
+      "title": "Layered Panel",
+      "description": "Tactile structural container with casing, trench, header, content, and footer surfaces.",
+      "registryDependencies": [
+        "http://localhost:8080/layered-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-panel/LayeredPanel.tsx",
+          "target": "@ui/layered/LayeredPanel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-panel/LayeredPanel.css",
+          "target": "@ui/layered/LayeredPanel.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "layered-input",
+      "type": "registry:ui",
+      "title": "Layered Input",
+      "description": "Tactile form input control with structural casing and recessed surface.",
+      "registryDependencies": [
+        "http://localhost:8080/layered-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-input/LayeredInput.tsx",
+          "target": "@ui/layered/LayeredInput.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-input/LayeredInput.css",
+          "target": "@ui/layered/LayeredInput.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "layered-select",
+      "type": "registry:ui",
+      "title": "Layered Select",
+      "description": "Tactile form select control with structural casing, recessed surface, and custom arrow indicator.",
+      "registryDependencies": [
+        "http://localhost:8080/layered-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-select/LayeredSelect.tsx",
+          "target": "@ui/layered/LayeredSelect.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-select/LayeredSelect.css",
+          "target": "@ui/layered/LayeredSelect.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "layered-display-card",
+      "type": "registry:ui",
+      "title": "Layered Display Card",
+      "description": "Tactile display card with recessed screen, lighting vignette, glare effect, and metadata surface.",
+      "registryDependencies": [
+        "http://localhost:8080/layered-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-display-card/LayeredDisplayCard.tsx",
+          "target": "@ui/layered/LayeredDisplayCard.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-display-card/LayeredDisplayCard.css",
+          "target": "@ui/layered/LayeredDisplayCard.css",
           "type": "registry:ui"
         }
       ]

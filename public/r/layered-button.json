@@ -4,7 +4,7 @@
   "title": "Layered Button",
   "description": "Tactile button control with casing, trench, and dimensional face.",
   "registryDependencies": [
-    "layered-foundation"
+    "http://localhost:8080/layered-foundation.json"
   ],
   "files": [
     {

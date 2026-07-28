@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { LayeredButton } from "../registry/components/layered-button/LayeredButton";
-import { LayeredDisplayCard } from "./components/LayeredDisplayCard/LayeredDisplayCard";
-import { LayeredInput } from "./components/LayeredInput/LayeredInput";
-import { LayeredPanel } from "./components/LayeredPanel/LayeredPanel";
-import { LayeredSelect } from "./components/LayeredSelect/LayeredSelect";
+import { LayeredDisplayCard } from "../registry/components/layered-display-card/LayeredDisplayCard";
+import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
+import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
+import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
 
 type ThemeMode = "classic" | "field";
 

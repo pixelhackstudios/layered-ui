@@ -29,8 +29,9 @@ Visual references outrank prose descriptions when they conflict.
 - TypeScript
 - Plain CSS
 - CSS custom properties for design tokens
-- No Tailwind
-- No shadcn/ui
+- No Tailwind.
+- Do not use or adapt shadcn/ui component implementations or visual conventions.
+- The shadcn CLI and registry format are approved solely as Layered UI's open-code distribution mechanism.
 - No component dependency without explicit approval
 
 ## Component Rules
