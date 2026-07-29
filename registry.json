@@ -375,6 +375,30 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-radio-group",
+      "type": "registry:ui",
+      "title": "Layered Radio Group",
+      "description": "Tactile mutually-exclusive selector bank with compact circular casings, recessed trenches, and a glowing tone-lit face for the checked state, built on Radix RadioGroup for accessible single-selection and roving-focus keyboard navigation.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-radio-group@1.4.7"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-radio-group/LayeredRadioGroup.tsx",
+          "target": "@ui/layered/LayeredRadioGroup.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-radio-group/LayeredRadioGroup.css",
+          "target": "@ui/layered/LayeredRadioGroup.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

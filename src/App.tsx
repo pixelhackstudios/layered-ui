@@ -21,6 +21,10 @@ import { LayeredDisplayCard } from "../registry/components/layered-display-card/
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
 import {
+  LayeredRadioGroup,
+  LayeredRadioGroupItem,
+} from "../registry/components/layered-radio-group/LayeredRadioGroup";
+import {
   LayeredPopover,
   LayeredPopoverAnchor,
   LayeredPopoverClose,
@@ -101,6 +105,7 @@ function App() {
   const [controlledTooltipOpen, setControlledTooltipOpen] = useState(false);
   const [controlledTabsValue, setControlledTabsValue] = useState("overview");
   const [controlledAccordionValue, setControlledAccordionValue] = useState("one");
+  const [controlledRadioValue, setControlledRadioValue] = useState("balanced");
 
   const [controlledPopoverOpen, setControlledPopoverOpen] = useState(false);
   const [popoverSide, setPopoverSide] = useState<
@@ -1576,6 +1581,128 @@ function App() {
                 </LayeredAccordionContent>
               </LayeredAccordionItem>
             </LayeredAccordion>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Radio Group
+          </h2>
+
+          <div className="component-row" style={{ alignItems: "flex-start" }}>
+            <LayeredRadioGroup defaultValue="balanced" aria-label="Runtime profile">
+              <LayeredRadioGroupItem
+                value="performance"
+                label="Performance"
+                description="Prioritize throughput over power efficiency."
+              />
+              <LayeredRadioGroupItem
+                value="balanced"
+                label="Balanced"
+                description="Default profile balancing throughput and thermals."
+              />
+              <LayeredRadioGroupItem
+                value="efficiency"
+                label="Efficiency"
+                description="Minimize power draw at reduced throughput."
+              />
+            </LayeredRadioGroup>
+
+            <LayeredRadioGroup defaultValue="copper" tone="copper" aria-label="Copper tone">
+              <LayeredRadioGroupItem value="copper" label="Copper" />
+              <LayeredRadioGroupItem value="alt" label="Alternate" />
+            </LayeredRadioGroup>
+
+            <LayeredRadioGroup defaultValue="green" tone="green" aria-label="Green tone">
+              <LayeredRadioGroupItem value="green" label="Green" />
+              <LayeredRadioGroupItem value="alt" label="Alternate" />
+            </LayeredRadioGroup>
+
+            <LayeredRadioGroup defaultValue="gold" tone="gold" aria-label="Gold tone">
+              <LayeredRadioGroupItem value="gold" label="Gold" />
+              <LayeredRadioGroupItem value="alt" label="Alternate" />
+            </LayeredRadioGroup>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <LayeredRadioGroup defaultValue="a" radioGroupSize="small" aria-label="Small size">
+              <LayeredRadioGroupItem value="a" label="Small A" />
+              <LayeredRadioGroupItem value="b" label="Small B" />
+            </LayeredRadioGroup>
+
+            <LayeredRadioGroup defaultValue="a" radioGroupSize="large" aria-label="Large size">
+              <LayeredRadioGroupItem value="a" label="Large A" />
+              <LayeredRadioGroupItem value="b" label="Large B" />
+            </LayeredRadioGroup>
+
+            <LayeredRadioGroup
+              defaultValue="a"
+              orientation="horizontal"
+              aria-label="Horizontal orientation"
+            >
+              <LayeredRadioGroupItem value="a" label="A" />
+              <LayeredRadioGroupItem value="b" label="B" />
+              <LayeredRadioGroupItem value="c" label="C" />
+            </LayeredRadioGroup>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <LayeredRadioGroup defaultValue="a" disabled aria-label="Disabled group">
+              <LayeredRadioGroupItem value="a" label="Disabled A" />
+              <LayeredRadioGroupItem value="b" label="Disabled B" />
+            </LayeredRadioGroup>
+
+            <LayeredRadioGroup defaultValue="b" aria-label="Single disabled item">
+              <LayeredRadioGroupItem value="a" label="Available" />
+              <LayeredRadioGroupItem value="b" label="Selected but disabled" disabled />
+              <LayeredRadioGroupItem value="c" label="Available" />
+            </LayeredRadioGroup>
+
+            <LayeredRadioGroup
+              defaultValue=""
+              error="Select a delivery method before continuing."
+              aria-label="Invalid group"
+            >
+              <LayeredRadioGroupItem value="standard" label="Standard Shipping" />
+              <LayeredRadioGroupItem value="express" label="Express Shipping" />
+            </LayeredRadioGroup>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <LayeredButton size="small" tone="gold" onClick={() => setControlledRadioValue("performance")}>
+                  Performance
+                </LayeredButton>
+                <LayeredButton size="small" tone="gold" onClick={() => setControlledRadioValue("balanced")}>
+                  Balanced
+                </LayeredButton>
+              </div>
+              <LayeredRadioGroup
+                value={controlledRadioValue}
+                onValueChange={setControlledRadioValue}
+                tone="gold"
+                aria-label="Controlled runtime profile"
+              >
+                <LayeredRadioGroupItem
+                  value="performance"
+                  label="Performance"
+                  description="Value is owned by the parent laboratory component, not LayeredRadioGroup itself."
+                />
+                <LayeredRadioGroupItem
+                  value="balanced"
+                  label="Balanced"
+                  description="The buttons above drive this selection externally."
+                />
+              </LayeredRadioGroup>
+            </div>
+
+            <LayeredPanel title="Deployment Profile">
+              <LayeredRadioGroup defaultValue="rolling" radioGroupSize="small" tone="copper">
+                <LayeredRadioGroupItem value="rolling" label="Rolling Deploy" />
+                <LayeredRadioGroupItem value="blue-green" label="Blue/Green Deploy" />
+              </LayeredRadioGroup>
+            </LayeredPanel>
           </div>
         </section>
 
