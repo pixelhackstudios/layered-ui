@@ -11,7 +11,7 @@ Layered UI uses the standard `shadcn` registry schema:
 
 ## Current Published Registry Items
 
-The canonical manifest (`registry.json`) defines thirteen published items:
+The canonical manifest (`registry.json`) defines fourteen published items:
 
 | Item Name | Item Type | Canonical Source Paths | Generated Output Artifact | Registry Dependencies |
 |---|---|---|---|---|
@@ -28,8 +28,9 @@ The canonical manifest (`registry.json`) defines thirteen published items:
 | `layered-tooltip` | `registry:ui` | `registry/components/layered-tooltip/LayeredTooltip.tsx`<br>`registry/components/layered-tooltip/LayeredTooltip.css` | `public/r/layered-tooltip.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-tooltip@1.2.16` (npm) |
 | `layered-tabs` | `registry:ui` | `registry/components/layered-tabs/LayeredTabs.tsx`<br>`registry/components/layered-tabs/LayeredTabs.css` | `public/r/layered-tabs.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-tabs@1.1.21` (npm) |
 | `layered-accordion` | `registry:ui` | `registry/components/layered-accordion/LayeredAccordion.tsx`<br>`registry/components/layered-accordion/LayeredAccordion.css` | `public/r/layered-accordion.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-accordion@1.2.20` (npm) |
+| `layered-toast` | `registry:ui` | `registry/components/layered-toast/LayeredToast.tsx`<br>`registry/components/layered-toast/LayeredToast.css` | `public/r/layered-toast.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-toast@1.2.23` (npm) |
 
-`layered-dialog` was the first published item to declare an npm `dependencies` entry alongside its `registryDependencies` entry. `layered-tooltip` is the second, following the same convention: `@radix-ui/react-tooltip` pinned exactly at `1.2.16`, no caret, verified via `npm view @radix-ui/react-tooltip@1.2.16 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) before pinning. `layered-tabs` is the third, pinned exactly at `1.1.21`, verified the same way via `npm view @radix-ui/react-tabs@1.1.21 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-accordion` is the fourth, pinned exactly at `1.2.20`, verified via `npm view @radix-ui/react-accordion@1.2.20 peerDependencies` (confirms `react`/`react-dom` `^19.0` support).
+`layered-dialog` was the first published item to declare an npm `dependencies` entry alongside its `registryDependencies` entry. `layered-tooltip` is the second, following the same convention: `@radix-ui/react-tooltip` pinned exactly at `1.2.16`, no caret, verified via `npm view @radix-ui/react-tooltip@1.2.16 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) before pinning. `layered-tabs` is the third, pinned exactly at `1.1.21`, verified the same way via `npm view @radix-ui/react-tabs@1.1.21 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-accordion` is the fourth, pinned exactly at `1.2.20`, verified via `npm view @radix-ui/react-accordion@1.2.20 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-toast` is the fifth, pinned exactly at `1.2.23`, verified via `npm view @radix-ui/react-toast@1.2.23 peerDependencies` (confirms `react`/`react-dom` `^19.0` support).
 
 ## Registry Address & Dependency Syntax
 

@@ -279,6 +279,30 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-toast",
+      "type": "registry:ui",
+      "title": "Layered Toast",
+      "description": "Tactile transient status cartridge with a shallow structural casing, restrained tone accent, and a compact mechanical close control, built on Radix Toast for accessible announcement, timer, and swipe-to-dismiss behavior.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-toast@1.2.23"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-toast/LayeredToast.tsx",
+          "target": "@ui/layered/LayeredToast.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-toast/LayeredToast.css",
+          "target": "@ui/layered/LayeredToast.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

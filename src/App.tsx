@@ -30,6 +30,16 @@ import {
 } from "../registry/components/layered-tabs/LayeredTabs";
 import { LayeredTextarea } from "../registry/components/layered-textarea/LayeredTextarea";
 import {
+  LayeredToast,
+  LayeredToastAction,
+  LayeredToastClose,
+  LayeredToastDescription,
+  LayeredToastProvider,
+  LayeredToastTitle,
+  LayeredToastViewport,
+  type LayeredToastPosition,
+} from "../registry/components/layered-toast/LayeredToast";
+import {
   LayeredTooltip,
   LayeredTooltipContent,
   LayeredTooltipProvider,
@@ -45,11 +55,36 @@ function App() {
   const [controlledTabsValue, setControlledTabsValue] = useState("overview");
   const [controlledAccordionValue, setControlledAccordionValue] = useState("one");
 
+  const [toastPosition, setToastPosition] =
+    useState<LayeredToastPosition>("bottom-right");
+  const toastSwipeDirection = toastPosition.endsWith("left") ? "left" : "right";
+
+  const [toastOpen, setToastOpen] = useState<Record<string, boolean>>({});
+  const openToast = (id: string) =>
+    setToastOpen((current) => ({ ...current, [id]: true }));
+  const toastOpenProps = (id: string) => ({
+    open: !!toastOpen[id],
+    onOpenChange: (open: boolean) =>
+      setToastOpen((current) => ({ ...current, [id]: open })),
+  });
+
+  const [controlledToastOpen, setControlledToastOpen] = useState(false);
+
+  const [toastStack, setToastStack] = useState<number[]>([]);
+  const [nextStackToastId, setNextStackToastId] = useState(1);
+  const addStackToast = () => {
+    setToastStack((current) => [...current, nextStackToastId]);
+    setNextStackToastId((current) => current + 1);
+  };
+  const removeStackToast = (id: number) =>
+    setToastStack((current) => current.filter((toastId) => toastId !== id));
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
+    <LayeredToastProvider swipeDirection={toastSwipeDirection}>
     <LayeredTooltipProvider>
     <main className="component-lab" data-theme={theme}>
       <header className="component-lab__header">
@@ -1474,9 +1509,317 @@ function App() {
             </LayeredAccordion>
           </div>
         </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Toast
+          </h2>
+
+          <div className="component-row" style={{ marginBottom: "16px" }}>
+            <span style={{ color: "var(--color-text-muted)", fontSize: "0.85rem" }}>
+              Viewport position:
+            </span>
+            {(
+              ["top-left", "top-right", "bottom-left", "bottom-right"] as LayeredToastPosition[]
+            ).map((position) => (
+              <LayeredButton
+                key={position}
+                tone={toastPosition === position ? "copper" : "neutral"}
+                size="small"
+                onClick={() => {
+                  setToastPosition(position);
+                  openToast("position-confirm");
+                }}
+              >
+                {position}
+              </LayeredButton>
+            ))}
+          </div>
+
+          <div className="component-row" style={{ marginBottom: "16px" }}>
+            <LayeredToast {...toastOpenProps("position-confirm")}>
+              <LayeredToastTitle>Viewport Repositioned</LayeredToastTitle>
+              <LayeredToastDescription>
+                Now anchored {toastPosition}, swipe direction {toastSwipeDirection}.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+
+          <div className="component-row">
+            <LayeredButton tone="neutral" onClick={() => openToast("basic")}>
+              Basic Toast
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("basic")}>
+              <LayeredToastTitle>Deployment Complete</LayeredToastTitle>
+              <LayeredToastDescription>
+                The build finished without errors.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="copper" onClick={() => openToast("copper")}>
+              Copper Tone
+            </LayeredButton>
+            <LayeredToast tone="copper" {...toastOpenProps("copper")}>
+              <LayeredToastTitle>Copper Toast</LayeredToastTitle>
+              <LayeredToastDescription>Restrained copper edge accent.</LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="green" onClick={() => openToast("green")}>
+              Green Tone
+            </LayeredButton>
+            <LayeredToast tone="green" {...toastOpenProps("green")}>
+              <LayeredToastTitle>Green Toast</LayeredToastTitle>
+              <LayeredToastDescription>Restrained green edge accent.</LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="gold" onClick={() => openToast("gold")}>
+              Gold Tone
+            </LayeredButton>
+            <LayeredToast tone="gold" {...toastOpenProps("gold")}>
+              <LayeredToastTitle>Gold Toast</LayeredToastTitle>
+              <LayeredToastDescription>Restrained gold edge accent.</LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("title-only")}>
+              Title Only
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("title-only")}>
+              <LayeredToastTitle>Session Saved</LayeredToastTitle>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("description-only")}>
+              Description Only
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("description-only")}>
+              <LayeredToastDescription>
+                Background sync finished three minutes ago.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("title-description")}>
+              Title + Description
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("title-description")}>
+              <LayeredToastTitle>Profile Updated</LayeredToastTitle>
+              <LayeredToastDescription>
+                Your deployment profile changes were saved.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredButton tone="green" size="small" onClick={() => openToast("action")}>
+              With Action
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("action")}>
+              <LayeredToastTitle>File Deleted</LayeredToastTitle>
+              <LayeredToastDescription>report.csv was moved to trash.</LayeredToastDescription>
+              <LayeredToastAction altText="Undo deleting report.csv">Undo</LayeredToastAction>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("custom-close")}>
+              Custom Close Child
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("custom-close")}>
+              <LayeredToastTitle>Custom Dismiss Label</LayeredToastTitle>
+              <LayeredToastDescription>
+                This Toast's Close renders explicit text instead of the default glyph.
+              </LayeredToastDescription>
+              <LayeredToastClose>Dismiss</LayeredToastClose>
+            </LayeredToast>
+
+            <LayeredButton
+              tone="gold"
+              size="small"
+              onClick={() => setControlledToastOpen(true)}
+            >
+              Controlled Toast
+            </LayeredButton>
+            <LayeredToast
+              open={controlledToastOpen}
+              onOpenChange={setControlledToastOpen}
+            >
+              <LayeredToastTitle>External State</LayeredToastTitle>
+              <LayeredToastDescription>
+                Open state is owned by the parent laboratory component, not by
+                LayeredToast itself.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("foreground")}>
+              Foreground Type
+            </LayeredButton>
+            <LayeredToast type="foreground" {...toastOpenProps("foreground")}>
+              <LayeredToastTitle>Foreground Announcement</LayeredToastTitle>
+              <LayeredToastDescription>
+                Interrupts current screen-reader output immediately.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("background")}>
+              Background Type
+            </LayeredButton>
+            <LayeredToast type="background" {...toastOpenProps("background")}>
+              <LayeredToastTitle>Background Announcement</LayeredToastTitle>
+              <LayeredToastDescription>
+                Announced without interrupting current screen-reader output.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("duration")}>
+              Custom Duration (10s)
+            </LayeredButton>
+            <LayeredToast duration={10000} {...toastOpenProps("duration")}>
+              <LayeredToastTitle>Extended Duration</LayeredToastTitle>
+              <LayeredToastDescription>
+                This Toast overrides Provider's 5s default with a 10s duration prop.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("long-content")}>
+              Long Content
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("long-content")}>
+              <LayeredToastTitle>
+                A deliberately long title that wraps across multiple lines without widening the Viewport
+              </LayeredToastTitle>
+              <LayeredToastDescription>
+                A deliberately long description demonstrating that body text wraps within the fixed
+                casing width instead of pushing the Action or Close controls outside it, regardless of
+                how much content is supplied.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("long-action")}>
+              Long Action Label
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("long-action")}>
+              <LayeredToastTitle>Export Ready</LayeredToastTitle>
+              <LayeredToastDescription>Your report is ready to download.</LayeredToastDescription>
+              <LayeredToastAction altText="Download the generated export file now">
+                Download Export File
+              </LayeredToastAction>
+              <LayeredToastClose />
+            </LayeredToast>
+
+            <LayeredButton tone="neutral" size="small" onClick={() => openToast("swipe")}>
+              Swipe To Dismiss
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("swipe")}>
+              <LayeredToastTitle>Drag To Dismiss</LayeredToastTitle>
+              <LayeredToastDescription>
+                Drag this Toast toward the Viewport's current swipe direction ({toastSwipeDirection}) —
+                it tracks the pointer directly and exits on release past the threshold.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredButton tone="copper" size="small" onClick={addStackToast}>
+              Add Toast To Stack
+            </LayeredButton>
+            {toastStack.map((id) => (
+              <LayeredToast
+                key={id}
+                open
+                onOpenChange={(open) => {
+                  if (!open) removeStackToast(id);
+                }}
+              >
+                <LayeredToastTitle>Stack Toast #{id}</LayeredToastTitle>
+                <LayeredToastDescription>
+                  Appended to consumer state — DOM order (not CSS) determines stack order.
+                </LayeredToastDescription>
+                <LayeredToastClose />
+              </LayeredToast>
+            ))}
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="neutral" size="small">
+                  Open Dialog, Then Fire Toast
+                </LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="small">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Settings</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    Saving fires a Toast that renders above this Dialog via the shared z-index scale.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <LayeredButton
+                  tone="green"
+                  size="small"
+                  onClick={() => openToast("above-dialog")}
+                >
+                  Save Settings
+                </LayeredButton>
+              </LayeredDialogContent>
+            </LayeredDialog>
+            <LayeredToast {...toastOpenProps("above-dialog")}>
+              <LayeredToastTitle>Settings Saved</LayeredToastTitle>
+              <LayeredToastDescription>
+                Visible above the open Dialog. This is a visual/announcement check only — Toast
+                controls are not guaranteed reachable through the Dialog's focus trap. Critical
+                confirmations belong in Dialog/AlertDialog, not Toast.
+              </LayeredToastDescription>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredButton
+              tone="neutral"
+              size="small"
+              onClick={() => openToast("tooltip-action")}
+            >
+              Toast With Tooltip On Action
+            </LayeredButton>
+            <LayeredToast {...toastOpenProps("tooltip-action")}>
+              <LayeredToastTitle>Sync Failed</LayeredToastTitle>
+              <LayeredToastDescription>Retry the last sync attempt.</LayeredToastDescription>
+              <LayeredTooltip>
+                <LayeredTooltipTrigger asChild>
+                  <LayeredToastAction altText="Retry the last sync attempt">
+                    Retry
+                  </LayeredToastAction>
+                </LayeredTooltipTrigger>
+                <LayeredTooltipContent>
+                  Retries the most recent failed sync job
+                </LayeredTooltipContent>
+              </LayeredTooltip>
+              <LayeredToastClose />
+            </LayeredToast>
+          </div>
+        </section>
       </div>
     </main>
+    <LayeredToastViewport position={toastPosition} />
     </LayeredTooltipProvider>
+    </LayeredToastProvider>
   );
 }
 

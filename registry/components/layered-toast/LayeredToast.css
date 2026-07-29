@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Layered Toast — compact transient equipment-status cartridge. Shallower
+   casing than LayeredPanel, restrained tone accent, mechanical close.
+   ========================================================================== */
+
+/* Viewport: fixed mounting region for the toast stack. Non-blocking by
+   default (`pointer-events: none`) — only individual Toasts re-enable
+   pointer events, so the Viewport never intercepts clicks outside them,
+   the way Dialog's overlay intentionally does. Position names are
+   physical (top/bottom/left/right), not logical start/end, so they do
+   not flip under RTL — only the internal spacing/text of each Toast uses
+   logical properties. */
+
+.layered-toast-viewport {
+    position: fixed;
+    z-index: var(--layered-toast-z, var(--layered-z-toast, 3000));
+    container-type: inline-size;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    box-sizing: border-box;
+    inline-size: min(100%, 380px);
+    max-inline-size: min(100vw, 380px);
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    pointer-events: none;
+    outline: none;
+}
+
+.layered-toast-viewport[data-position="top-left"] {
+    top: max(16px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
+}
+
+.layered-toast-viewport[data-position="top-right"] {
+    top: max(16px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
+}
+
+.layered-toast-viewport[data-position="bottom-left"] {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    left: max(16px, env(safe-area-inset-left));
+}
+
+.layered-toast-viewport[data-position="bottom-right"] {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    right: max(16px, env(safe-area-inset-right));
+}
+
+/* Normal DOM flow only — no column-reverse, no CSS `order`. The Viewport
+   anchor (top vs bottom) determines where the stack sits; the consumer's
+   own state determines insertion order. */
+
+@media (max-width: 480px) {
+    .layered-toast-viewport {
+        inline-size: calc(100% - 24px);
+        max-inline-size: calc(100% - 24px);
+    }
+
+    .layered-toast-viewport[data-position="top-left"],
+    .layered-toast-viewport[data-position="top-right"] {
+        left: max(12px, env(safe-area-inset-left));
+        right: max(12px, env(safe-area-inset-right));
+    }
+
+    .layered-toast-viewport[data-position="bottom-left"],
+    .layered-toast-viewport[data-position="bottom-right"] {
+        left: max(12px, env(safe-area-inset-left));
+        right: max(12px, env(safe-area-inset-right));
+    }
+}
+
+/* Root: shallower casing than LayeredPanel — a status cartridge, not a
+   miniature dialog. Grid owns layout; Title/Description/Action/Close are
+   never inspected, cloned, or reordered by React to place them. */
+
+.layered-toast {
+    --layered-toast-tone-accent: var(--tone-neutral-light);
+
+    position: relative;
+    pointer-events: auto;
+
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+        "title action close"
+        "description action close";
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: start;
+
+    padding: 12px 14px;
+    border: 1px solid var(--control-shell-border);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%),
+        0 3px 8px rgb(0 0 0 / 30%);
+
+    color: var(--color-text);
+
+    /* Restrained tone accent: an inset edge line, not a surface repaint. */
+    border-inline-start: 3px solid var(--layered-toast-tone-accent);
+}
+
+.layered-toast[data-tone="copper"] {
+    --layered-toast-tone-accent: var(--tone-copper-light);
+}
+
+.layered-toast[data-tone="green"] {
+    --layered-toast-tone-accent: var(--tone-green-light);
+}
+
+.layered-toast[data-tone="gold"] {
+    --layered-toast-tone-accent: var(--tone-gold-light);
+}
+
+.layered-toast[data-tone="neutral"] {
+    --layered-toast-tone-accent: var(--tone-neutral-light);
+}
+
+/* Narrow Toasts: Action drops beneath the message instead of crowding the
+   inline-end column. */
+
+@container (max-width: 320px) {
+    .layered-toast {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "title close"
+            "description close"
+            "action action";
+    }
+}
+
+.layered-toast-title {
+    grid-area: title;
+    margin: 0;
+    min-inline-size: 0;
+
+    color: var(--color-text-title);
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.layered-toast-description {
+    grid-area: description;
+    margin: 0;
+    min-inline-size: 0;
+
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* When Title or Description is omitted, the remaining one occupies both
+   grid rows naturally via `align-items: start` and empty-row collapse —
+   no manual spacing overrides required. */
+
+.layered-toast-action {
+    grid-area: action;
+    align-self: center;
+    justify-self: end;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    padding: 5px 10px;
+    border: 1px solid var(--control-shell-border);
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top) 0%,
+            var(--control-shell-bottom) 100%);
+
+    color: var(--color-text);
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        box-shadow var(--duration-fast, 100ms) var(--ease-control, ease),
+        transform var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-toast-action:hover {
+    box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+}
+
+.layered-toast-action:active {
+    transform: translateY(1px) scale(0.97);
+}
+
+.layered-toast-action:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--control-focus);
+}
+
+/* Close: mechanical X, same visual family as LayeredDialog's corner
+   control but smaller and grid-placed rather than absolutely positioned. */
+
+.layered-toast-close {
+    grid-area: close;
+    align-self: center;
+    justify-self: end;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    width: 22px;
+    height: 22px;
+    padding: 0;
+
+    color: var(--color-text-muted);
+
+    border: 1px solid var(--control-shell-border);
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top) 0%,
+            var(--control-shell-bottom) 100%);
+
+    cursor: pointer;
+
+    transition:
+        box-shadow var(--duration-fast, 100ms) var(--ease-control, ease),
+        transform var(--duration-fast, 100ms) var(--ease-control, ease),
+        color var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-toast-close__glyph {
+    position: relative;
+    width: 9px;
+    height: 9px;
+}
+
+.layered-toast-close__glyph::before,
+.layered-toast-close__glyph::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    border-radius: 1px;
+    background: currentColor;
+}
+
+.layered-toast-close__glyph::before {
+    transform: rotate(45deg);
+}
+
+.layered-toast-close__glyph::after {
+    transform: rotate(-45deg);
+}
+
+.layered-toast-close:hover {
+    color: var(--color-text);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+}
+
+.layered-toast-close:active {
+    transform: translateY(1px) scale(0.96);
+}
+
+.layered-toast-close:focus-visible {
+    outline: none;
+    color: var(--color-text);
+    box-shadow: inset 0 0 0 2px var(--control-focus);
+}
+
+/* Motion: restrained slide + opacity, position-aware via the ancestor
+   Viewport's data-position. No scale, no bounce, no GSAP. */
+
+.layered-toast[data-state="open"] {
+    animation: layered-toast-in var(--duration-normal, 160ms) var(--ease-control, ease) both;
+}
+
+.layered-toast[data-state="closed"] {
+    animation: layered-toast-out var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+@keyframes layered-toast-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes layered-toast-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.layered-toast-viewport[data-position="top-left"] .layered-toast[data-state="open"],
+.layered-toast-viewport[data-position="top-right"] .layered-toast[data-state="open"] {
+    animation-name: layered-toast-in-from-top;
+}
+
+.layered-toast-viewport[data-position="bottom-left"] .layered-toast[data-state="open"],
+.layered-toast-viewport[data-position="bottom-right"] .layered-toast[data-state="open"] {
+    animation-name: layered-toast-in-from-bottom;
+}
+
+@keyframes layered-toast-in-from-top {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes layered-toast-in-from-bottom {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Swipe: follows the pointer directly during `data-swipe="move"`, snaps
+   back quickly on cancel, exits toward `data-swipe-direction` on end. */
+
+.layered-toast[data-swipe="move"] {
+    transform:
+        translate(
+            var(--radix-toast-swipe-move-x, 0),
+            var(--radix-toast-swipe-move-y, 0)
+        );
+    transition: none;
+}
+
+.layered-toast[data-swipe="cancel"] {
+    transform: translate(0, 0);
+    transition: transform var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-toast[data-swipe="end"][data-swipe-direction="up"] {
+    animation: layered-toast-swipe-out-y var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+.layered-toast[data-swipe="end"][data-swipe-direction="down"] {
+    animation: layered-toast-swipe-out-y var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+.layered-toast[data-swipe="end"][data-swipe-direction="left"],
+.layered-toast[data-swipe="end"][data-swipe-direction="right"] {
+    animation: layered-toast-swipe-out-x var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+@keyframes layered-toast-swipe-out-x {
+    from {
+        transform: translateX(var(--radix-toast-swipe-end-x, 0));
+        opacity: 1;
+    }
+    to {
+        transform: translateX(var(--radix-toast-swipe-end-x, 0));
+        opacity: 0;
+    }
+}
+
+@keyframes layered-toast-swipe-out-y {
+    from {
+        transform: translateY(var(--radix-toast-swipe-end-y, 0));
+        opacity: 1;
+    }
+    to {
+        transform: translateY(var(--radix-toast-swipe-end-y, 0));
+        opacity: 0;
+    }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-toast {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        border-inline-start-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-toast-action,
+    .layered-toast-close {
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-toast-action:focus-visible,
+    .layered-toast-close:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+}
+
+/* Reduced Motion: decorative entrance/exit travel and the swipe-cancel
+   snap-back are removed; live swipe-move tracking is preserved since it
+   is direct pointer feedback for an active gesture, not decoration. */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-toast[data-state="open"],
+    .layered-toast[data-state="closed"] {
+        animation: layered-toast-fade var(--duration-fast, 100ms) linear both;
+    }
+
+    .layered-toast[data-swipe="cancel"] {
+        transition: none;
+    }
+
+    .layered-toast[data-swipe="end"] {
+        animation: layered-toast-fade var(--duration-fast, 100ms) linear both;
+    }
+
+    .layered-toast-action,
+    .layered-toast-close {
+        transition: none;
+    }
+
+    .layered-toast-action:active,
+    .layered-toast-close:active {
+        transform: none;
+    }
+}
+
+@keyframes layered-toast-fade {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
