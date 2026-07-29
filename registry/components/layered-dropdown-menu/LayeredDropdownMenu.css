@@ -1,0 +1,366 @@
+/* ==========================================================================
+   Layered Dropdown Menu — compact equipment access module holding a stack
+   of selectable rows. Shares LayeredPopoverContent's outer casing/motion
+   shape (recessed panel, restrained tone accent, optional Arrow) since both
+   are anchored, non-modal overlays on the same `--layered-z-popover` layer;
+   the body here is a row list instead of free-form prose.
+   ========================================================================== */
+
+.layered-dropdown-menu-content {
+    --layered-dropdown-menu-tone-accent: var(--tone-neutral-light);
+    --menu-enter-x: 0px;
+    --menu-enter-y: 0px;
+
+    position: relative;
+    z-index: var(--layered-dropdown-menu-z, var(--layered-z-popover, 2000));
+
+    box-sizing: border-box;
+    width: max-content;
+    min-width: 180px;
+    max-width: min(90vw, 280px, var(--radix-dropdown-menu-content-available-width, 280px));
+
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%),
+        0 4px 10px rgb(0 0 0 / 30%);
+
+    color: var(--color-text);
+    overflow: visible;
+    outline: none;
+}
+
+.layered-dropdown-menu-content[data-size="medium"] {
+    min-width: 220px;
+    max-width: min(90vw, 340px, var(--radix-dropdown-menu-content-available-width, 340px));
+}
+
+/* Body: the only padded/scrollable region, same reasoning as
+   LayeredPopoverContent__body — kept separate so the Arrow (a Content
+   sibling) is never clipped by body overflow. */
+
+.layered-dropdown-menu-content__body {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    padding: 6px;
+    max-block-size: calc(var(--radix-dropdown-menu-content-available-height, 60vh) - 4px);
+
+    overflow-y: auto;
+    overflow-x: clip;
+    overscroll-behavior: contain;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+/* Restrained tone accent: same inset-pseudo-element-on-the-arrow-edge
+   pattern as LayeredPopoverContent, keyed off data-side. */
+
+.layered-dropdown-menu-content::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background: var(--layered-dropdown-menu-tone-accent);
+    pointer-events: none;
+    border-radius: 1px;
+}
+
+.layered-dropdown-menu-content[data-side="top"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-end: 0;
+    block-size: 2px;
+}
+
+.layered-dropdown-menu-content[data-side="bottom"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-start: 0;
+    block-size: 2px;
+}
+
+.layered-dropdown-menu-content[data-side="left"]::before {
+    inset-block: var(--control-radius-inner, 8px);
+    inset-inline-end: 0;
+    inline-size: 2px;
+}
+
+.layered-dropdown-menu-content[data-side="right"]::before {
+    inset-block: var(--control-radius-inner, 8px);
+    inset-inline-start: 0;
+    inline-size: 2px;
+}
+
+/* Tone variants: affect only the arrow fill, the accent line, and the
+   highlighted-row background (see .layered-dropdown-menu-item below). */
+
+.layered-dropdown-menu-content[data-tone="copper"] {
+    --layered-dropdown-menu-tone-accent: var(--tone-copper-light);
+}
+
+.layered-dropdown-menu-content[data-tone="green"] {
+    --layered-dropdown-menu-tone-accent: var(--tone-green-light);
+}
+
+.layered-dropdown-menu-content[data-tone="gold"] {
+    --layered-dropdown-menu-tone-accent: var(--tone-gold-light);
+}
+
+.layered-dropdown-menu-content[data-tone="neutral"] {
+    --layered-dropdown-menu-tone-accent: var(--tone-neutral-light);
+}
+
+.layered-dropdown-menu-content__arrow {
+    fill: var(--layered-dropdown-menu-tone-accent);
+}
+
+/* Contained focus: Content itself is only ever focused transiently during
+   open/typeahead, never a resting state, but the ring must still stay
+   inset per AGENTS.md's contained-focus rule if it is ever visible. */
+
+.layered-dropdown-menu-content:focus-visible {
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%),
+        0 4px 10px rgb(0 0 0 / 30%),
+        inset 0 0 0 2px var(--control-focus);
+}
+
+/* Motion: identical open/close choreography to LayeredPopoverContent. */
+
+.layered-dropdown-menu-content[data-side="top"] {
+    --menu-enter-y: 4px;
+}
+
+.layered-dropdown-menu-content[data-side="bottom"] {
+    --menu-enter-y: -4px;
+}
+
+.layered-dropdown-menu-content[data-side="left"] {
+    --menu-enter-x: 4px;
+}
+
+.layered-dropdown-menu-content[data-side="right"] {
+    --menu-enter-x: -4px;
+}
+
+.layered-dropdown-menu-content[data-state="open"] {
+    animation: layered-dropdown-menu-in var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+.layered-dropdown-menu-content[data-state="closed"] {
+    animation: layered-dropdown-menu-out var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+@keyframes layered-dropdown-menu-in {
+    from {
+        opacity: 0;
+        transform: translate(var(--menu-enter-x), var(--menu-enter-y));
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes layered-dropdown-menu-out {
+    from {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(var(--menu-enter-x), var(--menu-enter-y));
+    }
+}
+
+/* Item row: plain, CheckboxItem, RadioItem, and SubTrigger all share this
+   base — a single flat row with no per-row casing of its own (the outer
+   Content already supplies the recessed panel). Radix drives keyboard and
+   pointer highlighting through `data-highlighted`, which is the only state
+   this needs to react to visually — there is no separate CSS :hover rule,
+   since Radix applies `data-highlighted` on pointer hover too. */
+
+.layered-dropdown-menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+
+    min-height: 30px;
+    padding: 6px 10px;
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    color: var(--color-text);
+    font-size: 0.85rem;
+    line-height: 1.4;
+
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+
+    transition:
+        background var(--duration-fast, 100ms) var(--ease-control, ease),
+        color var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-dropdown-menu-content[data-size="medium"] .layered-dropdown-menu-item {
+    min-height: 34px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+
+.layered-dropdown-menu-item[data-inset="true"] {
+    padding-inline-start: 30px;
+}
+
+.layered-dropdown-menu-item[data-highlighted] {
+    background: color-mix(in srgb, var(--layered-dropdown-menu-tone-accent) 24%, transparent);
+    color: var(--color-text);
+}
+
+.layered-dropdown-menu-item[data-intent="destructive"] {
+    color: var(--control-error-text, var(--control-error));
+}
+
+.layered-dropdown-menu-item[data-intent="destructive"][data-highlighted] {
+    background: color-mix(in srgb, var(--control-error) 28%, transparent);
+    color: var(--control-error-text, var(--control-error));
+}
+
+.layered-dropdown-menu-item[data-disabled] {
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    background: none;
+}
+
+/* Checkable rows: reserve a fixed leading column so the indicator glyph
+   and the row's text baseline stay aligned regardless of whether the
+   indicator is currently rendered (Radix mounts ItemIndicator only while
+   checked, per its Presence contract). */
+
+.layered-dropdown-menu-item--checkable {
+    padding-inline-start: 8px;
+}
+
+.layered-dropdown-menu-item__indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+}
+
+.layered-dropdown-menu-item__check {
+    position: relative;
+    width: 9px;
+    height: 6px;
+    border-inline-start: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: rotate(-45deg) translateY(-1px);
+}
+
+.layered-dropdown-menu-item__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Sub-trigger: trailing directional chevron replaces the leading-indicator
+   column read of checkable rows — it signals "opens a submenu", not
+   "currently selected". */
+
+.layered-dropdown-menu-item--sub-trigger {
+    padding-inline-end: 26px;
+}
+
+.layered-dropdown-menu-item__sub-chevron {
+    position: absolute;
+    inset-inline-end: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 6px;
+    height: 6px;
+    border-inline-end: 2px solid currentColor;
+    border-block-start: 2px solid currentColor;
+    transform: translateY(-50%) rotate(45deg);
+
+    opacity: 0.7;
+}
+
+.layered-dropdown-menu-item--sub-trigger[data-state="open"] {
+    background: color-mix(in srgb, var(--layered-dropdown-menu-tone-accent) 24%, transparent);
+}
+
+/* Label: quiet non-interactive group heading. */
+
+.layered-dropdown-menu-label {
+    padding: 6px 10px 4px;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* Separator: single trench line between groups. */
+
+.layered-dropdown-menu-separator {
+    height: 1px;
+    margin: 4px 6px;
+    background: var(--control-trench);
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-dropdown-menu-content {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-dropdown-menu-content::before {
+        background: none;
+    }
+
+    .layered-dropdown-menu-content__arrow {
+        fill: CanvasText;
+    }
+
+    .layered-dropdown-menu-content:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    .layered-dropdown-menu-item[data-highlighted] {
+        background: Highlight;
+        color: HighlightText;
+    }
+
+    .layered-dropdown-menu-item[data-disabled] {
+        color: GrayText;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-dropdown-menu-content {
+        animation: none !important;
+    }
+}

@@ -305,6 +305,30 @@
       ]
     },
     {
+      "name": "layered-dropdown-menu",
+      "type": "registry:ui",
+      "title": "Layered Dropdown Menu",
+      "description": "Tactile anchored menu module with a recessed row list, tone-accented highlighting, checkbox/radio items, and nested submenus, built on Radix Dropdown Menu for accessible keyboard navigation, typeahead, and dismissal behavior.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dropdown-menu@2.1.24"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-dropdown-menu/LayeredDropdownMenu.tsx",
+          "target": "@ui/layered/LayeredDropdownMenu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-dropdown-menu/LayeredDropdownMenu.css",
+          "target": "@ui/layered/LayeredDropdownMenu.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "layered-toast",
       "type": "registry:ui",
       "title": "Layered Toast",

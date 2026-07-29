@@ -27,6 +27,21 @@ import {
   LayeredPopoverContent,
   LayeredPopoverTrigger,
 } from "../registry/components/layered-popover/LayeredPopover";
+import {
+  LayeredDropdownMenu,
+  LayeredDropdownMenuCheckboxItem,
+  LayeredDropdownMenuContent,
+  LayeredDropdownMenuGroup,
+  LayeredDropdownMenuItem,
+  LayeredDropdownMenuLabel,
+  LayeredDropdownMenuRadioGroup,
+  LayeredDropdownMenuRadioItem,
+  LayeredDropdownMenuSeparator,
+  LayeredDropdownMenuSub,
+  LayeredDropdownMenuSubContent,
+  LayeredDropdownMenuSubTrigger,
+  LayeredDropdownMenuTrigger,
+} from "../registry/components/layered-dropdown-menu/LayeredDropdownMenu";
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
 import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
 import {
@@ -72,6 +87,10 @@ function App() {
   const [positionDemoOpen, setPositionDemoOpen] = useState(true);
   const positionSelectorsRef = useRef<HTMLDivElement>(null);
   const [anchorPopoverOpen, setAnchorPopoverOpen] = useState(false);
+
+  const [menuShowStatusBar, setMenuShowStatusBar] = useState(true);
+  const [menuShowMinimap, setMenuShowMinimap] = useState(false);
+  const [menuTheme, setMenuTheme] = useState("dark");
 
   const [toastPosition, setToastPosition] =
     useState<LayeredToastPosition>("bottom-right");
@@ -2213,6 +2232,118 @@ function App() {
                 </p>
               </LayeredPopoverContent>
             </LayeredPopover>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Dropdown Menu
+          </h2>
+
+          <div className="component-row">
+            <LayeredDropdownMenu>
+              <LayeredDropdownMenuTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Basic Menu</LayeredButton>
+              </LayeredDropdownMenuTrigger>
+              <LayeredDropdownMenuContent>
+                <LayeredDropdownMenuItem onSelect={() => console.log("New File")}>
+                  New File
+                </LayeredDropdownMenuItem>
+                <LayeredDropdownMenuItem onSelect={() => console.log("Open")}>
+                  Open…
+                </LayeredDropdownMenuItem>
+                <LayeredDropdownMenuItem disabled>
+                  Open Recent
+                </LayeredDropdownMenuItem>
+                <LayeredDropdownMenuSeparator />
+                <LayeredDropdownMenuItem
+                  intent="destructive"
+                  onSelect={() => console.log("Delete")}
+                >
+                  Delete
+                </LayeredDropdownMenuItem>
+              </LayeredDropdownMenuContent>
+            </LayeredDropdownMenu>
+
+            <LayeredDropdownMenu>
+              <LayeredDropdownMenuTrigger asChild>
+                <LayeredButton tone="copper" size="small">Groups &amp; Checkboxes</LayeredButton>
+              </LayeredDropdownMenuTrigger>
+              <LayeredDropdownMenuContent tone="copper">
+                <LayeredDropdownMenuLabel>View</LayeredDropdownMenuLabel>
+                <LayeredDropdownMenuGroup>
+                  <LayeredDropdownMenuCheckboxItem
+                    checked={menuShowStatusBar}
+                    onCheckedChange={setMenuShowStatusBar}
+                  >
+                    Status Bar
+                  </LayeredDropdownMenuCheckboxItem>
+                  <LayeredDropdownMenuCheckboxItem
+                    checked={menuShowMinimap}
+                    onCheckedChange={setMenuShowMinimap}
+                  >
+                    Minimap
+                  </LayeredDropdownMenuCheckboxItem>
+                </LayeredDropdownMenuGroup>
+                <LayeredDropdownMenuSeparator />
+                <LayeredDropdownMenuLabel>Theme</LayeredDropdownMenuLabel>
+                <LayeredDropdownMenuRadioGroup
+                  value={menuTheme}
+                  onValueChange={setMenuTheme}
+                >
+                  <LayeredDropdownMenuRadioItem value="dark">
+                    Dark
+                  </LayeredDropdownMenuRadioItem>
+                  <LayeredDropdownMenuRadioItem value="light">
+                    Light
+                  </LayeredDropdownMenuRadioItem>
+                  <LayeredDropdownMenuRadioItem value="system">
+                    System
+                  </LayeredDropdownMenuRadioItem>
+                </LayeredDropdownMenuRadioGroup>
+              </LayeredDropdownMenuContent>
+            </LayeredDropdownMenu>
+
+            <LayeredDropdownMenu>
+              <LayeredDropdownMenuTrigger asChild>
+                <LayeredButton tone="green" size="small">With Submenu</LayeredButton>
+              </LayeredDropdownMenuTrigger>
+              <LayeredDropdownMenuContent tone="green">
+                <LayeredDropdownMenuItem onSelect={() => console.log("Share")}>
+                  Share
+                </LayeredDropdownMenuItem>
+                <LayeredDropdownMenuSub>
+                  <LayeredDropdownMenuSubTrigger>
+                    Export As
+                  </LayeredDropdownMenuSubTrigger>
+                  <LayeredDropdownMenuSubContent tone="green">
+                    <LayeredDropdownMenuItem onSelect={() => console.log("PNG")}>
+                      PNG
+                    </LayeredDropdownMenuItem>
+                    <LayeredDropdownMenuItem onSelect={() => console.log("SVG")}>
+                      SVG
+                    </LayeredDropdownMenuItem>
+                    <LayeredDropdownMenuItem onSelect={() => console.log("PDF")}>
+                      PDF
+                    </LayeredDropdownMenuItem>
+                  </LayeredDropdownMenuSubContent>
+                </LayeredDropdownMenuSub>
+              </LayeredDropdownMenuContent>
+            </LayeredDropdownMenu>
+
+            <LayeredDropdownMenu>
+              <LayeredDropdownMenuTrigger asChild>
+                <LayeredButton tone="gold" size="small">Medium Size</LayeredButton>
+              </LayeredDropdownMenuTrigger>
+              <LayeredDropdownMenuContent tone="gold" menuSize="medium">
+                <LayeredDropdownMenuItem onSelect={() => console.log("Profile")}>
+                  Profile
+                </LayeredDropdownMenuItem>
+                <LayeredDropdownMenuItem onSelect={() => console.log("Settings")}>
+                  Settings
+                </LayeredDropdownMenuItem>
+              </LayeredDropdownMenuContent>
+            </LayeredDropdownMenu>
           </div>
         </section>
       </div>

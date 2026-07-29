@@ -152,11 +152,12 @@
         0 2px 4px rgb(0 0 0 / 55%);
 
     /* Overlay Stack — semantic z-index layers, shared across overlay
-       components (Dialog, Popover/Menu, Toast, Tooltip). Ordered so a
-       later-opening, higher-priority layer always clears an earlier one:
-       tooltips can annotate controls inside dialogs, popovers, or toasts,
-       so tooltip stays topmost. Popover/Menu tokens are reserved ahead of
-       those components existing. */
+       components (Dialog, Popover/Dropdown Menu, Toast, Tooltip). Ordered
+       so a later-opening, higher-priority layer always clears an earlier
+       one: tooltips can annotate controls inside dialogs, popovers, or
+       toasts, so tooltip stays topmost. Popover and Dropdown Menu share
+       `--layered-z-popover` — both are anchored, non-modal-by-default
+       overlays with no ordering requirement between them. */
     --layered-z-dialog-overlay: 1000;
     --layered-z-dialog-content: 1010;
     --layered-z-popover: 2000;
