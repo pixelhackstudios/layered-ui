@@ -42,6 +42,20 @@ import {
   LayeredDropdownMenuSubTrigger,
   LayeredDropdownMenuTrigger,
 } from "../registry/components/layered-dropdown-menu/LayeredDropdownMenu";
+import {
+  LayeredCombobox,
+  LayeredComboboxClear,
+  LayeredComboboxContent,
+  LayeredComboboxEmpty,
+  LayeredComboboxGroup,
+  LayeredComboboxGroupLabel,
+  LayeredComboboxIcon,
+  LayeredComboboxInput,
+  LayeredComboboxInputGroup,
+  LayeredComboboxItem,
+  LayeredComboboxLabel,
+  LayeredComboboxList,
+} from "../registry/components/layered-combobox/LayeredCombobox";
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
 import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
 import {
@@ -70,6 +84,17 @@ import {
 
 type ThemeMode = "classic" | "field";
 
+const frameworkOptions = [
+  "React",
+  "Vue",
+  "Svelte",
+  "Angular",
+  "Solid",
+  "Qwik",
+  "Astro",
+  "Ember",
+];
+
 function App() {
   const [theme, setTheme] = useState<ThemeMode>("classic");
   const [controlledDialogOpen, setControlledDialogOpen] = useState(false);
@@ -91,6 +116,13 @@ function App() {
   const [menuShowStatusBar, setMenuShowStatusBar] = useState(true);
   const [menuShowMinimap, setMenuShowMinimap] = useState(false);
   const [menuTheme, setMenuTheme] = useState("dark");
+
+  const [comboboxFramework, setComboboxFramework] = useState<string | null>(
+    null
+  );
+  const [comboboxCountry, setComboboxCountry] = useState<string | null>(
+    "Canada"
+  );
 
   const [toastPosition, setToastPosition] =
     useState<LayeredToastPosition>("bottom-right");
@@ -2344,6 +2376,91 @@ function App() {
                 </LayeredDropdownMenuItem>
               </LayeredDropdownMenuContent>
             </LayeredDropdownMenu>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Combobox
+          </h2>
+
+          <div className="component-row">
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <LayeredCombobox
+                items={frameworkOptions}
+                value={comboboxFramework}
+                onValueChange={setComboboxFramework}
+              >
+                <LayeredComboboxLabel>Framework</LayeredComboboxLabel>
+                <LayeredComboboxInputGroup>
+                  <LayeredComboboxInput placeholder="Search frameworks…" />
+                  <LayeredComboboxClear />
+                  <LayeredComboboxIcon />
+                </LayeredComboboxInputGroup>
+                <LayeredComboboxContent>
+                  <LayeredComboboxEmpty>No frameworks found.</LayeredComboboxEmpty>
+                  <LayeredComboboxList>
+                    {(item: string) => (
+                      <LayeredComboboxItem key={item} value={item}>
+                        {item}
+                      </LayeredComboboxItem>
+                    )}
+                  </LayeredComboboxList>
+                </LayeredComboboxContent>
+              </LayeredCombobox>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <LayeredCombobox
+                value={comboboxCountry}
+                onValueChange={setComboboxCountry}
+              >
+                <LayeredComboboxLabel>Country</LayeredComboboxLabel>
+                <LayeredComboboxInputGroup tone="copper">
+                  <LayeredComboboxInput placeholder="Search countries…" />
+                  <LayeredComboboxClear />
+                  <LayeredComboboxIcon />
+                </LayeredComboboxInputGroup>
+                <LayeredComboboxContent tone="copper">
+                  <LayeredComboboxEmpty>No countries found.</LayeredComboboxEmpty>
+                  <LayeredComboboxList>
+                    <LayeredComboboxGroup>
+                      <LayeredComboboxGroupLabel>North America</LayeredComboboxGroupLabel>
+                      <LayeredComboboxItem value="Canada">Canada</LayeredComboboxItem>
+                      <LayeredComboboxItem value="Mexico">Mexico</LayeredComboboxItem>
+                      <LayeredComboboxItem value="United States">
+                        United States
+                      </LayeredComboboxItem>
+                    </LayeredComboboxGroup>
+                    <LayeredComboboxGroup>
+                      <LayeredComboboxGroupLabel>Europe</LayeredComboboxGroupLabel>
+                      <LayeredComboboxItem value="France">France</LayeredComboboxItem>
+                      <LayeredComboboxItem value="Germany">Germany</LayeredComboboxItem>
+                      <LayeredComboboxItem value="Spain">Spain</LayeredComboboxItem>
+                    </LayeredComboboxGroup>
+                  </LayeredComboboxList>
+                </LayeredComboboxContent>
+              </LayeredCombobox>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <LayeredCombobox items={frameworkOptions} disabled>
+                <LayeredComboboxLabel>Disabled</LayeredComboboxLabel>
+                <LayeredComboboxInputGroup tone="gold">
+                  <LayeredComboboxInput placeholder="Unavailable" />
+                  <LayeredComboboxIcon />
+                </LayeredComboboxInputGroup>
+                <LayeredComboboxContent tone="gold">
+                  <LayeredComboboxList>
+                    {(item: string) => (
+                      <LayeredComboboxItem key={item} value={item}>
+                        {item}
+                      </LayeredComboboxItem>
+                    )}
+                  </LayeredComboboxList>
+                </LayeredComboboxContent>
+              </LayeredCombobox>
+            </div>
           </div>
         </section>
       </div>

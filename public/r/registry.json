@@ -329,6 +329,30 @@
       ]
     },
     {
+      "name": "layered-combobox",
+      "type": "registry:ui",
+      "title": "Layered Combobox",
+      "description": "Tactile filterable combo input with a recessed field casing and an anchored row-list overlay, built on Base UI's Combobox primitive for accessible input/listbox wiring, keyboard navigation, and filtering.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@base-ui/react@1.6.0"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-combobox/LayeredCombobox.tsx",
+          "target": "@ui/layered/LayeredCombobox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-combobox/LayeredCombobox.css",
+          "target": "@ui/layered/LayeredCombobox.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "layered-toast",
       "type": "registry:ui",
       "title": "Layered Toast",

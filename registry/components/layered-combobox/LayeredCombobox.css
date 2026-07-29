@@ -1,0 +1,539 @@
+/* ==========================================================================
+   Layered Combobox — a text-input field (InputGroup) wired to an anchored
+   equipment access module (Content) holding a filterable row list. The
+   closed-state InputGroup reuses LayeredSelect's casing/trench shell so a
+   Combobox reads as the same physical class of control as a native select;
+   the open-state Content reuses LayeredPopoverContent/LayeredDropdownMenu-
+   Content's recessed-panel/motion/tone-accent shape, since all three are
+   anchored, non-modal-by-default overlays on the shared
+   `--layered-z-popover` layer.
+   ========================================================================== */
+
+/* Label */
+
+.layered-combobox-label {
+    display: block;
+    margin-bottom: 6px;
+
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.015em;
+}
+
+/* InputGroup: outer structural casing + inner recessed surface, collapsed
+   into the single element Base UI provides (unlike LayeredSelect's
+   separate __casing/__surface divs) — the padding/border pairing below
+   reproduces the same two-layer read with one box. */
+
+.layered-combobox-input-group {
+    --combobox-tone-accent: var(--tone-neutral-light);
+    --combobox-tone-focus: var(--control-focus);
+    --combobox-font-size: 0.95rem;
+    --combobox-padding-y: 9px;
+    --combobox-padding-x: 14px;
+    --combobox-height: 44px;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 420px;
+    min-height: var(--combobox-height);
+    padding: 0 6px 0 var(--combobox-padding-x);
+
+    border: 2px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--input-surface-bg-top) 0%,
+            var(--input-surface-bg-bottom) 100%);
+
+    box-shadow:
+        inset 0 2px 4px rgb(0 0 0 / 50%),
+        inset 0 -1px 1px rgb(255 255 255 / 3%);
+
+    color: var(--color-text);
+
+    transition:
+        border-color var(--duration-fast, 100ms) var(--ease-control, ease),
+        box-shadow var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-combobox-input-group:focus-within {
+    border-color: var(--combobox-tone-focus);
+    box-shadow:
+        inset 0 2px 4px rgb(0 0 0 / 50%),
+        inset 0 -1px 1px rgb(255 255 255 / 3%),
+        inset 0 0 0 2px var(--combobox-tone-focus);
+}
+
+.layered-combobox-input-group[data-disabled] {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.layered-combobox-input-group[data-readonly] {
+    cursor: default;
+}
+
+/* Tone variants */
+
+.layered-combobox-input-group[data-tone="copper"] {
+    --combobox-tone-accent: var(--tone-copper-light);
+    --combobox-tone-focus: var(--tone-copper-light);
+}
+
+.layered-combobox-input-group[data-tone="green"] {
+    --combobox-tone-accent: var(--tone-green-light);
+    --combobox-tone-focus: var(--tone-green-light);
+}
+
+.layered-combobox-input-group[data-tone="gold"] {
+    --combobox-tone-accent: var(--tone-gold-light);
+    --combobox-tone-focus: var(--tone-gold-light);
+}
+
+/* Size variants */
+
+.layered-combobox-input-group[data-size="small"] {
+    --combobox-font-size: 0.85rem;
+    --combobox-padding-y: 6px;
+    --combobox-padding-x: 10px;
+    --combobox-height: 36px;
+}
+
+/* Input */
+
+.layered-combobox-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    box-sizing: border-box;
+
+    padding: var(--combobox-padding-y) 4px;
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-family: inherit;
+    font-size: var(--combobox-font-size);
+    line-height: 1.4;
+}
+
+.layered-combobox-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.layered-combobox-input:disabled {
+    cursor: not-allowed;
+}
+
+/* Icon / Trigger: shared chevron glyph. Icon is purely decorative; Trigger
+   is the same visual glyph made clickable, so the two read as identical
+   affordances regardless of which one a given Combobox uses. */
+
+.layered-combobox-icon,
+.layered-combobox-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    box-sizing: border-box;
+
+    color: var(--color-text-muted);
+}
+
+.layered-combobox-trigger {
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: calc(var(--control-radius-inner) - 4px);
+    background: transparent;
+    cursor: pointer;
+
+    transition:
+        background var(--duration-fast, 100ms) var(--ease-control, ease),
+        color var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-combobox-trigger:hover {
+    background: rgb(255 255 255 / 6%);
+    color: var(--color-text);
+}
+
+.layered-combobox-trigger:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--combobox-tone-focus, var(--control-focus));
+}
+
+.layered-combobox-trigger[data-disabled] {
+    cursor: not-allowed;
+    background: none;
+}
+
+.layered-combobox-icon__chevron {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-inline-end: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* Clear: compact mechanical X, same glyph geometry as
+   LayeredPopoverClose's "glyph" mode. */
+
+.layered-combobox-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    box-sizing: border-box;
+
+    width: 22px;
+    height: 22px;
+    padding: 0;
+
+    color: var(--color-text-muted);
+
+    border: 1px solid var(--control-shell-border);
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top) 0%,
+            var(--control-shell-bottom) 100%);
+
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 1px rgb(255 255 255 / 8%);
+
+    cursor: pointer;
+
+    transition:
+        box-shadow var(--duration-fast, 100ms) var(--ease-control, ease),
+        color var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-combobox-clear:hover {
+    color: var(--color-text);
+}
+
+.layered-combobox-clear:focus-visible {
+    outline: none;
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 0 0 2px var(--combobox-tone-focus, var(--control-focus));
+}
+
+.layered-combobox-clear__glyph {
+    position: relative;
+    width: 9px;
+    height: 9px;
+}
+
+.layered-combobox-clear__glyph::before,
+.layered-combobox-clear__glyph::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    border-radius: 1px;
+    background: currentColor;
+}
+
+.layered-combobox-clear__glyph::before {
+    transform: rotate(45deg);
+}
+
+.layered-combobox-clear__glyph::after {
+    transform: rotate(-45deg);
+}
+
+/* Positioner: purely a positioning wrapper, no visual chrome of its own. */
+
+.layered-combobox-positioner {
+    z-index: var(--layered-combobox-z, var(--layered-z-popover, 2000));
+}
+
+/* Content (Popup): recessed panel, motion, and tone accent — same shape as
+   LayeredPopoverContent/LayeredDropdownMenuContent. */
+
+.layered-combobox-content {
+    --layered-combobox-tone-accent: var(--tone-neutral-light);
+
+    position: relative;
+
+    box-sizing: border-box;
+    width: max-content;
+    min-width: 220px;
+    max-width: min(90vw, 360px, var(--available-width, 360px));
+
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%),
+        0 4px 10px rgb(0 0 0 / 30%);
+
+    color: var(--color-text);
+    overflow: visible;
+    outline: none;
+
+    transition:
+        transform var(--duration-fast, 100ms) var(--ease-control, ease),
+        opacity var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-combobox-content[data-size="medium"] {
+    min-width: 260px;
+    max-width: min(90vw, 420px, var(--available-width, 420px));
+}
+
+.layered-combobox-content[data-starting-style],
+.layered-combobox-content[data-ending-style] {
+    opacity: 0;
+}
+
+.layered-combobox-content[data-side="top"][data-starting-style],
+.layered-combobox-content[data-side="top"][data-ending-style] {
+    transform: translateY(4px);
+}
+
+.layered-combobox-content[data-side="bottom"][data-starting-style],
+.layered-combobox-content[data-side="bottom"][data-ending-style] {
+    transform: translateY(-4px);
+}
+
+/* Restrained tone accent, same inset-line-on-the-arrow-edge pattern as
+   LayeredPopoverContent. */
+
+.layered-combobox-content::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background: var(--layered-combobox-tone-accent);
+    pointer-events: none;
+    border-radius: 1px;
+}
+
+.layered-combobox-content[data-side="top"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-end: 0;
+    block-size: 2px;
+}
+
+.layered-combobox-content[data-side="bottom"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-start: 0;
+    block-size: 2px;
+}
+
+.layered-combobox-content[data-tone="copper"] {
+    --layered-combobox-tone-accent: var(--tone-copper-light);
+}
+
+.layered-combobox-content[data-tone="green"] {
+    --layered-combobox-tone-accent: var(--tone-green-light);
+}
+
+.layered-combobox-content[data-tone="gold"] {
+    --layered-combobox-tone-accent: var(--tone-gold-light);
+}
+
+.layered-combobox-content[data-tone="neutral"] {
+    --layered-combobox-tone-accent: var(--tone-neutral-light);
+}
+
+/* Arrow: Base UI's Arrow renders a plain <div> (no built-in SVG shape,
+   unlike Radix's Popover.Arrow), so the directional triangle is drawn with
+   CSS borders instead of an `svg[fill]`. */
+
+.layered-combobox-content__arrow {
+    width: 14px;
+    height: 7px;
+}
+
+.layered-combobox-content__arrow::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-inline: 7px solid transparent;
+}
+
+.layered-combobox-content[data-side="bottom"] .layered-combobox-content__arrow::before {
+    border-block-end: 7px solid var(--layered-combobox-tone-accent);
+}
+
+.layered-combobox-content[data-side="top"] .layered-combobox-content__arrow::before {
+    border-block-start: 7px solid var(--layered-combobox-tone-accent);
+}
+
+/* List: scrollable row container. */
+
+.layered-combobox-list {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    padding: 6px;
+    max-block-size: min(280px, calc(var(--available-height, 280px) - 4px));
+
+    overflow-y: auto;
+    overflow-x: clip;
+    overscroll-behavior: contain;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+/* Empty state */
+
+.layered-combobox-empty {
+    padding: 10px 12px;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.layered-combobox-empty:empty {
+    display: none;
+}
+
+/* Group / GroupLabel */
+
+.layered-combobox-group + .layered-combobox-group {
+    margin-top: 2px;
+}
+
+.layered-combobox-group-label {
+    padding: 6px 10px 4px;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* Item: same row shape as LayeredDropdownMenuCheckboxItem — leading
+   indicator column reserved regardless of selected state so text stays
+   aligned across rows. */
+
+.layered-combobox-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+
+    min-height: 30px;
+    padding: 6px 10px 6px 8px;
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    color: var(--color-text);
+    font-size: 0.85rem;
+    line-height: 1.4;
+
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+
+    transition: background var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-combobox-content[data-size="medium"] .layered-combobox-item {
+    min-height: 34px;
+    padding: 8px 12px 8px 10px;
+    font-size: 0.9rem;
+}
+
+.layered-combobox-item[data-highlighted] {
+    background: color-mix(in srgb, var(--layered-combobox-tone-accent) 24%, transparent);
+}
+
+.layered-combobox-item[data-disabled] {
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    background: none;
+}
+
+.layered-combobox-item__indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+}
+
+.layered-combobox-item__check {
+    position: relative;
+    width: 9px;
+    height: 6px;
+    border-inline-start: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: rotate(-45deg) translateY(-1px);
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-combobox-input-group {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-combobox-input-group:focus-within {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    .layered-combobox-content {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-combobox-content::before {
+        background: none;
+    }
+
+    .layered-combobox-item[data-highlighted] {
+        background: Highlight;
+        color: HighlightText;
+    }
+
+    .layered-combobox-item[data-disabled] {
+        color: GrayText;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-combobox-content {
+        transition: none !important;
+    }
+}
