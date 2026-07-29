@@ -8,7 +8,7 @@
     --layered-tooltip-tone-accent: var(--tone-neutral-light);
 
     position: relative;
-    z-index: var(--layered-tooltip-z, 1100);
+    z-index: var(--layered-tooltip-z, var(--layered-z-tooltip, 4000));
 
     box-sizing: border-box;
     max-width: 240px;

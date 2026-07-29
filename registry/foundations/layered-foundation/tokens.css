@@ -150,4 +150,16 @@
 
     --shadow-control-pressed:
         0 2px 4px rgb(0 0 0 / 55%);
+
+    /* Overlay Stack — semantic z-index layers, shared across overlay
+       components (Dialog, Popover/Menu, Toast, Tooltip). Ordered so a
+       later-opening, higher-priority layer always clears an earlier one:
+       tooltips can annotate controls inside dialogs, popovers, or toasts,
+       so tooltip stays topmost. Popover/Menu tokens are reserved ahead of
+       those components existing. */
+    --layered-z-dialog-overlay: 1000;
+    --layered-z-dialog-content: 1010;
+    --layered-z-popover: 2000;
+    --layered-z-toast: 3000;
+    --layered-z-tooltip: 4000;
 }

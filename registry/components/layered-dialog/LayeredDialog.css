@@ -7,7 +7,7 @@
 .layered-dialog-overlay {
     position: fixed;
     inset: 0;
-    z-index: var(--layered-dialog-overlay-z, 1000);
+    z-index: var(--layered-dialog-overlay-z, var(--layered-z-dialog-overlay, 1000));
 
     display: flex;
     align-items: center;
@@ -47,7 +47,7 @@
     --layered-dialog-width-large: min(94vw, 760px);
 
     position: relative;
-    z-index: var(--layered-dialog-content-z, 1001);
+    z-index: var(--layered-dialog-content-z, var(--layered-z-dialog-content, 1010));
 
     box-sizing: border-box;
     width: var(--layered-dialog-width-medium);

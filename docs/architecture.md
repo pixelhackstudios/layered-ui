@@ -107,15 +107,31 @@ The repository operates under **Policy A** for registry distribution:
 | **Behavioral Primitives** | Native HTML elements (`<button>`, `<input>`, `<select>`); Radix (`@radix-ui/react-dialog@1.1.23`) for `LayeredDialog`; Radix (`@radix-ui/react-tooltip@1.2.16`) for `LayeredTooltip`; Radix (`@radix-ui/react-tabs@1.1.21`) for `LayeredTabs`; Radix (`@radix-ui/react-accordion@1.2.20`) for `LayeredAccordion` | `LayeredCombobox` primitive undecided |
 | **Distribution** | `shadcn` registry JSON artifacts in `public/r/` | Maintained Policy A committed static artifact publishing |
 
+### Shared Overlay-Stack Z-Index Scale
+
+`layered-foundation/tokens.css` defines a semantic z-index scale, shared across every overlay-based component:
+
+```css
+--layered-z-dialog-overlay: 1000;
+--layered-z-dialog-content: 1010;
+--layered-z-popover: 2000;
+--layered-z-toast: 3000;
+--layered-z-tooltip: 4000;
+```
+
+This was introduced when `LayeredToast` became the third overlay-based component, resolving the question `LayeredTooltip`'s docs left deferred (below, kept for history). The ordering is deliberate, not numeric happenstance: `LayeredTooltip` sits topmost because a tooltip may annotate a control inside an open dialog, an open popover/menu, or a toast's action button, and must clear all of them. `--layered-z-popover` is reserved ahead of `LayeredPopover`/`LayeredDropdownMenu` existing, so those components have a slot to adopt without a future renumbering.
+
+Each component still exposes its own component-local override custom property as the first fallback (e.g. `--layered-dialog-overlay-z`, `--layered-tooltip-z`), falling back to the shared foundation token, falling back to a literal number — `var(--layered-dialog-overlay-z, var(--layered-z-dialog-overlay, 1000))`. This preserves per-instance override (a consumer can still raise one dialog's z-index without touching the shared scale) while giving every component a coherent default relative to the others out of the box. This three-level fallback is why a registry item copied in isolation (without `layered-foundation`) still renders with a sane literal default instead of an invalid `var()`.
+
 ### `LayeredDialog` Z-Index Strategy
 
-`LayeredDialog` uses component-local fallback custom properties, not shared foundation tokens: `--layered-dialog-overlay-z` (default `1000`) and `--layered-dialog-content-z` (default `1001`), applied via `var()` fallbacks in `LayeredDialog.css`. `layered-foundation/tokens.css` is intentionally unchanged; a shared overlay-stack token system was deferred until a second overlay-based component existed.
+`LayeredDialog` consumes `--layered-z-dialog-overlay` (`1000`) and `--layered-z-dialog-content` (`1010`) from the shared scale, via its component-local fallback properties `--layered-dialog-overlay-z` / `--layered-dialog-content-z`.
 
 ### `LayeredTooltip` Z-Index Strategy
 
-`LayeredTooltip` is that second overlay-based component, and the decision was made explicitly rather than deferred again: it stays **component-local**, using a single fallback custom property `--layered-tooltip-z` (default `1100`) applied via `var()` fallback in `LayeredTooltip.css`. The default is set numerically above `--layered-dialog-content-z` (`1001`) so a tooltip triggered on a control inside an open `LayeredDialog` renders above the dialog casing rather than behind or clipped by it (verified by the "Tooltip Inside Dialog" laboratory example). Consumers running a custom overlay stack may override `--layered-tooltip-z` directly.
+`LayeredTooltip` consumes `--layered-z-tooltip` (`4000`) from the shared scale, via its component-local fallback property `--layered-tooltip-z`. Originally (see history below) its component-local default of `1100` was set only high enough to numerically clear Dialog; the shared scale now expresses *why* it must stay topmost — verified by the "Tooltip Inside Dialog" laboratory example — rather than relying on an adjacent magic number.
 
-Shared foundation overlay-stack tokens were **not** introduced for this component: Dialog (modal, overlay+content pair, single instance) and Tooltip (non-modal, no scrim, no separate overlay layer) have structurally different stacking needs, and two data points are too thin a sample to generalize a shared schema from without risking an abstraction that fits neither well against a third overlay. This question is deferred again, to be revisited once a **third** overlay-based component (`LayeredToast`, a future `LayeredPopover`, or `LayeredDropdownMenu`) provides enough evidence to see whether a common pattern actually emerges.
+**History**: `LayeredDialog` originally used component-local-only fallback custom properties (`--layered-dialog-overlay-z` default `1000`, `--layered-dialog-content-z` default `1001`), with `layered-foundation/tokens.css` intentionally left unchanged — a shared token system was deferred until a second overlay-based component existed. `LayeredTooltip` then arrived as that second component and the decision was made explicitly rather than deferred again: it stayed component-local (`--layered-tooltip-z` default `1100`, numerically above Dialog's `1001`), reasoning that Dialog (modal, overlay+content pair) and Tooltip (non-modal, no scrim) were too structurally different, and two data points too thin a sample, to generalize a shared schema without it fitting neither well against a future third overlay. That third overlay-based component turned out to be `LayeredToast`, which is what prompted the shared scale above.
 
 ### `LayeredTabs` Z-Index Strategy
 
