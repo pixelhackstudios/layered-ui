@@ -1,0 +1,380 @@
+/* ==========================================================================
+   Layered Popover — compact equipment access module temporarily extended
+   from a control. Outer Content owns position, z-index, casing, motion,
+   and the Arrow, and stays overflow-visible so the Arrow is never clipped;
+   the internal body owns padding, wrapping, and vertical scrolling.
+   ========================================================================== */
+
+.layered-popover-content {
+    --layered-popover-tone-accent: var(--tone-neutral-light);
+    --popover-enter-x: 0px;
+    --popover-enter-y: 0px;
+
+    position: relative;
+    z-index: var(--layered-popover-z, var(--layered-z-popover, 2000));
+
+    box-sizing: border-box;
+    width: max-content;
+    max-width: min(90vw, 280px, var(--radix-popover-content-available-width, 280px));
+
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+
+    background:
+        linear-gradient(180deg,
+            var(--panel-surface-bg-top) 0%,
+            var(--panel-surface-bg-bottom) 100%);
+
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%),
+        0 4px 10px rgb(0 0 0 / 30%);
+
+    color: var(--color-text);
+    overflow: visible;
+    outline: none;
+}
+
+.layered-popover-content[data-size="medium"] {
+    max-width: min(90vw, 360px, var(--radix-popover-content-available-width, 360px));
+}
+
+/* Body: the only padded/scrollable region. Kept separate from the
+   positioned Content element so the Arrow (a Content sibling, not a body
+   child) is never clipped by body overflow. */
+
+.layered-popover-content__body {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+
+    padding: 12px 14px;
+    /* Radix's available-height variable already accounts for viewport
+       edges and collisionPadding; the small subtraction is a casing-edge
+       safety margin only, not a hard low cap — most Popovers never
+       approach it and render at their natural content height. */
+    max-block-size: calc(var(--radix-popover-content-available-height, 60vh) - 4px);
+
+    overflow-y: auto;
+    /* Setting overflow-y to a non-visible value makes overflow-x compute
+       to `auto` (not `visible`) per the CSS overflow spec unless overflow-x
+       is also set explicitly — without this, a 1px box-sizing/rounding
+       discrepancy was enough to render a spurious horizontal scrollbar on
+       every Popover, not just genuinely overflowing ones. */
+    overflow-x: clip;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* Ordinary block flow only — the body imposes no grid/column layout of its
+   own. Direct children are constrained so no single child (an input, a
+   button row, a long word) can force the body wider than the casing;
+   this targets each child's own box, not the internal control faces of
+   LayeredCheckbox/LayeredSwitch, which stay their native fixed size. */
+.layered-popover-content__body > * {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+}
+
+.layered-popover-content[data-size="medium"] .layered-popover-content__body {
+    padding: 16px 18px;
+    font-size: 0.9rem;
+}
+
+/* Restrained tone accent: same inset-pseudo-element-on-the-arrow-edge
+   pattern as LayeredTooltipContent, keyed off data-side, so it stays
+   correct through collision flipping without JS measurement. */
+
+.layered-popover-content::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background: var(--layered-popover-tone-accent);
+    pointer-events: none;
+    border-radius: 1px;
+}
+
+.layered-popover-content[data-side="top"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-end: 0;
+    block-size: 2px;
+}
+
+.layered-popover-content[data-side="bottom"]::before {
+    inset-inline: var(--control-radius-inner, 8px);
+    inset-block-start: 0;
+    block-size: 2px;
+}
+
+.layered-popover-content[data-side="left"]::before {
+    inset-block: var(--control-radius-inner, 8px);
+    inset-inline-end: 0;
+    inline-size: 2px;
+}
+
+.layered-popover-content[data-side="right"]::before {
+    inset-block: var(--control-radius-inner, 8px);
+    inset-inline-start: 0;
+    inline-size: 2px;
+}
+
+/* Tone variants: affect only the arrow fill and the accent line. */
+
+.layered-popover-content[data-tone="copper"] {
+    --layered-popover-tone-accent: var(--tone-copper-light);
+}
+
+.layered-popover-content[data-tone="green"] {
+    --layered-popover-tone-accent: var(--tone-green-light);
+}
+
+.layered-popover-content[data-tone="gold"] {
+    --layered-popover-tone-accent: var(--tone-gold-light);
+}
+
+.layered-popover-content[data-tone="neutral"] {
+    --layered-popover-tone-accent: var(--tone-neutral-light);
+}
+
+/* Arrow: small solid directional pointer, tone-derived fill, no independent
+   stroke/outline — avoids a cartoon speech-bubble read. */
+
+.layered-popover-content__arrow {
+    fill: var(--layered-popover-tone-accent);
+}
+
+/* Contained focus: only relevant when Radix focuses Content itself (no
+   focusable descendant present in the body). Inset box-shadow keeps the
+   ring within the casing per AGENTS.md contained-focus rule. */
+
+.layered-popover-content:focus-visible {
+    box-shadow:
+        inset 0 1px 1px rgb(255 255 255 / 6%),
+        inset 0 -1px 2px rgb(0 0 0 / 20%),
+        0 4px 10px rgb(0 0 0 / 30%),
+        inset 0 0 0 2px var(--control-focus);
+}
+
+/* Motion: a single open animation and a single close animation. Direction
+   is expressed through data-side-driven CSS variables rather than a
+   separate animation-name per side, so a collision-triggered data-side
+   change on an already-open Popover only updates the (at-rest, unused)
+   travel variables — it does not restart or replay the entrance. */
+
+.layered-popover-content[data-side="top"] {
+    --popover-enter-y: 4px;
+}
+
+.layered-popover-content[data-side="bottom"] {
+    --popover-enter-y: -4px;
+}
+
+.layered-popover-content[data-side="left"] {
+    --popover-enter-x: 4px;
+}
+
+.layered-popover-content[data-side="right"] {
+    --popover-enter-x: -4px;
+}
+
+.layered-popover-content[data-state="open"] {
+    animation: layered-popover-in var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+.layered-popover-content[data-state="closed"] {
+    animation: layered-popover-out var(--duration-fast, 100ms) var(--ease-control, ease) both;
+}
+
+@keyframes layered-popover-in {
+    from {
+        opacity: 0;
+        transform: translate(var(--popover-enter-x), var(--popover-enter-y));
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes layered-popover-out {
+    from {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(var(--popover-enter-x), var(--popover-enter-y));
+    }
+}
+
+/* Close: two geometry modes, discriminated by data-close-mode.
+
+   "glyph" (default, no children supplied) is the opinionated compact
+   mechanical X — fixed square dimensions, corner-style chrome, internal
+   glyph, no text wrapping.
+
+   "custom" (explicit children, or asChild) must never inherit any of that
+   geometry: it wraps content of arbitrary natural width (a text label, or
+   an entire consumer LayeredButton via asChild), so it stays unstyled
+   beyond semantic Close behavior and a contained focus ring — the fixed
+   22x22 glyph box previously applied here forced text like "Save" or
+   "Dismiss" to wrap into a single narrow column instead of reading as a
+   normal control. */
+
+.layered-popover-close[data-close-mode="glyph"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    width: 22px;
+    height: 22px;
+    padding: 0;
+
+    color: var(--color-text-muted);
+
+    border: 1px solid var(--control-shell-border);
+    border-radius: calc(var(--control-radius-inner) - 4px);
+
+    background:
+        linear-gradient(180deg,
+            var(--control-shell-top) 0%,
+            var(--control-shell-bottom) 100%);
+
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 1px rgb(255 255 255 / 8%);
+
+    cursor: pointer;
+
+    transition:
+        box-shadow var(--duration-fast, 100ms) var(--ease-control, ease),
+        transform var(--duration-fast, 100ms) var(--ease-control, ease),
+        color var(--duration-fast, 100ms) var(--ease-control, ease);
+}
+
+.layered-popover-close__glyph {
+    position: relative;
+    width: 9px;
+    height: 9px;
+}
+
+.layered-popover-close__glyph::before,
+.layered-popover-close__glyph::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    border-radius: 1px;
+    background: currentColor;
+}
+
+.layered-popover-close__glyph::before {
+    transform: rotate(45deg);
+}
+
+.layered-popover-close__glyph::after {
+    transform: rotate(-45deg);
+}
+
+.layered-popover-close[data-close-mode="glyph"]:hover {
+    color: var(--color-text);
+    box-shadow:
+        0 2px 4px rgb(0 0 0 / 40%),
+        inset 0 1px rgb(255 255 255 / 10%);
+}
+
+.layered-popover-close[data-close-mode="glyph"]:active {
+    transform: translateY(1px) scale(0.96);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 40%);
+}
+
+.layered-popover-close[data-close-mode="glyph"]:focus-visible {
+    color: var(--color-text);
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 0 0 2px var(--control-focus);
+    outline: none;
+}
+
+/* "custom" mode: no imposed size, no imposed chrome. cursor/behavior only,
+   plus a contained focus-visible ring for the (rare) case where the
+   consumer's own wrapped element does not already provide one — e.g. plain
+   text children with no inner focusable styling of their own. asChild
+   compositions typically render the consumer's own fully-styled element
+   (a LayeredButton already has its own focus treatment), so this ring only
+   becomes visible when nothing else supplies one. */
+
+.layered-popover-close[data-close-mode="custom"] {
+    cursor: pointer;
+}
+
+.layered-popover-close[data-close-mode="custom"]:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--control-focus);
+    border-radius: var(--control-radius-inner);
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-popover-content {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-popover-content::before {
+        background: none;
+    }
+
+    .layered-popover-content__arrow {
+        fill: CanvasText;
+    }
+
+    .layered-popover-content:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    .layered-popover-close[data-close-mode="glyph"] {
+        border-color: CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    .layered-popover-close[data-close-mode="glyph"]:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    .layered-popover-close[data-close-mode="custom"]:focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+        box-shadow: none;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-popover-content {
+        animation: none !important;
+    }
+
+    .layered-popover-close[data-close-mode="glyph"] {
+        transition: none;
+    }
+
+    .layered-popover-close[data-close-mode="glyph"]:active {
+        transform: none;
+    }
+}

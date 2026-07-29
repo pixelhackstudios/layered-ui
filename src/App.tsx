@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   LayeredAccordion,
   LayeredAccordionContent,
@@ -20,6 +20,13 @@ import {
 import { LayeredDisplayCard } from "../registry/components/layered-display-card/LayeredDisplayCard";
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
+import {
+  LayeredPopover,
+  LayeredPopoverAnchor,
+  LayeredPopoverClose,
+  LayeredPopoverContent,
+  LayeredPopoverTrigger,
+} from "../registry/components/layered-popover/LayeredPopover";
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
 import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
 import {
@@ -54,6 +61,17 @@ function App() {
   const [controlledTooltipOpen, setControlledTooltipOpen] = useState(false);
   const [controlledTabsValue, setControlledTabsValue] = useState("overview");
   const [controlledAccordionValue, setControlledAccordionValue] = useState("one");
+
+  const [controlledPopoverOpen, setControlledPopoverOpen] = useState(false);
+  const [popoverSide, setPopoverSide] = useState<
+    "top" | "right" | "bottom" | "left"
+  >("bottom");
+  const [popoverAlign, setPopoverAlign] = useState<
+    "start" | "center" | "end"
+  >("center");
+  const [positionDemoOpen, setPositionDemoOpen] = useState(true);
+  const positionSelectorsRef = useRef<HTMLDivElement>(null);
+  const [anchorPopoverOpen, setAnchorPopoverOpen] = useState(false);
 
   const [toastPosition, setToastPosition] =
     useState<LayeredToastPosition>("bottom-right");
@@ -1813,6 +1831,388 @@ function App() {
               </LayeredTooltip>
               <LayeredToastClose />
             </LayeredToast>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Popover
+          </h2>
+
+          <div className="component-row">
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Basic Popover</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <p style={{ margin: 0 }}>Uncontrolled — Radix owns open state.</p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredButton
+              tone="gold"
+              size="small"
+              onClick={() => setControlledPopoverOpen((open) => !open)}
+            >
+              Toggle Controlled Popover
+            </LayeredButton>
+            <LayeredPopover
+              open={controlledPopoverOpen}
+              onOpenChange={setControlledPopoverOpen}
+            >
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="gold" size="small" tabIndex={-1}>
+                  Controlled Target
+                </LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent tone="gold">
+                <p style={{ margin: 0 }}>
+                  Open state is owned by the parent laboratory component.
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover open={anchorPopoverOpen} onOpenChange={setAnchorPopoverOpen}>
+              <LayeredPopoverAnchor asChild>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    padding: "6px 10px",
+                    border: "1px dashed var(--control-trench)",
+                    borderRadius: "var(--control-radius-inner)",
+                    fontSize: "0.8rem",
+                    color: "var(--color-text-muted)",
+                  }}
+                >
+                  Anchor element (not the Trigger)
+                </span>
+              </LayeredPopoverAnchor>
+              <LayeredButton
+                tone="neutral"
+                size="small"
+                onClick={() => setAnchorPopoverOpen((open) => !open)}
+              >
+                Toggle Anchored Content
+              </LayeredButton>
+              <LayeredPopoverContent>
+                <p style={{ margin: 0 }}>
+                  Positioned against the Anchor element above, not this trigger button.
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="copper" size="small">Copper</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent tone="copper">
+                <p style={{ margin: 0 }}>Copper tone accent</p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="green" size="small">Green</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent tone="green">
+                <p style={{ margin: 0 }}>Green tone accent</p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="gold" size="small">Gold</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent tone="gold">
+                <p style={{ margin: 0 }}>Gold tone accent</p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Small Size</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent popoverSize="small">
+                <p style={{ margin: 0 }}>Compact contextual surface.</p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Medium Size</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent popoverSize="medium">
+                <p style={{ margin: 0 }}>
+                  Medium size, suited to a short form or a fuller explanation.
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+          </div>
+
+          <p style={{ marginTop: "20px", marginBottom: "8px", fontSize: "0.75rem", color: "var(--color-text-muted)" }}>
+            Open by default — the Side/Align buttons below reposition it live without closing it.
+            (Lab-only wiring: <code>onInteractOutside</code> ignores clicks on the selector buttons
+            themselves; a click anywhere else still dismisses it normally, since Popover is non-modal.)
+          </p>
+          <div className="component-row" style={{ alignItems: "center" }}>
+            <div ref={positionSelectorsRef} style={{ display: "contents" }}>
+              <span style={{ fontSize: "0.8rem", color: "var(--color-text-muted)" }}>Side:</span>
+              {(["top", "right", "bottom", "left"] as const).map((side) => (
+                <LayeredButton
+                  key={side}
+                  tone={popoverSide === side ? "copper" : "neutral"}
+                  size="small"
+                  onClick={() => setPopoverSide(side)}
+                >
+                  {side}
+                </LayeredButton>
+              ))}
+
+              <span style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", marginLeft: "12px" }}>
+                Align:
+              </span>
+              {(["start", "center", "end"] as const).map((align) => (
+                <LayeredButton
+                  key={align}
+                  tone={popoverAlign === align ? "copper" : "neutral"}
+                  size="small"
+                  onClick={() => setPopoverAlign(align)}
+                >
+                  {align}
+                </LayeredButton>
+              ))}
+            </div>
+
+            <LayeredPopover open={positionDemoOpen} onOpenChange={setPositionDemoOpen}>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">
+                  {positionDemoOpen ? "Hide" : "Show"} Positioned Popover
+                </LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent
+                side={popoverSide}
+                align={popoverAlign}
+                onInteractOutside={(event) => {
+                  if (
+                    positionSelectorsRef.current?.contains(
+                      event.target as Node
+                    )
+                  ) {
+                    event.preventDefault();
+                  }
+                }}
+              >
+                <p style={{ margin: 0 }}>
+                  side="{popoverSide}" align="{popoverAlign}"
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Default Arrow</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <p style={{ margin: 0 }}>Arrow renders by default.</p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">No Arrow</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent showArrow={false}>
+                <p style={{ margin: 0 }}>showArrow={"{false}"} suppresses it.</p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Default Close</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <p style={{ margin: 0 }}>Renders the internal mechanical X.</p>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <LayeredPopoverClose />
+                  </div>
+                </div>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Explicit-Child Close</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <p style={{ margin: 0 }}>Close renders supplied children instead of the glyph.</p>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <LayeredPopoverClose className="layered-popover-lab__text-close">
+                      Dismiss
+                    </LayeredPopoverClose>
+                  </div>
+                </div>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">asChild Close</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <p style={{ margin: 0 }}>Close composes around a consumer's own element.</p>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <LayeredPopoverClose asChild>
+                      <LayeredButton tone="copper" size="small">Got it</LayeredButton>
+                    </LayeredPopoverClose>
+                  </div>
+                </div>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">No Close</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <p style={{ margin: 0 }}>
+                  Dismissed only via Escape or outside click — Close is fully optional.
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="copper" size="small">Quick Settings</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent tone="copper" popoverSize="medium" style={{ width: "260px" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  <LayeredInput label="Display name" placeholder="Enter a name" />
+                  <LayeredCheckbox label="Enable notifications" defaultChecked />
+                  <LayeredSwitch label="Auto-sync" />
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <LayeredPopoverClose asChild>
+                      <LayeredButton tone="copper" size="small">Save</LayeredButton>
+                    </LayeredPopoverClose>
+                  </div>
+                </div>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Long Content</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent popoverSize="medium">
+                <p>
+                  This popover contains a long block of explanatory text used to verify
+                  that the internal body scrolls independently of the outer casing once
+                  content exceeds the available viewport height, while the Arrow and
+                  border remain unclipped throughout.
+                </p>
+                <p>
+                  Repeated content to force overflow. Repeated content to force overflow.
+                  Repeated content to force overflow. Repeated content to force overflow.
+                </p>
+                <p>
+                  Repeated content to force overflow. Repeated content to force overflow.
+                  Repeated content to force overflow. Repeated content to force overflow.
+                </p>
+                <p style={{ marginBottom: 0 }}>
+                  Repeated content to force overflow. Repeated content to force overflow.
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+          </div>
+
+          <div
+            style={{
+              marginTop: "20px",
+              maxWidth: "220px",
+              overflow: "hidden",
+              padding: "12px",
+              border: "1px dashed var(--control-trench)",
+            }}
+          >
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small" fullWidth>
+                  Edge Trigger
+                </LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <p style={{ margin: 0 }}>
+                  Collision detection flips and shifts this popover away from the constrained edge.
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+          </div>
+
+          <div className="component-row" style={{ marginTop: "20px" }}>
+            <LayeredDialog>
+              <LayeredDialogTrigger asChild>
+                <LayeredButton tone="copper" size="small">Open Dialog With Popover</LayeredButton>
+              </LayeredDialogTrigger>
+              <LayeredDialogContent size="small">
+                <LayeredDialogHeader>
+                  <LayeredDialogTitle>Popover Inside Dialog</LayeredDialogTitle>
+                  <LayeredDialogDescription>
+                    Verifies stacking: the popover must render above the dialog casing.
+                  </LayeredDialogDescription>
+                </LayeredDialogHeader>
+                <LayeredPopover>
+                  <LayeredPopoverTrigger asChild>
+                    <LayeredButton tone="copper" size="small">Open Popover</LayeredButton>
+                  </LayeredPopoverTrigger>
+                  <LayeredPopoverContent tone="copper">
+                    <p style={{ margin: 0 }}>Portals above the open dialog casing.</p>
+                  </LayeredPopoverContent>
+                </LayeredPopover>
+              </LayeredDialogContent>
+            </LayeredDialog>
+
+            <LayeredPopover>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="neutral" size="small">Popover With Tooltip</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <p style={{ margin: 0 }}>A control inside this popover has its own tooltip.</p>
+                  <LayeredTooltip>
+                    <LayeredTooltipTrigger asChild>
+                      <LayeredButton tone="neutral" size="small" aria-label="Refresh">
+                        ⟳
+                      </LayeredButton>
+                    </LayeredTooltipTrigger>
+                    <LayeredTooltipContent>
+                      Renders above the popover it is nested within
+                    </LayeredTooltipContent>
+                  </LayeredTooltip>
+                </div>
+              </LayeredPopoverContent>
+            </LayeredPopover>
+
+            <LayeredPopover modal>
+              <LayeredPopoverTrigger asChild>
+                <LayeredButton tone="gold" size="small">Modal Popover</LayeredButton>
+              </LayeredPopoverTrigger>
+              <LayeredPopoverContent tone="gold">
+                <p style={{ margin: 0 }}>
+                  modal={"{true}"} traps focus and blocks outside pointer interaction.
+                </p>
+              </LayeredPopoverContent>
+            </LayeredPopover>
           </div>
         </section>
       </div>

@@ -102,3 +102,22 @@ button {
     align-items: center;
     gap: 20px;
 }
+
+/* Laboratory-only: demonstrates LayeredPopoverClose's "custom" text-children
+   mode, which is intentionally unstyled by the component itself so a
+   consumer's own button styling is never overridden. This class supplies
+   just enough affordance for the lab example to read as a clickable action,
+   and is not part of the published registry item. */
+.layered-popover-lab__text-close {
+    padding: 6px 12px;
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+    background: transparent;
+    color: var(--color-text);
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.layered-popover-lab__text-close:hover {
+    background: var(--panel-surface-bg-top);
+}

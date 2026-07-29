@@ -281,6 +281,30 @@
       ]
     },
     {
+      "name": "layered-popover",
+      "type": "registry:ui",
+      "title": "Layered Popover",
+      "description": "Tactile compact anchored access module with a recessed content surface, restrained tone accent, and an integrated directional Arrow, built on Radix Popover for accessible positioning, collision detection, and dismissal behavior.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-popover@1.1.23"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-popover/LayeredPopover.tsx",
+          "target": "@ui/layered/LayeredPopover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-popover/LayeredPopover.css",
+          "target": "@ui/layered/LayeredPopover.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "layered-toast",
       "type": "registry:ui",
       "title": "Layered Toast",

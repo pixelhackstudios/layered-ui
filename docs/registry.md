@@ -11,7 +11,7 @@ Layered UI uses the standard `shadcn` registry schema:
 
 ## Current Published Registry Items
 
-The canonical manifest (`registry.json`) defines fourteen published items:
+The canonical manifest (`registry.json`) defines fifteen published items:
 
 | Item Name | Item Type | Canonical Source Paths | Generated Output Artifact | Registry Dependencies |
 |---|---|---|---|---|
@@ -29,8 +29,9 @@ The canonical manifest (`registry.json`) defines fourteen published items:
 | `layered-tabs` | `registry:ui` | `registry/components/layered-tabs/LayeredTabs.tsx`<br>`registry/components/layered-tabs/LayeredTabs.css` | `public/r/layered-tabs.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-tabs@1.1.21` (npm) |
 | `layered-accordion` | `registry:ui` | `registry/components/layered-accordion/LayeredAccordion.tsx`<br>`registry/components/layered-accordion/LayeredAccordion.css` | `public/r/layered-accordion.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-accordion@1.2.20` (npm) |
 | `layered-toast` | `registry:ui` | `registry/components/layered-toast/LayeredToast.tsx`<br>`registry/components/layered-toast/LayeredToast.css` | `public/r/layered-toast.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-toast@1.2.23` (npm) |
+| `layered-popover` | `registry:ui` | `registry/components/layered-popover/LayeredPopover.tsx`<br>`registry/components/layered-popover/LayeredPopover.css` | `public/r/layered-popover.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-popover@1.1.23` (npm) |
 
-`layered-dialog` was the first published item to declare an npm `dependencies` entry alongside its `registryDependencies` entry. `layered-tooltip` is the second, following the same convention: `@radix-ui/react-tooltip` pinned exactly at `1.2.16`, no caret, verified via `npm view @radix-ui/react-tooltip@1.2.16 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) before pinning. `layered-tabs` is the third, pinned exactly at `1.1.21`, verified the same way via `npm view @radix-ui/react-tabs@1.1.21 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-accordion` is the fourth, pinned exactly at `1.2.20`, verified via `npm view @radix-ui/react-accordion@1.2.20 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-toast` is the fifth, pinned exactly at `1.2.23`, verified via `npm view @radix-ui/react-toast@1.2.23 peerDependencies` (confirms `react`/`react-dom` `^19.0` support).
+`layered-dialog` was the first published item to declare an npm `dependencies` entry alongside its `registryDependencies` entry. `layered-tooltip` is the second, following the same convention: `@radix-ui/react-tooltip` pinned exactly at `1.2.16`, no caret, verified via `npm view @radix-ui/react-tooltip@1.2.16 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) before pinning. `layered-tabs` is the third, pinned exactly at `1.1.21`, verified the same way via `npm view @radix-ui/react-tabs@1.1.21 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-accordion` is the fourth, pinned exactly at `1.2.20`, verified via `npm view @radix-ui/react-accordion@1.2.20 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-toast` is the fifth, pinned exactly at `1.2.23`, verified via `npm view @radix-ui/react-toast@1.2.23 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-popover` is the sixth, pinned exactly at `1.1.23`, verified via `npm view @radix-ui/react-popover@1.1.23 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) — the exact package was also installed and its runtime exports/`.d.ts` inspected directly before finalizing the public API, which is what caught that it does not export `Title`/`Description` primitives (see `docs/architecture.md`, "`LayeredPopover` API Boundary").
 
 ## Registry Address & Dependency Syntax
 
@@ -96,6 +97,18 @@ npx shadcn@latest add "https://raw.githubusercontent.com/pixelhackstudios/layere
 ```
 
 The `owner/repo@<SHA>/item` ordering (SHA attached to the repo segment rather than the item segment) 404s against `ui.shadcn.com`'s resolution endpoint on this CLI version — use `owner/repo/item#<SHA>` instead. Both forms were confirmed during `layered-tooltip`'s (Phase 8) release verification.
+
+### Registry Dependencies Are Not Covered by SHA-Pinning
+
+SHA-pinned verification applies to the requested registry item only.
+
+Registry dependencies referenced by that item are resolved separately from the repository's currently published registry. Before verifying a dependent item:
+
+1. Confirm every registry dependency commit is already present on `origin/main`.
+2. Fetch `origin/main` and verify the required dependency content remotely.
+3. After installation, inspect the installed dependency content — not only its path — to confirm the expected version was resolved.
+
+This was discovered during `layered-toast`'s (Phase 11) release verification: `bd164ab` (the shared overlay z-index scale added to `layered-foundation`) had only been committed locally, not pushed to `origin/main`, when `layered-toast#a429f12` was first SHA-pinned and fixture-installed. The fixture still installed successfully — `layered-toast`'s own file was correctly resolved at the pinned SHA — but the nested `layered-foundation` dependency it declares (unpinned, per the standard `registryDependencies` syntax) resolved against `origin/main`'s HEAD at install time, which did not yet include the z-index scale. The installed `tokens.css` was silently missing the new tokens, even though the top-level item installed "successfully." Re-verification only caught this because the installed dependency's *content* was diffed against canonical source, not just its presence at the expected path.
 
 ## Rules Governing Usage vs. Registry Dependencies
 
