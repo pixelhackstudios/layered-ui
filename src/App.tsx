@@ -99,6 +99,28 @@ const frameworkOptions = [
   "Ember",
 ];
 
+const paletteSteps = [
+  "50",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
+  "950",
+] as const;
+
+const paletteFamilies = [
+  { id: "neutral", label: "Neutral" },
+  { id: "copper", label: "Copper" },
+  { id: "green", label: "Green" },
+  { id: "gold", label: "Gold" },
+  { id: "red", label: "Signal red" },
+] as const;
+
 function App() {
   const [theme, setTheme] = useState<ThemeMode>("classic");
   const [controlledDialogOpen, setControlledDialogOpen] = useState(false);
@@ -195,6 +217,44 @@ function App() {
       </header>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+        <section className="component-section palette-board">
+          <h2 className="component-section__title">
+            Color Palettes
+          </h2>
+
+          <div className="palette-board__ramps">
+            {paletteFamilies.map((family) => (
+              <figure className="palette-ramp" key={family.id}>
+                <figcaption className="palette-ramp__name">
+                  {family.label}
+                </figcaption>
+
+                <div className="palette-ramp__trench">
+                  <ol
+                    className="palette-ramp__strip"
+                    aria-label={`${family.label} color ramp`}
+                  >
+                    {paletteSteps.map((step) => {
+                      const token = `--palette-${family.id}-${step}`;
+
+                      return (
+                        <li className="palette-ramp__step" key={step}>
+                          <span
+                            className="palette-ramp__swatch"
+                            style={{ backgroundColor: `var(${token})` }}
+                          />
+                          <span className="palette-ramp__value">{step}</span>
+                          <code className="palette-ramp__token">{token}</code>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </div>
+              </figure>
+            ))}
+          </div>
+        </section>
+
         <section className="component-section">
           <h2 className="component-section__title">
             Layered Button
