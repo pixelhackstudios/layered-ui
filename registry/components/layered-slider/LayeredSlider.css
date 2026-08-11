@@ -1,0 +1,308 @@
+.layered-slider {
+    /* Default neutral tone */
+    --slider-tone-accent: var(--tone-neutral-light);
+    --slider-tone-face-light: var(--tone-neutral-light);
+    --slider-tone-face-mid: var(--tone-neutral-mid);
+    --slider-tone-face-dark: var(--tone-neutral-dark);
+    --slider-tone-focus: var(--control-focus);
+
+    /* Default medium size */
+    --slider-rail-height: 10px;
+    --slider-carriage-width: 22px;
+    --slider-carriage-height: 20px;
+    --slider-hit-size: 32px;
+    --slider-tick-spacing: 10px;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 140px;
+    height: var(--slider-hit-size);
+
+    touch-action: none;
+    user-select: none;
+}
+
+/* Recessed Rail (calibration channel) */
+
+.layered-slider-track {
+    position: relative;
+    flex: 1;
+    box-sizing: border-box;
+
+    height: var(--slider-rail-height);
+
+    border: 1px solid var(--control-trench);
+    border-radius: calc(var(--slider-rail-height) / 2);
+
+    background: var(--input-surface-bg-bottom);
+
+    box-shadow: inset 0 2px 3px rgb(0 0 0 / 55%);
+
+    overflow: hidden;
+
+    transition:
+        border-color var(--duration-fast) var(--ease-control),
+        box-shadow var(--duration-fast) var(--ease-control);
+}
+
+/* Calibration tick marks: fixed decorative graduation, purely CSS */
+.layered-slider-track::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(90deg,
+        rgb(0 0 0 / 45%) 0px,
+        rgb(0 0 0 / 45%) 1px,
+        transparent 1px,
+        transparent var(--slider-tick-spacing));
+    background-position: center;
+    pointer-events: none;
+}
+
+/* Filled Range: the traveled portion of the rail */
+
+.layered-slider-range {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(180deg,
+            var(--slider-tone-face-light) 0%,
+            var(--slider-tone-face-mid) 100%);
+
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 25%);
+
+    transition: background var(--duration-fast) var(--ease-control);
+}
+
+/* Thumb / Carriage: a blocky mechanical block riding the rail, not a
+   generic round handle. The element itself is an oversized, invisible
+   hit target (`--slider-hit-size`) — the visible metallic cap is a
+   centered `::before` sized to `--slider-carriage-*`, kept smaller than
+   the hit target so the drag/tap area exceeds what's drawn. A persistent
+   light rim (rather than the near-black `--control-shell-border` alone)
+   keeps the cap visible against both the dark track and a colored Range
+   fill, instead of nearly disappearing at the fill boundary. */
+
+.layered-slider-thumb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+
+    width: var(--slider-hit-size);
+    height: var(--slider-hit-size);
+
+    background: transparent;
+    border: none;
+
+    cursor: grab;
+}
+
+.layered-slider-thumb::before {
+    content: "";
+    box-sizing: border-box;
+
+    width: var(--slider-carriage-width);
+    height: var(--slider-carriage-height);
+
+    border-radius: 4px;
+    border: 1px solid rgb(255 255 255 / 40%);
+
+    background:
+        linear-gradient(180deg, #4a4c50 0%, #2c2d2f 45%, #17181a 100%),
+        repeating-linear-gradient(90deg,
+            rgb(255 255 255 / 6%) 0px,
+            rgb(255 255 255 / 6%) 1px,
+            transparent 1px,
+            transparent 3px);
+    background-blend-mode: normal, overlay;
+
+    box-shadow:
+        0 0 0 1px rgb(0 0 0 / 70%),
+        0 2px 4px rgb(0 0 0 / 45%),
+        inset 0 1px 1px rgb(255 255 255 / 30%),
+        inset 0 -2px 2px rgb(0 0 0 / 35%);
+
+    transition:
+        box-shadow var(--duration-fast) var(--ease-control),
+        background var(--duration-fast) var(--ease-control);
+}
+
+.layered-slider-thumb:focus-visible {
+    outline: none;
+}
+
+.layered-slider-thumb:focus-visible::before {
+    box-shadow:
+        0 0 0 1px rgb(0 0 0 / 70%),
+        0 2px 4px rgb(0 0 0 / 45%),
+        inset 0 1px 1px rgb(255 255 255 / 30%),
+        inset 0 -2px 2px rgb(0 0 0 / 35%),
+        0 0 0 3px var(--slider-tone-focus);
+}
+
+.layered-slider-thumb:hover::before {
+    border-color: rgb(255 255 255 / 55%);
+    box-shadow:
+        0 0 0 1px rgb(0 0 0 / 70%),
+        0 3px 6px rgb(0 0 0 / 50%),
+        inset 0 1px 1px rgb(255 255 255 / 38%),
+        inset 0 -2px 2px rgb(0 0 0 / 35%);
+}
+
+.layered-slider-thumb:active {
+    cursor: grabbing;
+}
+
+.layered-slider-thumb:active::before {
+    transform: scaleY(0.9);
+}
+
+/* Tone Variants */
+
+.layered-slider[data-tone="copper"] {
+    --slider-tone-accent: var(--tone-copper-light);
+    --slider-tone-face-light: var(--tone-copper-light);
+    --slider-tone-face-mid: var(--tone-copper-mid);
+    --slider-tone-face-dark: var(--tone-copper-dark);
+    --slider-tone-focus: var(--tone-copper-light);
+}
+
+.layered-slider[data-tone="green"] {
+    --slider-tone-accent: var(--tone-green-light);
+    --slider-tone-face-light: var(--tone-green-light);
+    --slider-tone-face-mid: var(--tone-green-mid);
+    --slider-tone-face-dark: var(--tone-green-dark);
+    --slider-tone-focus: var(--tone-green-light);
+}
+
+.layered-slider[data-tone="gold"] {
+    --slider-tone-accent: var(--tone-gold-light);
+    --slider-tone-face-light: var(--tone-gold-light);
+    --slider-tone-face-mid: var(--tone-gold-mid);
+    --slider-tone-face-dark: var(--tone-gold-dark);
+    --slider-tone-focus: var(--tone-gold-light);
+}
+
+.layered-slider[data-tone="neutral"] {
+    --slider-tone-accent: var(--tone-neutral-light);
+    --slider-tone-face-light: var(--tone-neutral-light);
+    --slider-tone-face-mid: var(--tone-neutral-mid);
+    --slider-tone-face-dark: var(--tone-neutral-dark);
+    --slider-tone-focus: var(--control-focus);
+}
+
+/* Size Variants */
+
+.layered-slider[data-size="small"] {
+    --slider-rail-height: 8px;
+    --slider-carriage-width: 18px;
+    --slider-carriage-height: 16px;
+    --slider-hit-size: 26px;
+    --slider-tick-spacing: 8px;
+}
+
+.layered-slider[data-size="medium"] {
+    --slider-rail-height: 10px;
+    --slider-carriage-width: 22px;
+    --slider-carriage-height: 20px;
+    --slider-hit-size: 32px;
+    --slider-tick-spacing: 10px;
+}
+
+.layered-slider[data-size="large"] {
+    --slider-rail-height: 13px;
+    --slider-carriage-width: 28px;
+    --slider-carriage-height: 26px;
+    --slider-hit-size: 40px;
+    --slider-tick-spacing: 12px;
+}
+
+/* Disabled State */
+
+.layered-slider[data-disabled] {
+    opacity: 0.5;
+    filter: grayscale(0.45);
+}
+
+.layered-slider[data-disabled] .layered-slider-thumb {
+    cursor: not-allowed;
+}
+
+.layered-slider[data-disabled] .layered-slider-thumb::before {
+    background: #141516;
+    border-color: rgb(255 255 255 / 18%);
+}
+
+.layered-slider[data-disabled] .layered-slider-thumb:active::before {
+    transform: none;
+}
+
+/* Responsive Narrow Screen Support */
+
+@media (max-width: 640px) {
+    .layered-slider {
+        min-width: 0;
+    }
+}
+
+/* Forced Colors */
+
+@media (forced-colors: active) {
+    .layered-slider-track {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .layered-slider-track::before {
+        background-image: none;
+    }
+
+    .layered-slider-range {
+        forced-color-adjust: none;
+        background: Highlight;
+    }
+
+    .layered-slider-thumb::before {
+        forced-color-adjust: none;
+        background: ButtonText;
+        border-color: CanvasText;
+    }
+
+    .layered-slider-thumb:focus-visible::before {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    .layered-slider[data-disabled] .layered-slider-track,
+    .layered-slider[data-disabled] .layered-slider-thumb::before {
+        border-color: GrayText;
+        color: GrayText;
+    }
+}
+
+/* Reduced Motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-slider-track,
+    .layered-slider-range,
+    .layered-slider-thumb::before {
+        transition: none;
+    }
+
+    .layered-slider-thumb:active::before {
+        transform: none;
+    }
+}

@@ -61,6 +61,12 @@ import {
   LayeredComboboxList,
 } from "../registry/components/layered-combobox/LayeredCombobox";
 import { LayeredSelect } from "../registry/components/layered-select/LayeredSelect";
+import {
+  LayeredSlider,
+  LayeredSliderRange,
+  LayeredSliderThumb,
+  LayeredSliderTrack,
+} from "../registry/components/layered-slider/LayeredSlider";
 import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
 import {
   LayeredTabs,
@@ -150,6 +156,9 @@ function App() {
   const [comboboxCountry, setComboboxCountry] = useState<string | null>(
     "Canada"
   );
+
+  const [controlledSliderValue, setControlledSliderValue] = useState([40]);
+  const [rangeSliderValue, setRangeSliderValue] = useState([25, 75]);
 
   const [toastPosition, setToastPosition] =
     useState<LayeredToastPosition>("bottom-right");
@@ -2647,6 +2656,85 @@ function App() {
                   </LayeredComboboxList>
                 </LayeredComboboxContent>
               </LayeredCombobox>
+            </div>
+          </div>
+        </section>
+
+        <section className="component-section">
+          <h2 className="component-section__title">
+            Layered Slider
+          </h2>
+
+          <div className="component-row">
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "220px" }}>
+              <LayeredSlider defaultValue={[40]} max={100} step={1}>
+                <LayeredSliderTrack>
+                  <LayeredSliderRange />
+                </LayeredSliderTrack>
+                <LayeredSliderThumb aria-label="Basic value" />
+              </LayeredSlider>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "220px" }}>
+              <LayeredSlider
+                value={controlledSliderValue}
+                onValueChange={setControlledSliderValue}
+                max={100}
+                step={1}
+                tone="copper"
+              >
+                <LayeredSliderTrack>
+                  <LayeredSliderRange />
+                </LayeredSliderTrack>
+                <LayeredSliderThumb aria-label="Controlled value" />
+              </LayeredSlider>
+              <span style={{ fontSize: "0.8rem", color: "var(--color-text-muted)" }}>
+                {controlledSliderValue[0]}
+              </span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "220px" }}>
+              <LayeredSlider
+                value={rangeSliderValue}
+                onValueChange={setRangeSliderValue}
+                max={100}
+                step={1}
+                minStepsBetweenThumbs={5}
+                tone="green"
+              >
+                <LayeredSliderTrack>
+                  <LayeredSliderRange />
+                </LayeredSliderTrack>
+                <LayeredSliderThumb aria-label="Range minimum" />
+                <LayeredSliderThumb aria-label="Range maximum" />
+              </LayeredSlider>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "220px" }}>
+              <LayeredSlider defaultValue={[60]} max={100} step={1} tone="gold" sliderSize="small">
+                <LayeredSliderTrack>
+                  <LayeredSliderRange />
+                </LayeredSliderTrack>
+                <LayeredSliderThumb aria-label="Small size" />
+              </LayeredSlider>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "220px" }}>
+              <LayeredSlider defaultValue={[60]} max={100} step={1} sliderSize="large">
+                <LayeredSliderTrack>
+                  <LayeredSliderRange />
+                </LayeredSliderTrack>
+                <LayeredSliderThumb aria-label="Large size" />
+              </LayeredSlider>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "220px" }}>
+              <LayeredSlider defaultValue={[30]} max={100} step={1} disabled>
+                <LayeredSliderTrack>
+                  <LayeredSliderRange />
+                </LayeredSliderTrack>
+                <LayeredSliderThumb aria-label="Disabled" />
+              </LayeredSlider>
             </div>
           </div>
         </section>

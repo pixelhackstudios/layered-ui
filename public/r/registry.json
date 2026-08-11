@@ -399,6 +399,30 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-slider",
+      "type": "registry:ui",
+      "title": "Layered Slider",
+      "description": "Tactile calibration rail with a recessed graduated channel and a blocky mechanical carriage thumb, built on Radix Slider for accessible pointer/keyboard range selection.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slider@1.4.7"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-slider/LayeredSlider.tsx",
+          "target": "@ui/layered/LayeredSlider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-slider/LayeredSlider.css",
+          "target": "@ui/layered/LayeredSlider.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

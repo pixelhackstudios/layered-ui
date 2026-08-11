@@ -26,7 +26,7 @@ Theme selection is controlled via the `data-theme="classic" | "field"` attribute
 
 ## Published Registry Items
 
-The repository currently publishes eighteen canonical registry items:
+The repository currently publishes nineteen canonical registry items:
 
 1. **`layered-foundation`** (`registry:style`): Base design tokens, structural depths, radii, motion definitions, and dual-theme variable maps.
 2. **`layered-button`** (`registry:ui`): Tactile button control with structural casing, trench channel, and dimensional face.
@@ -46,13 +46,14 @@ The repository currently publishes eighteen canonical registry items:
 16. **`layered-dropdown-menu`** (`registry:ui`): Tactile anchored menu module with a recessed row list, tone-accented highlighting, checkbox/radio items, and nested submenus, built on Radix Dropdown Menu for accessible keyboard navigation, typeahead, and dismissal behavior. The seventh Radix-backed component; shares the `--layered-z-popover` layer with Popover rather than introducing a new z-index token, since both are anchored, non-modal-by-default overlays with no ordering requirement between them.
 17. **`layered-combobox`** (`registry:ui`): Tactile filterable combo input with a recessed field casing and an anchored row-list overlay, built on Base UI's Combobox primitive for accessible input/listbox wiring, keyboard navigation, and filtering. The first published item built on **Base UI** rather than Radix, since Radix has no dedicated Combobox primitive; single-select only in v1, no chips/multiple-selection model.
 18. **`layered-radio-group`** (`registry:ui`): Tactile mutually-exclusive selector bank with compact circular casings, recessed trenches, and a glowing tone-lit face for the checked state, built on Radix RadioGroup for accessible single-selection and roving-focus keyboard navigation. The eighth Radix-backed component; `LayeredRadioGroupItem` styles the focusable Radix `Item` itself as the casing (a real `<button role="radio">`) rather than hiding a native input behind a styled label the way `LayeredCheckbox`/`LayeredSwitch` do, since Radix's Item already provides the interactive surface. No separate indicator dot is rendered — `Radio.Indicator` is unused, and checked state is read directly off Radix's own `data-state="checked"` on Item.
+19. **`layered-slider`** (`registry:ui`): Tactile calibration rail with a recessed graduated channel and a blocky mechanical carriage thumb, built on Radix Slider for accessible pointer/keyboard range selection. The ninth Radix-backed component and the third non-overlay one (no portal, no z-index token); exposes a four-part compound API (`LayeredSlider`, `LayeredSliderTrack`, `LayeredSliderRange`, `LayeredSliderThumb`) mirroring Radix's own Root/Track/Range/Thumb shape, with `orientation` omitted and forced to `horizontal` — deliberately horizontal-only in v1, the same class of trim as Accordion's vertical-only decision. `tone` and `sliderSize` are owned by the Root, since Track and Thumb are Root siblings. Calibration ticks are a decorative CSS background on Track, not scanned or measured child markup.
 
 ## Component Availability & Status
 
 Item status is categorized as follows:
 
-- **Implemented**: The eighteen published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`, `layered-accordion`, `layered-toast`, `layered-popover`, `layered-dropdown-menu`, `layered-combobox`, `layered-radio-group`).
-- **Planned Component Directions**: Future component explorations currently include `LayeredSlider`, `LayeredProgress`, and `LayeredAlertDialog`, and a notification-service layer built atop `LayeredToast` (note: no notification-service API is implied by `LayeredToast`'s v1 compositional design). `LayeredDialog` and `LayeredTooltip` establish that a compound API is permitted when component behavior genuinely requires composition; `LayeredTabs` and `LayeredAccordion` confirm the same for non-overlay components; `LayeredToast` confirms the same for a compound API with no Trigger part; `LayeredPopover` confirms Content can own visual props across a Portal boundary when Root has no second visual descendant to justify Root ownership; `LayeredRadioGroup` confirms a Radix Item can itself be styled as a component's visible casing when Item is already the focusable interactive element, rather than always wrapping a hidden native input. None of these are a predetermined template these future components must follow.
+- **Implemented**: The nineteen published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`, `layered-accordion`, `layered-toast`, `layered-popover`, `layered-dropdown-menu`, `layered-combobox`, `layered-radio-group`, `layered-slider`).
+- **Planned Component Directions**: Future component explorations currently include `LayeredProgress`, `LayeredAlertDialog`, and `LayeredNumberField`, and a notification-service layer built atop `LayeredToast` (note: no notification-service API is implied by `LayeredToast`'s v1 compositional design). `LayeredDialog` and `LayeredTooltip` establish that a compound API is permitted when component behavior genuinely requires composition; `LayeredTabs` and `LayeredAccordion` confirm the same for non-overlay components; `LayeredToast` confirms the same for a compound API with no Trigger part; `LayeredPopover` confirms Content can own visual props across a Portal boundary when Root has no second visual descendant to justify Root ownership; `LayeredRadioGroup` confirms a Radix Item can itself be styled as a component's visible casing when Item is already the focusable interactive element, rather than always wrapping a hidden native input; `LayeredSlider` confirms the same Root-owned tone/size precedent extends to a Track/Range/Thumb shape mirroring Radix's own primitive names. None of these are a predetermined template these future components must follow.
 - **Intentionally Optional**: `layered-motion` (an approved, but not yet implemented, optional GSAP physical choreography layer).
 
 ## Installation
@@ -102,7 +103,7 @@ npx shadcn registry validate
 ## Project Status
 
 Layered UI is in **early development**:
-- Fifteen registry items are currently published and verified.
+- Nineteen registry items are implemented and represented in the canonical registry.
 - The broader component inventory is planned but not yet implemented.
 - Visual and interaction testing patterns are still evolving.
 
