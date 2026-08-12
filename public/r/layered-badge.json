@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "layered-badge",
+  "title": "Layered Badge",
+  "description": "Compact non-interactive status and metadata marker with restrained tone illumination and shallow physical depth.",
+  "registryDependencies": [
+    "pixelhackstudios/layered-ui/layered-foundation"
+  ],
+  "files": [
+    {
+      "path": "registry/components/layered-badge/LayeredBadge.tsx",
+      "content": "import type { HTMLAttributes, ReactNode } from \"react\";\nimport \"./LayeredBadge.css\";\n\nexport type LayeredBadgeTone =\n  | \"neutral\"\n  | \"copper\"\n  | \"green\"\n  | \"gold\"\n  | \"signal-red\";\n\nexport type LayeredBadgeSize = \"small\" | \"medium\";\n\nexport interface LayeredBadgeProps extends HTMLAttributes<HTMLSpanElement> {\n  children: ReactNode;\n  tone?: LayeredBadgeTone;\n  badgeSize?: LayeredBadgeSize;\n}\n\nexport function LayeredBadge({\n  children,\n  tone = \"neutral\",\n  badgeSize = \"small\",\n  className = \"\",\n  ...props\n}: LayeredBadgeProps) {\n  return (\n    <span\n      {...props}\n      className={[\"layered-badge\", className].filter(Boolean).join(\" \")}\n      data-tone={tone}\n      data-size={badgeSize}\n    >\n      {children}\n    </span>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "@ui/layered/LayeredBadge.tsx"
+    },
+    {
+      "path": "registry/components/layered-badge/LayeredBadge.css",
+      "content": ".layered-badge {\n    --badge-tone-light: var(--tone-neutral-light);\n    --badge-tone-dark: var(--tone-neutral-dark);\n    --badge-tone-text: var(--color-text);\n    --badge-font-size: 0.625rem;\n    --badge-padding-block: 2px;\n    --badge-padding-inline: 7px;\n\n    display: inline-flex;\n    align-items: center;\n    box-sizing: border-box;\n    width: max-content;\n    max-width: 100%;\n    min-height: 20px;\n    padding: var(--badge-padding-block) var(--badge-padding-inline);\n    overflow: hidden;\n    border: 1px solid color-mix(in srgb, var(--badge-tone-light) 38%, var(--control-trench));\n    border-radius: 4px;\n    background:\n        linear-gradient(180deg,\n            color-mix(in srgb, var(--badge-tone-light) 12%, var(--input-surface-bg-top)) 0%,\n            color-mix(in srgb, var(--badge-tone-dark) 18%, var(--input-surface-bg-bottom)) 100%);\n    color: var(--badge-tone-text);\n    box-shadow:\n        inset 0 1px color-mix(in srgb, var(--badge-tone-light) 18%, transparent),\n        inset 0 -1px rgb(0 0 0 / 28%),\n        0 1px 2px rgb(0 0 0 / 24%);\n    font-size: var(--badge-font-size);\n    font-weight: 750;\n    line-height: 1.2;\n    letter-spacing: 0.085em;\n    text-overflow: ellipsis;\n    text-transform: uppercase;\n    vertical-align: middle;\n    white-space: nowrap;\n}\n\n.layered-badge[data-size=\"medium\"] {\n    --badge-font-size: 0.7rem;\n    --badge-padding-block: 3px;\n    --badge-padding-inline: 9px;\n\n    min-height: 24px;\n}\n\n.layered-badge[data-tone=\"copper\"] {\n    --badge-tone-light: var(--tone-copper-light);\n    --badge-tone-dark: var(--tone-copper-dark);\n    --badge-tone-text: color-mix(in srgb, var(--tone-copper-light) 82%, var(--color-text));\n}\n\n.layered-badge[data-tone=\"green\"] {\n    --badge-tone-light: var(--tone-green-light);\n    --badge-tone-dark: var(--tone-green-dark);\n    --badge-tone-text: color-mix(in srgb, var(--tone-green-light) 82%, var(--color-text));\n}\n\n.layered-badge[data-tone=\"gold\"] {\n    --badge-tone-light: var(--tone-gold-light);\n    --badge-tone-dark: var(--tone-gold-dark);\n    --badge-tone-text: color-mix(in srgb, var(--tone-gold-light) 82%, var(--color-text));\n}\n\n.layered-badge[data-tone=\"signal-red\"] {\n    --badge-tone-light: var(--palette-red-400);\n    --badge-tone-dark: var(--palette-red-950);\n    --badge-tone-text: var(--palette-red-100);\n\n    border-color: color-mix(in srgb, var(--palette-red-500) 62%, var(--control-trench));\n    background:\n        linear-gradient(180deg,\n            color-mix(in srgb, var(--palette-red-700) 30%, var(--input-surface-bg-top)) 0%,\n            color-mix(in srgb, var(--palette-red-950) 48%, var(--input-surface-bg-bottom)) 100%);\n    box-shadow:\n        inset 0 1px rgb(255 255 255 / 6%),\n        inset 0 -1px rgb(0 0 0 / 38%),\n        0 1px 2px rgb(0 0 0 / 28%);\n}\n\n@media (forced-colors: active) {\n    .layered-badge {\n        forced-color-adjust: auto;\n        border-color: CanvasText;\n        background: Canvas;\n        color: CanvasText;\n        box-shadow: none;\n    }\n}\n",
+      "type": "registry:ui",
+      "target": "@ui/layered/LayeredBadge.css"
+    }
+  ],
+  "type": "registry:ui"
+}

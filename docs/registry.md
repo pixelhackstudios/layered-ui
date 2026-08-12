@@ -11,7 +11,7 @@ Layered UI uses the standard `shadcn` registry schema:
 
 ## Current Published Registry Items
 
-The canonical manifest (`registry.json`) defines twenty-one published items:
+The canonical manifest (`registry.json`) defines twenty-two published items:
 
 | Item Name | Item Type | Canonical Source Paths | Generated Output Artifact | Registry Dependencies |
 |---|---|---|---|---|
@@ -36,6 +36,7 @@ The canonical manifest (`registry.json`) defines twenty-one published items:
 | `layered-slider` | `registry:ui` | `registry/components/layered-slider/LayeredSlider.tsx`<br>`registry/components/layered-slider/LayeredSlider.css` | `public/r/layered-slider.json` | `pixelhackstudios/layered-ui/layered-foundation` (registry); `@radix-ui/react-slider@1.4.7` (npm) |
 | `layered-progress` | `registry:ui` | `registry/components/layered-progress/LayeredProgress.tsx`<br>`registry/components/layered-progress/LayeredProgress.css` | `public/r/layered-progress.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 | `layered-number-field` | `registry:ui` | `registry/components/layered-number-field/LayeredNumberField.tsx`<br>`registry/components/layered-number-field/LayeredNumberField.css` | `public/r/layered-number-field.json` | `pixelhackstudios/layered-ui/layered-foundation` |
+| `layered-badge` | `registry:ui` | `registry/components/layered-badge/LayeredBadge.tsx`<br>`registry/components/layered-badge/LayeredBadge.css` | `public/r/layered-badge.json` | `pixelhackstudios/layered-ui/layered-foundation` |
 
 `layered-dialog` was the first published item to declare an npm `dependencies` entry alongside its `registryDependencies` entry. `layered-tooltip` is the second, following the same convention: `@radix-ui/react-tooltip` pinned exactly at `1.2.16`, no caret, verified via `npm view @radix-ui/react-tooltip@1.2.16 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) before pinning. `layered-tabs` is the third, pinned exactly at `1.1.21`, verified the same way via `npm view @radix-ui/react-tabs@1.1.21 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-accordion` is the fourth, pinned exactly at `1.2.20`, verified via `npm view @radix-ui/react-accordion@1.2.20 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-toast` is the fifth, pinned exactly at `1.2.23`, verified via `npm view @radix-ui/react-toast@1.2.23 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). `layered-popover` is the sixth, pinned exactly at `1.1.23`, verified via `npm view @radix-ui/react-popover@1.1.23 peerDependencies` (confirms `react`/`react-dom` `^19.0` support) — the exact package was also installed and its runtime exports/`.d.ts` inspected directly before finalizing the public API, which is what caught that it does not export `Title`/`Description` primitives (see `docs/architecture.md`, "`LayeredPopover` API Boundary"). `layered-dropdown-menu` is the seventh, pinned exactly at `2.1.24`, verified via `npm view @radix-ui/react-dropdown-menu@2.1.24 peerDependencies` (confirms `react`/`react-dom` `^19.0` support). It reuses the `--layered-z-popover` layer rather than introducing a new z-index token, since `tokens.css`'s "Overlay Stack" comment already reserved that layer for "Popover/Menu" — both are anchored, non-modal-by-default overlays with no ordering requirement between them.
 
@@ -48,6 +49,8 @@ The canonical manifest (`registry.json`) defines twenty-one published items:
 `layered-progress` has no external behavioral dependency. It uses a native `<progress>` element for determinate and indeterminate semantics and an aria-hidden visual channel for consistent cross-browser Layered styling.
 
 `layered-number-field` has no external behavioral dependency. It uses native `<input type="number">` semantics for text entry, form integration, constraints, and ArrowUp/ArrowDown keyboard stepping; the attached Layered actuators call the input's native `stepUp()` and `stepDown()` methods. Base UI Number Field was evaluated but not adopted because v1 does not require its locale formatting, scrubbing, or compound-part behavior.
+
+`layered-badge` has no external behavioral dependency. It renders a native non-interactive `<span>` and exposes only `tone`, `badgeSize`, `children`, and standard span attributes. Its visual treatment generalizes the compact status marker precedent from `LayeredDisplayCard` without refactoring the card in this pass.
 
 ## Registry Address & Dependency Syntax
 

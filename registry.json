@@ -465,6 +465,27 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-badge",
+      "type": "registry:ui",
+      "title": "Layered Badge",
+      "description": "Compact non-interactive status and metadata marker with restrained tone illumination and shallow physical depth.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-badge/LayeredBadge.tsx",
+          "target": "@ui/layered/LayeredBadge.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-badge/LayeredBadge.css",
+          "target": "@ui/layered/LayeredBadge.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

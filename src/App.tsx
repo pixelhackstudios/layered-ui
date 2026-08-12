@@ -5,6 +5,7 @@ import {
   LayeredAccordionItem,
   LayeredAccordionTrigger,
 } from "../registry/components/layered-accordion/LayeredAccordion";
+import { LayeredBadge } from "../registry/components/layered-badge/LayeredBadge";
 import { LayeredButton } from "../registry/components/layered-button/LayeredButton";
 import { LayeredCheckbox } from "../registry/components/layered-checkbox/LayeredCheckbox";
 import {
@@ -2847,6 +2848,37 @@ function App() {
               disabled
               description="Disabled control"
             />
+          </div>
+        </section>
+
+        <section className="component-section" id="badge">
+          <h2 className="component-section__title">
+            Layered Badge
+          </h2>
+
+          <div className="badge-specimen-board">
+            <div className="badge-specimen-group">
+              <span className="badge-specimen-group__label">Small</span>
+              <div className="badge-specimen-row">
+                <LayeredBadge tone="green">Ready</LayeredBadge>
+                <LayeredBadge tone="copper">Active</LayeredBadge>
+                <LayeredBadge tone="gold">Standby</LayeredBadge>
+                <LayeredBadge tone="signal-red">Warning</LayeredBadge>
+                <LayeredBadge tone="signal-red">Fault</LayeredBadge>
+                <LayeredBadge>Build 8F42</LayeredBadge>
+              </div>
+            </div>
+
+            <div className="badge-specimen-group">
+              <span className="badge-specimen-group__label">Medium</span>
+              <div className="badge-specimen-row">
+                <LayeredBadge tone="green" badgeSize="medium">Ready</LayeredBadge>
+                <LayeredBadge tone="copper" badgeSize="medium">Active</LayeredBadge>
+                <LayeredBadge tone="gold" badgeSize="medium">Standby</LayeredBadge>
+                <LayeredBadge tone="signal-red" badgeSize="medium">Fault</LayeredBadge>
+                <LayeredBadge badgeSize="medium">Node A-17</LayeredBadge>
+              </div>
+            </div>
           </div>
         </section>
       </div>
