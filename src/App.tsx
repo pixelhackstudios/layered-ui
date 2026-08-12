@@ -19,6 +19,7 @@ import {
 } from "../registry/components/layered-dialog/LayeredDialog";
 import { LayeredDisplayCard } from "../registry/components/layered-display-card/LayeredDisplayCard";
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
+import { LayeredNumberField } from "../registry/components/layered-number-field/LayeredNumberField";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
 import { LayeredProgress } from "../registry/components/layered-progress/LayeredProgress";
 import {
@@ -160,6 +161,9 @@ function App() {
 
   const [controlledSliderValue, setControlledSliderValue] = useState([40]);
   const [rangeSliderValue, setRangeSliderValue] = useState([25, 75]);
+  const [controlledNumberValue, setControlledNumberValue] = useState<
+    number | ""
+  >(12);
 
   const [toastPosition, setToastPosition] =
     useState<LayeredToastPosition>("bottom-right");
@@ -2781,6 +2785,68 @@ function App() {
               <span>Indeterminate</span>
               <LayeredProgress tone="gold" aria-label="Operation in progress" />
             </div>
+          </div>
+        </section>
+
+        <section className="component-section" id="number-field">
+          <h2 className="component-section__title">
+            Layered Number Field
+          </h2>
+
+          <div className="number-field-specimen-grid">
+            <LayeredNumberField
+              label="Worker count"
+              defaultValue={6}
+              min={1}
+              max={24}
+              step={1}
+              description="Uncontrolled · range 1–24"
+            />
+            <LayeredNumberField
+              label="Request limit"
+              value={controlledNumberValue}
+              min={0}
+              max={100}
+              step={4}
+              tone="copper"
+              description={`Controlled · ${controlledNumberValue || 0} requests`}
+              onChange={(event) =>
+                setControlledNumberValue(
+                  event.target.value === "" ? "" : event.target.valueAsNumber
+                )
+              }
+            />
+            <LayeredNumberField
+              label="Gain offset"
+              defaultValue={0.5}
+              min={-2}
+              max={2}
+              step={0.1}
+              tone="green"
+              numberFieldSize="small"
+              description="Small · steps by 0.1"
+            />
+            <LayeredNumberField
+              label="Cycle budget"
+              defaultValue={128}
+              min={0}
+              step={16}
+              tone="gold"
+              numberFieldSize="large"
+              description="Large · steps by 16"
+            />
+            <LayeredNumberField
+              label="Locked channel"
+              value={42}
+              readOnly
+              description="Read-only value"
+            />
+            <LayeredNumberField
+              label="Unavailable channel"
+              defaultValue={0}
+              disabled
+              description="Disabled control"
+            />
           </div>
         </section>
       </div>

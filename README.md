@@ -26,7 +26,7 @@ Theme selection is controlled via the `data-theme="classic" | "field"` attribute
 
 ## Published Registry Items
 
-The repository currently publishes twenty canonical registry items:
+The repository currently publishes twenty-one canonical registry items:
 
 1. **`layered-foundation`** (`registry:style`): Base design tokens, structural depths, radii, motion definitions, and dual-theme variable maps.
 2. **`layered-button`** (`registry:ui`): Tactile button control with structural casing, trench channel, and dimensional face.
@@ -48,13 +48,14 @@ The repository currently publishes twenty canonical registry items:
 18. **`layered-radio-group`** (`registry:ui`): Tactile mutually-exclusive selector bank with compact circular casings, recessed trenches, and a glowing tone-lit face for the checked state, built on Radix RadioGroup for accessible single-selection and roving-focus keyboard navigation. The eighth Radix-backed component; `LayeredRadioGroupItem` styles the focusable Radix `Item` itself as the casing (a real `<button role="radio">`) rather than hiding a native input behind a styled label the way `LayeredCheckbox`/`LayeredSwitch` do, since Radix's Item already provides the interactive surface. No separate indicator dot is rendered — `Radio.Indicator` is unused, and checked state is read directly off Radix's own `data-state="checked"` on Item.
 19. **`layered-slider`** (`registry:ui`): Tactile calibration rail with a recessed graduated channel and a blocky mechanical carriage thumb, built on Radix Slider for accessible pointer/keyboard range selection. The ninth Radix-backed component and the third non-overlay one (no portal, no z-index token); exposes a four-part compound API (`LayeredSlider`, `LayeredSliderTrack`, `LayeredSliderRange`, `LayeredSliderThumb`) mirroring Radix's own Root/Track/Range/Thumb shape, with `orientation` omitted and forced to `horizontal` — deliberately horizontal-only in v1, the same class of trim as Accordion's vertical-only decision. `tone` and `sliderSize` are owned by the Root, since Track and Thumb are Root siblings. Calibration ticks are a decorative CSS background on Track, not scanned or measured child markup.
 20. **`layered-progress`** (`registry:ui`): Lightweight recessed instrument channel with an illuminated measured fill, native `<progress>` semantics, determinate and indeterminate states, and no behavioral dependency. The native element remains the semantic control while an aria-hidden channel supplies the consistent Layered visual treatment.
+21. **`layered-number-field`** (`registry:ui`): Recessed native numeric input with compact attached increment and decrement actuators, controlled and uncontrolled usage, min/max/step constraints, and native keyboard behavior. It has no external behavioral dependency.
 
 ## Component Availability & Status
 
 Item status is categorized as follows:
 
-- **Implemented**: The twenty published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`, `layered-accordion`, `layered-toast`, `layered-popover`, `layered-dropdown-menu`, `layered-combobox`, `layered-radio-group`, `layered-slider`, `layered-progress`).
-- **Planned Component Directions**: Future component explorations currently include `LayeredAlertDialog` and `LayeredNumberField`, and a notification-service layer built atop `LayeredToast` (note: no notification-service API is implied by `LayeredToast`'s v1 compositional design). Existing compound components demonstrate that composition is used only when the component behavior requires it; `LayeredProgress` confirms the inverse by keeping a simple native-semantic primitive to one component export.
+- **Implemented**: The twenty-one published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`, `layered-accordion`, `layered-toast`, `layered-popover`, `layered-dropdown-menu`, `layered-combobox`, `layered-radio-group`, `layered-slider`, `layered-progress`, `layered-number-field`).
+- **Planned Component Directions**: Future component explorations currently include `LayeredAlertDialog` and a notification-service layer built atop `LayeredToast` (note: no notification-service API is implied by `LayeredToast`'s v1 compositional design). Existing compound components demonstrate that composition is used only when the component behavior requires it; `LayeredProgress` and `LayeredNumberField` confirm the inverse by keeping native-semantic primitives to one component export each.
 - **Intentionally Optional**: `layered-motion` (an approved, but not yet implemented, optional GSAP physical choreography layer).
 
 ## Installation
@@ -104,7 +105,7 @@ npx shadcn registry validate
 ## Project Status
 
 Layered UI is in **early development**:
-- Nineteen registry items are implemented and represented in the canonical registry.
+- Twenty-one registry items are implemented and represented in the canonical registry.
 - The broader component inventory is planned but not yet implemented.
 - Visual and interaction testing patterns are still evolving.
 

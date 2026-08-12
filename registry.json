@@ -444,6 +444,27 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-number-field",
+      "type": "registry:ui",
+      "title": "Layered Number Field",
+      "description": "Recessed numeric input with attached mechanical increment and decrement actuators, native keyboard behavior, and no external behavioral dependency.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-number-field/LayeredNumberField.tsx",
+          "target": "@ui/layered/LayeredNumberField.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-number-field/LayeredNumberField.css",
+          "target": "@ui/layered/LayeredNumberField.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

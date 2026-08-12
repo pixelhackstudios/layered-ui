@@ -135,6 +135,19 @@ button {
     }
 }
 
+.number-field-specimen-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 28px;
+    align-items: start;
+}
+
+@media (max-width: 640px) {
+    .number-field-specimen-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 .palette-board {
     border-color: var(--tone-neutral-mid);
     background:
