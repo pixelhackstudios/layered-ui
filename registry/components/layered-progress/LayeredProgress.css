@@ -1,0 +1,152 @@
+.layered-progress {
+    --progress-tone-light: var(--tone-neutral-light);
+    --progress-tone-mid: var(--tone-neutral-mid);
+    --progress-tone-dark: var(--tone-neutral-dark);
+    --progress-channel-height: 8px;
+    --progress-shell-padding: 3px;
+    --progress-scan-width: 34%;
+
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 96px;
+    padding: var(--progress-shell-padding);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 5px;
+    background: linear-gradient(180deg, rgb(255 255 255 / 7%), rgb(0 0 0 / 14%));
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 35%),
+        inset 0 1px rgb(255 255 255 / 6%);
+    vertical-align: middle;
+}
+
+.layered-progress__native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.layered-progress__channel {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    height: var(--progress-channel-height);
+    overflow: hidden;
+    border: 1px solid var(--control-trench);
+    border-radius: 2px;
+    background:
+        linear-gradient(180deg, rgb(0 0 0 / 22%), transparent 55%),
+        var(--input-surface-bg-bottom);
+    box-shadow:
+        inset 0 2px 3px rgb(0 0 0 / 62%),
+        0 1px rgb(255 255 255 / 5%);
+}
+
+.layered-progress__fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: var(--layered-progress-position);
+    border-inline-end: 1px solid var(--progress-tone-light);
+    background:
+        linear-gradient(180deg,
+            rgb(255 255 255 / 30%) 0%,
+            transparent 38%),
+        linear-gradient(90deg,
+            var(--progress-tone-dark) 0%,
+            var(--progress-tone-mid) 64%,
+            var(--progress-tone-light) 100%);
+    box-shadow:
+        inset 0 -1px rgb(0 0 0 / 28%),
+        1px 0 5px color-mix(in srgb, var(--progress-tone-light) 55%, transparent);
+    transition: width var(--duration-normal) var(--ease-control);
+}
+
+.layered-progress[data-state="indeterminate"] .layered-progress__fill {
+    width: var(--progress-scan-width);
+    border-inline-end: 0;
+    animation: layered-progress-scan 1.45s var(--ease-control) infinite;
+}
+
+.layered-progress[data-tone="copper"] {
+    --progress-tone-light: var(--tone-copper-light);
+    --progress-tone-mid: var(--tone-copper-mid);
+    --progress-tone-dark: var(--tone-copper-dark);
+}
+
+.layered-progress[data-tone="green"] {
+    --progress-tone-light: var(--tone-green-light);
+    --progress-tone-mid: var(--tone-green-mid);
+    --progress-tone-dark: var(--tone-green-dark);
+}
+
+.layered-progress[data-tone="gold"] {
+    --progress-tone-light: var(--tone-gold-light);
+    --progress-tone-mid: var(--tone-gold-mid);
+    --progress-tone-dark: var(--tone-gold-dark);
+}
+
+.layered-progress[data-size="small"] {
+    --progress-channel-height: 6px;
+    --progress-shell-padding: 2px;
+}
+
+.layered-progress[data-size="large"] {
+    --progress-channel-height: 12px;
+    --progress-shell-padding: 4px;
+}
+
+@keyframes layered-progress-scan {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(294%);
+    }
+}
+
+@media (max-width: 640px) {
+    .layered-progress {
+        min-width: 0;
+    }
+}
+
+@media (forced-colors: active) {
+    .layered-progress {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .layered-progress__channel {
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .layered-progress__fill {
+        border-color: Highlight;
+        background: Highlight;
+        box-shadow: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .layered-progress__fill {
+        transition: none;
+    }
+
+    .layered-progress[data-state="indeterminate"] .layered-progress__fill {
+        inset-inline: 33%;
+        width: 34%;
+        animation: none;
+        opacity: 0.8;
+    }
+}

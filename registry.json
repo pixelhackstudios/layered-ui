@@ -423,6 +423,27 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-progress",
+      "type": "registry:ui",
+      "title": "Layered Progress",
+      "description": "Recessed instrument channel with an illuminated measured fill for determinate and indeterminate progress.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-progress/LayeredProgress.tsx",
+          "target": "@ui/layered/LayeredProgress.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-progress/LayeredProgress.css",
+          "target": "@ui/layered/LayeredProgress.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

@@ -20,6 +20,7 @@ import {
 import { LayeredDisplayCard } from "../registry/components/layered-display-card/LayeredDisplayCard";
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
+import { LayeredProgress } from "../registry/components/layered-progress/LayeredProgress";
 import {
   LayeredRadioGroup,
   LayeredRadioGroupItem,
@@ -2735,6 +2736,50 @@ function App() {
                 </LayeredSliderTrack>
                 <LayeredSliderThumb aria-label="Disabled" />
               </LayeredSlider>
+            </div>
+          </div>
+        </section>
+
+        <section className="component-section" id="progress">
+          <h2 className="component-section__title">
+            Layered Progress
+          </h2>
+
+          <div className="progress-specimen-grid">
+            <div className="progress-specimen">
+              <span>Neutral · 24%</span>
+              <LayeredProgress value={24} aria-label="Neutral progress, 24 percent" />
+            </div>
+            <div className="progress-specimen">
+              <span>Copper · 48%</span>
+              <LayeredProgress value={48} tone="copper" aria-label="Copper progress, 48 percent" />
+            </div>
+            <div className="progress-specimen">
+              <span>Green · 72%</span>
+              <LayeredProgress value={72} tone="green" aria-label="Green progress, 72 percent" />
+            </div>
+            <div className="progress-specimen">
+              <span>Gold · 91%</span>
+              <LayeredProgress value={91} tone="gold" aria-label="Gold progress, 91 percent" />
+            </div>
+          </div>
+
+          <div className="progress-specimen-grid progress-specimen-grid--secondary">
+            <div className="progress-specimen">
+              <span>Small</span>
+              <LayeredProgress value={58} progressSize="small" aria-label="Small progress, 58 percent" />
+            </div>
+            <div className="progress-specimen">
+              <span>Medium</span>
+              <LayeredProgress value={58} tone="copper" aria-label="Medium progress, 58 percent" />
+            </div>
+            <div className="progress-specimen">
+              <span>Large</span>
+              <LayeredProgress value={58} tone="green" progressSize="large" aria-label="Large progress, 58 percent" />
+            </div>
+            <div className="progress-specimen">
+              <span>Indeterminate</span>
+              <LayeredProgress tone="gold" aria-label="Operation in progress" />
             </div>
           </div>
         </section>
