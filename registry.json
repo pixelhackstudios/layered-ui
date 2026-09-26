@@ -486,6 +486,48 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "layered-table",
+      "type": "registry:ui",
+      "title": "Layered Table",
+      "description": "Native semantic data table in a shared recessed equipment housing with contained horizontal scrolling.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-table/LayeredTable.tsx",
+          "target": "@ui/layered/LayeredTable.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-table/LayeredTable.css",
+          "target": "@ui/layered/LayeredTable.css",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "layered-pagination",
+      "type": "registry:ui",
+      "title": "Layered Pagination",
+      "description": "Composable native pagination navigation seated in a compact mechanical index rail.",
+      "registryDependencies": [
+        "pixelhackstudios/layered-ui/layered-foundation"
+      ],
+      "files": [
+        {
+          "path": "registry/components/layered-pagination/LayeredPagination.tsx",
+          "target": "@ui/layered/LayeredPagination.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/components/layered-pagination/LayeredPagination.css",
+          "target": "@ui/layered/LayeredPagination.css",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

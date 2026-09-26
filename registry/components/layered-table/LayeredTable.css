@@ -1,0 +1,154 @@
+.layered-table__housing {
+    --table-tone-light: var(--tone-neutral-light);
+    --table-tone-dark: var(--tone-neutral-dark);
+    --table-cell-padding-block: 11px;
+    --table-cell-padding-inline: 14px;
+    --table-font-size: 0.8125rem;
+
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 5px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--table-tone-light) 24%, var(--control-shell-border));
+    border-radius: var(--control-radius-outer);
+    background:
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--table-tone-light) 7%, var(--control-shell-top)) 0%,
+            var(--control-shell-bottom) 100%);
+    box-shadow:
+        inset 0 1px color-mix(in srgb, var(--table-tone-light) 10%, transparent),
+        0 2px 6px rgb(0 0 0 / 30%);
+}
+
+.layered-table__housing[data-density="small"] {
+    --table-cell-padding-block: 7px;
+    --table-cell-padding-inline: 11px;
+    --table-font-size: 0.75rem;
+}
+
+.layered-table__housing[data-tone="copper"] {
+    --table-tone-light: var(--tone-copper-light);
+    --table-tone-dark: var(--tone-copper-dark);
+}
+
+.layered-table__housing[data-tone="green"] {
+    --table-tone-light: var(--tone-green-light);
+    --table-tone-dark: var(--tone-green-dark);
+}
+
+.layered-table__housing[data-tone="gold"] {
+    --table-tone-light: var(--tone-gold-light);
+    --table-tone-dark: var(--tone-gold-dark);
+}
+
+.layered-table__viewport {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    border: 1px solid var(--control-trench);
+    border-radius: var(--control-radius-inner);
+    background:
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--input-surface-bg-top) 94%, var(--table-tone-dark)) 0%,
+            var(--input-surface-bg-bottom) 100%);
+    box-shadow:
+        inset 0 2px 5px rgb(0 0 0 / 46%),
+        0 1px rgb(255 255 255 / 4%);
+    scrollbar-color: color-mix(in srgb, var(--table-tone-light) 38%, var(--control-shell-border)) var(--control-trench);
+    scrollbar-width: thin;
+}
+
+.layered-table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: var(--color-text);
+    font-size: var(--table-font-size);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.35;
+    text-align: left;
+}
+
+.layered-table__header {
+    color: color-mix(in srgb, var(--table-tone-light) 78%, var(--color-text));
+}
+
+.layered-table__head {
+    padding: calc(var(--table-cell-padding-block) - 1px) var(--table-cell-padding-inline);
+    border-bottom: 1px solid color-mix(in srgb, var(--table-tone-light) 36%, var(--control-trench));
+    background:
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--table-tone-light) 8%, var(--panel-surface-bg-top)) 0%,
+            color-mix(in srgb, var(--table-tone-dark) 11%, var(--panel-surface-bg-bottom)) 100%);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-align: inherit;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.layered-table__cell {
+    padding: var(--table-cell-padding-block) var(--table-cell-padding-inline);
+    color: var(--color-text);
+    vertical-align: middle;
+}
+
+.layered-table__body .layered-table__row:not(:last-child) > .layered-table__cell,
+.layered-table__body .layered-table__row:not(:last-child) > .layered-table__head {
+    border-bottom: 1px solid color-mix(in srgb, var(--control-trench) 72%, var(--table-tone-dark));
+}
+
+.layered-table__body .layered-table__row:nth-child(even) {
+    background: rgb(255 255 255 / 1.5%);
+}
+
+.layered-table__body .layered-table__head {
+    background: transparent;
+    color: color-mix(in srgb, var(--table-tone-light) 44%, var(--color-text));
+    font-size: inherit;
+    letter-spacing: 0.02em;
+    text-transform: none;
+}
+
+.layered-table__footer {
+    border-top: 1px solid color-mix(in srgb, var(--table-tone-light) 26%, var(--control-trench));
+    background: color-mix(in srgb, var(--table-tone-dark) 8%, var(--panel-surface-bg-bottom));
+    color: var(--color-text-muted);
+    font-weight: 650;
+}
+
+.layered-table__footer .layered-table__cell,
+.layered-table__footer .layered-table__head {
+    background: transparent;
+    color: inherit;
+}
+
+.layered-table__caption {
+    caption-side: bottom;
+    padding: 10px var(--table-cell-padding-inline);
+    border-top: 1px solid color-mix(in srgb, var(--control-trench) 82%, var(--table-tone-dark));
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    line-height: 1.4;
+    text-align: left;
+}
+
+@media (forced-colors: active) {
+    .layered-table__housing,
+    .layered-table__viewport,
+    .layered-table__head,
+    .layered-table__footer {
+        border-color: CanvasText;
+        background: Canvas;
+        box-shadow: none;
+    }
+
+    .layered-table__body .layered-table__row:not(:last-child) > .layered-table__cell,
+    .layered-table__body .layered-table__row:not(:last-child) > .layered-table__head {
+        border-color: CanvasText;
+    }
+}

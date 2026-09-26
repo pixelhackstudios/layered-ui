@@ -21,6 +21,15 @@ import {
 import { LayeredDisplayCard } from "../registry/components/layered-display-card/LayeredDisplayCard";
 import { LayeredInput } from "../registry/components/layered-input/LayeredInput";
 import { LayeredNumberField } from "../registry/components/layered-number-field/LayeredNumberField";
+import {
+  LayeredPagination,
+  LayeredPaginationEllipsis,
+  LayeredPaginationItem,
+  LayeredPaginationLink,
+  LayeredPaginationList,
+  LayeredPaginationNext,
+  LayeredPaginationPrevious,
+} from "../registry/components/layered-pagination/LayeredPagination";
 import { LayeredPanel } from "../registry/components/layered-panel/LayeredPanel";
 import { LayeredProgress } from "../registry/components/layered-progress/LayeredProgress";
 import {
@@ -71,6 +80,16 @@ import {
   LayeredSliderTrack,
 } from "../registry/components/layered-slider/LayeredSlider";
 import { LayeredSwitch } from "../registry/components/layered-switch/LayeredSwitch";
+import {
+  LayeredTable,
+  LayeredTableBody,
+  LayeredTableCaption,
+  LayeredTableCell,
+  LayeredTableFooter,
+  LayeredTableHead,
+  LayeredTableHeader,
+  LayeredTableRow,
+} from "../registry/components/layered-table/LayeredTable";
 import {
   LayeredTabs,
   LayeredTabsContent,
@@ -128,6 +147,24 @@ const paletteFamilies = [
   { id: "green", label: "Green" },
   { id: "gold", label: "Gold" },
   { id: "red", label: "Signal red" },
+] as const;
+
+const runtimeNodes = [
+  { node: "EDGE-01", status: "READY", tone: "green", load: "38%", memory: "5.8 GB", latency: "12 ms" },
+  { node: "EDGE-02", status: "ACTIVE", tone: "copper", load: "71%", memory: "10.4 GB", latency: "18 ms" },
+  { node: "WORKER-04", status: "READY", tone: "green", load: "46%", memory: "7.2 GB", latency: "24 ms" },
+  { node: "WORKER-07", status: "STANDBY", tone: "gold", load: "8%", memory: "2.1 GB", latency: "31 ms" },
+  { node: "CACHE-02", status: "ACTIVE", tone: "copper", load: "63%", memory: "12.7 GB", latency: "7 ms" },
+  { node: "RELAY-03", status: "FAULT", tone: "signal-red", load: "—", memory: "—", latency: "Timeout" },
+  { node: "ARCHIVE-01", status: "STANDBY", tone: "gold", load: "3%", memory: "1.6 GB", latency: "42 ms" },
+] as const;
+
+const compactProcesses = [
+  { process: "telemetry", pid: "1842", cycles: "12,480", queue: "04", state: "Nominal" },
+  { process: "scheduler", pid: "1871", cycles: "8,214", queue: "11", state: "Nominal" },
+  { process: "indexer", pid: "2034", cycles: "4,096", queue: "28", state: "Elevated" },
+  { process: "snapshot", pid: "2118", cycles: "1,722", queue: "02", state: "Nominal" },
+  { process: "replicator", pid: "2190", cycles: "988", queue: "07", state: "Waiting" },
 ] as const;
 
 function App() {
@@ -2878,6 +2915,230 @@ function App() {
                 <LayeredBadge tone="signal-red" badgeSize="medium">Fault</LayeredBadge>
                 <LayeredBadge badgeSize="medium">Node A-17</LayeredBadge>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="component-section" id="table">
+          <h2 className="component-section__title">
+            Layered Table
+          </h2>
+
+          <div className="table-specimen-board">
+            <div className="table-specimen">
+              <div className="table-specimen__heading">
+                <span>Runtime nodes</span>
+                <span>Medium density · Green</span>
+              </div>
+              <LayeredTable tone="green" aria-label="Runtime node diagnostics">
+                <LayeredTableCaption>
+                  Live diagnostic sample · readings captured at cycle 08F4
+                </LayeredTableCaption>
+                <LayeredTableHeader>
+                  <LayeredTableRow>
+                    <LayeredTableHead scope="col">Node</LayeredTableHead>
+                    <LayeredTableHead scope="col">Status</LayeredTableHead>
+                    <LayeredTableHead scope="col" className="table-specimen__numeric">Load</LayeredTableHead>
+                    <LayeredTableHead scope="col" className="table-specimen__numeric">Memory</LayeredTableHead>
+                    <LayeredTableHead scope="col" className="table-specimen__numeric">Latency</LayeredTableHead>
+                  </LayeredTableRow>
+                </LayeredTableHeader>
+                <LayeredTableBody>
+                  {runtimeNodes.map((entry) => (
+                    <LayeredTableRow key={entry.node}>
+                      <LayeredTableHead scope="row">{entry.node}</LayeredTableHead>
+                      <LayeredTableCell>
+                        <LayeredBadge tone={entry.tone}>{entry.status}</LayeredBadge>
+                      </LayeredTableCell>
+                      <LayeredTableCell className="table-specimen__numeric">{entry.load}</LayeredTableCell>
+                      <LayeredTableCell className="table-specimen__numeric">{entry.memory}</LayeredTableCell>
+                      <LayeredTableCell className="table-specimen__numeric">{entry.latency}</LayeredTableCell>
+                    </LayeredTableRow>
+                  ))}
+                </LayeredTableBody>
+                <LayeredTableFooter>
+                  <LayeredTableRow>
+                    <LayeredTableHead scope="row" colSpan={2}>Fleet aggregate</LayeredTableHead>
+                    <LayeredTableCell className="table-specimen__numeric">38%</LayeredTableCell>
+                    <LayeredTableCell className="table-specimen__numeric">39.8 GB</LayeredTableCell>
+                    <LayeredTableCell className="table-specimen__numeric">22 ms</LayeredTableCell>
+                  </LayeredTableRow>
+                </LayeredTableFooter>
+              </LayeredTable>
+            </div>
+
+            <div className="table-specimen table-specimen--narrow">
+              <div className="table-specimen__heading">
+                <span>Process queue</span>
+                <span>Small density · Copper · Contained width</span>
+              </div>
+              <LayeredTable tone="copper" density="small" aria-label="Process queue diagnostics">
+                <LayeredTableHeader>
+                  <LayeredTableRow>
+                    <LayeredTableHead scope="col">Process</LayeredTableHead>
+                    <LayeredTableHead scope="col" className="table-specimen__numeric">PID</LayeredTableHead>
+                    <LayeredTableHead scope="col" className="table-specimen__numeric">Cycles</LayeredTableHead>
+                    <LayeredTableHead scope="col" className="table-specimen__numeric">Queue</LayeredTableHead>
+                    <LayeredTableHead scope="col">State</LayeredTableHead>
+                  </LayeredTableRow>
+                </LayeredTableHeader>
+                <LayeredTableBody>
+                  {compactProcesses.map((entry) => (
+                    <LayeredTableRow key={entry.pid}>
+                      <LayeredTableHead scope="row">{entry.process}</LayeredTableHead>
+                      <LayeredTableCell className="table-specimen__numeric">{entry.pid}</LayeredTableCell>
+                      <LayeredTableCell className="table-specimen__numeric">{entry.cycles}</LayeredTableCell>
+                      <LayeredTableCell className="table-specimen__numeric">{entry.queue}</LayeredTableCell>
+                      <LayeredTableCell>{entry.state}</LayeredTableCell>
+                    </LayeredTableRow>
+                  ))}
+                </LayeredTableBody>
+              </LayeredTable>
+            </div>
+          </div>
+        </section>
+
+        <section className="component-section" id="pagination">
+          <h2 className="component-section__title">
+            Layered Pagination
+          </h2>
+
+          <div className="pagination-specimen-board">
+            <div className="pagination-specimen">
+              <span className="pagination-specimen__label">
+                Standard sequence · Medium · Neutral
+              </span>
+              <LayeredPagination aria-label="Standard pagination example">
+                <LayeredPaginationList>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationPrevious href="#pagination" />
+                  </LayeredPaginationItem>
+                  {[1, 2, 3, 4, 5, 6, 7].map((page) => (
+                    <LayeredPaginationItem key={page}>
+                      <LayeredPaginationLink
+                        href="#pagination"
+                        aria-label={`Page ${page}`}
+                        isCurrent={page === 3}
+                      >
+                        {page}
+                      </LayeredPaginationLink>
+                    </LayeredPaginationItem>
+                  ))}
+                  <LayeredPaginationItem>
+                    <LayeredPaginationNext href="#pagination" />
+                  </LayeredPaginationItem>
+                </LayeredPaginationList>
+              </LayeredPagination>
+            </div>
+
+            <div className="pagination-specimen">
+              <span className="pagination-specimen__label">
+                First-page boundary · Small · Copper
+              </span>
+              <LayeredPagination
+                tone="copper"
+                paginationSize="small"
+                aria-label="First page pagination example"
+              >
+                <LayeredPaginationList>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationPrevious disabled />
+                  </LayeredPaginationItem>
+                  {[1, 2, 3, 4, 5].map((page) => (
+                    <LayeredPaginationItem key={page}>
+                      <LayeredPaginationLink
+                        href="#pagination"
+                        aria-label={`Page ${page}`}
+                        isCurrent={page === 1}
+                      >
+                        {page}
+                      </LayeredPaginationLink>
+                    </LayeredPaginationItem>
+                  ))}
+                  <LayeredPaginationItem>
+                    <LayeredPaginationNext href="#pagination" />
+                  </LayeredPaginationItem>
+                </LayeredPaginationList>
+              </LayeredPagination>
+            </div>
+
+            <div className="pagination-specimen">
+              <span className="pagination-specimen__label">
+                Middle range · Medium · Green
+              </span>
+              <LayeredPagination
+                tone="green"
+                aria-label="Middle range pagination example"
+              >
+                <LayeredPaginationList>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationPrevious href="#pagination" />
+                  </LayeredPaginationItem>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationLink href="#pagination" aria-label="Page 1">1</LayeredPaginationLink>
+                  </LayeredPaginationItem>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationEllipsis />
+                  </LayeredPaginationItem>
+                  {[7, 8, 9].map((page) => (
+                    <LayeredPaginationItem key={page}>
+                      <LayeredPaginationLink
+                        href="#pagination"
+                        aria-label={`Page ${page}`}
+                        isCurrent={page === 8}
+                      >
+                        {page}
+                      </LayeredPaginationLink>
+                    </LayeredPaginationItem>
+                  ))}
+                  <LayeredPaginationItem>
+                    <LayeredPaginationEllipsis />
+                  </LayeredPaginationItem>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationLink href="#pagination" aria-label="Page 16">16</LayeredPaginationLink>
+                  </LayeredPaginationItem>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationNext href="#pagination" />
+                  </LayeredPaginationItem>
+                </LayeredPaginationList>
+              </LayeredPagination>
+            </div>
+
+            <div className="pagination-specimen pagination-specimen--narrow">
+              <span className="pagination-specimen__label">
+                Last-page boundary · Small · Gold · Contained width
+              </span>
+              <LayeredPagination
+                tone="gold"
+                paginationSize="small"
+                aria-label="Last page pagination example"
+              >
+                <LayeredPaginationList>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationPrevious href="#pagination" />
+                  </LayeredPaginationItem>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationLink href="#pagination" aria-label="Page 1">1</LayeredPaginationLink>
+                  </LayeredPaginationItem>
+                  <LayeredPaginationItem>
+                    <LayeredPaginationEllipsis />
+                  </LayeredPaginationItem>
+                  {[9, 10, 11].map((page) => (
+                    <LayeredPaginationItem key={page}>
+                      <LayeredPaginationLink
+                        href="#pagination"
+                        aria-label={`Page ${page}`}
+                        isCurrent={page === 11}
+                      >
+                        {page}
+                      </LayeredPaginationLink>
+                    </LayeredPaginationItem>
+                  ))}
+                  <LayeredPaginationItem>
+                    <LayeredPaginationNext disabled />
+                  </LayeredPaginationItem>
+                </LayeredPaginationList>
+              </LayeredPagination>
             </div>
           </div>
         </section>

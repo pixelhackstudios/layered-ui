@@ -26,7 +26,7 @@ Theme selection is controlled via the `data-theme="classic" | "field"` attribute
 
 ## Published Registry Items
 
-The repository currently publishes twenty-two canonical registry items:
+The repository currently publishes twenty-four canonical registry items:
 
 1. **`layered-foundation`** (`registry:style`): Base design tokens, structural depths, radii, motion definitions, and dual-theme variable maps.
 2. **`layered-button`** (`registry:ui`): Tactile button control with structural casing, trench channel, and dimensional face.
@@ -50,12 +50,14 @@ The repository currently publishes twenty-two canonical registry items:
 20. **`layered-progress`** (`registry:ui`): Lightweight recessed instrument channel with an illuminated measured fill, native `<progress>` semantics, determinate and indeterminate states, and no behavioral dependency. The native element remains the semantic control while an aria-hidden channel supplies the consistent Layered visual treatment.
 21. **`layered-number-field`** (`registry:ui`): Recessed native numeric input with compact attached increment and decrement actuators, controlled and uncontrolled usage, min/max/step constraints, and native keyboard behavior. It has no external behavioral dependency.
 22. **`layered-badge`** (`registry:ui`): Compact native status and metadata marker with restrained tone illumination, shallow inset depth, neutral/copper/green/gold/signal-red tones, and no interactive behavior.
+23. **`layered-table`** (`registry:ui`): Native semantic table composition in one recessed equipment housing, with neutral/copper/green/gold tones, small/medium density, and contained horizontal scrolling for narrow layouts.
+24. **`layered-pagination`** (`registry:ui`): Native pagination navigation with composable list/link/ellipsis parts, current and disabled states, compact tone-aware sizing, and no external behavioral dependency.
 
 ## Component Availability & Status
 
 Item status is categorized as follows:
 
-- **Implemented**: The twenty-two published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`, `layered-accordion`, `layered-toast`, `layered-popover`, `layered-dropdown-menu`, `layered-combobox`, `layered-radio-group`, `layered-slider`, `layered-progress`, `layered-number-field`, `layered-badge`).
+- **Implemented**: The twenty-four published registry items listed above (`layered-foundation`, `layered-button`, `layered-panel`, `layered-input`, `layered-select`, `layered-display-card`, `layered-textarea`, `layered-checkbox`, `layered-switch`, `layered-dialog`, `layered-tooltip`, `layered-tabs`, `layered-accordion`, `layered-toast`, `layered-popover`, `layered-dropdown-menu`, `layered-combobox`, `layered-radio-group`, `layered-slider`, `layered-progress`, `layered-number-field`, `layered-badge`, `layered-table`, `layered-pagination`).
 - **Planned Component Directions**: Future component explorations currently include `LayeredAlertDialog` and a notification-service layer built atop `LayeredToast` (note: no notification-service API is implied by `LayeredToast`'s v1 compositional design). Existing compound components demonstrate that composition is used only when the component behavior requires it; `LayeredProgress` and `LayeredNumberField` confirm the inverse by keeping native-semantic primitives to one component export each.
 - **Intentionally Optional**: `layered-motion` (an approved, but not yet implemented, optional GSAP physical choreography layer).
 
@@ -106,7 +108,7 @@ npx shadcn registry validate
 ## Project Status
 
 Layered UI is in **early development**:
-- Twenty-two registry items are implemented and represented in the canonical registry.
+- Twenty-four registry items are implemented and represented in the canonical registry.
 - The broader component inventory is planned but not yet implemented.
 - Visual and interaction testing patterns are still evolving.
 
