@@ -81,9 +81,23 @@ Installing any component automatically resolves its dependency on `pixelhackstud
 - [Registry and release process](docs/registry.md)
 - [Motion architecture](docs/motion.md)
 
+## Documentation Site
+
+`npm run dev` serves the Layered UI website: a landing page, guides (getting started, theming, principles), a page per component with live examples, install commands, and API tables, and a **Control Room** showcase built only from published components. The original visual laboratory remains available at `#/lab`.
+
+| Piece | Where |
+|---|---|
+| Routes, theme state, page shell | `src/site/Site.tsx`, `src/site/router.ts`, `src/site/theme.ts` |
+| Component docs (summaries, props, accessibility notes) | `src/site/content/components.ts` |
+| Live examples (rendered and shown as source from the same file) | `src/site/examples/<component>/<example>.tsx` |
+| Pages and site components | `src/site/pages/`, `src/site/components/` |
+| Site stylesheet (foundation tokens only) | `src/site/site.css` |
+
+Routing is hash-based, so the build deploys to any static host. For a subpath deploy, set the base: `SITE_BASE=/layered-ui/ npm run build`.
+
 ## Local Development
 
-Commands for running the visual laboratory and validating registry artifacts:
+Commands for running the site and visual laboratory and validating registry artifacts:
 
 ```bash
 # Install dependencies

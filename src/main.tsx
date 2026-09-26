@@ -1,8 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+/* Base styles first so the site stylesheet (imported by Site) layers on top. */
 import "./styles/tokens.css";
 import "./styles/global.css";
+import { Site } from "./site/Site";
 
 const rootElement = document.getElementById("root");
 
@@ -12,6 +13,6 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <Site />
   </StrictMode>,
 );
