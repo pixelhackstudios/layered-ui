@@ -96,6 +96,10 @@
     --control-error: var(--palette-red-500);
     --control-error-text: var(--palette-red-50);
 
+    /* Text on an engaged casing-colored face (e.g. the active tab).
+       Must hold 4.5:1 against --control-shell-top/bottom. */
+    --control-active-text: var(--color-text-title);
+
     /* System Tones: Copper, Green, Gold, Neutral */
     --tone-copper-light: var(--palette-copper-400);
     --tone-copper-mid: var(--palette-copper-600);
@@ -227,6 +231,10 @@
     --control-focus: var(--palette-gold-300); /* Stargoon focus */
     --control-error: var(--palette-red-500); /* Grass Bat */
     --control-error-text: var(--palette-red-200); /* Bank Butt */
+
+    /* Dope (title) is only 3.3:1 on the olive casing; the lightest
+       neutral step clears 4.5:1 there. */
+    --control-active-text: var(--palette-neutral-50);
 
     /* System Tones & Per-Tone Button Text */
     --tone-copper-light: var(--palette-copper-300); /* Sand Dan */

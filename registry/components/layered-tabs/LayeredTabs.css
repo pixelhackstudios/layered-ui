@@ -10,6 +10,9 @@
     --tabs-face-mid: var(--tone-neutral-mid);
     --tabs-face-dark: var(--tone-neutral-dark);
     --tabs-focus: var(--control-focus);
+    /* Neutral's tone color is a mid grey that reads as disabled on the
+       engaged face, so neutral uses the high-contrast active text token. */
+    --tabs-active-text: var(--control-active-text);
 
     /* Default medium size */
     --tabs-trigger-height: 36px;
@@ -51,6 +54,7 @@
 .layered-tabs[data-tone="copper"] {
     --tabs-tone-accent: var(--tone-copper-light);
     --tabs-face-light: var(--tone-copper-light);
+    --tabs-active-text: var(--tone-copper-light);
     --tabs-face-mid: var(--tone-copper-mid);
     --tabs-face-dark: var(--tone-copper-dark);
     --tabs-focus: var(--tone-copper-light);
@@ -59,6 +63,7 @@
 .layered-tabs[data-tone="green"] {
     --tabs-tone-accent: var(--tone-green-light);
     --tabs-face-light: var(--tone-green-light);
+    --tabs-active-text: var(--tone-green-light);
     --tabs-face-mid: var(--tone-green-mid);
     --tabs-face-dark: var(--tone-green-dark);
     --tabs-focus: var(--tone-green-light);
@@ -67,6 +72,7 @@
 .layered-tabs[data-tone="gold"] {
     --tabs-tone-accent: var(--tone-gold-light);
     --tabs-face-light: var(--tone-gold-light);
+    --tabs-active-text: var(--tone-gold-light);
     --tabs-face-mid: var(--tone-gold-mid);
     --tabs-face-dark: var(--tone-gold-dark);
     --tabs-focus: var(--tone-gold-light);
@@ -75,6 +81,7 @@
 .layered-tabs[data-tone="neutral"] {
     --tabs-tone-accent: var(--tone-neutral-light);
     --tabs-face-light: var(--tone-neutral-light);
+    --tabs-active-text: var(--control-active-text);
     --tabs-face-mid: var(--tone-neutral-mid);
     --tabs-face-dark: var(--tone-neutral-dark);
     --tabs-focus: var(--control-focus);
@@ -197,7 +204,7 @@
 }
 
 .layered-tabs-trigger[data-state="active"] {
-    color: var(--tabs-face-light);
+    color: var(--tabs-active-text);
     border-color: var(--control-shell-border);
 
     background:
